@@ -28,7 +28,13 @@ jobs:
         run: deno check **/*.ts **/*.tsx
 
       - name: Run Tests
-        run: deno test --allow-all
+        run: |
+          if [ -n "$(find . -name '*_test.ts')" ]; then
+            deno test --allow-all
+          else
+            echo "No test modules found, skipping tests."
+          fi
+
 
   deploy:
     name: Deploy to Deno
