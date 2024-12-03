@@ -32,9 +32,8 @@ jobs:
           if [ -n "$(find . -name '*_test.ts')" ]; then
             deno test --allow-all
           else
-            echo "No test modules found, skipping tests."
+            echo "No deno test modules found, skipping tests."
           fi
-
 
   deploy:
     name: Deploy to Deno
