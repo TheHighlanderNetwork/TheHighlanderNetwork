@@ -1,3 +1,4 @@
+"use client";
 import { Head } from "$fresh/runtime.ts";
 
 export default function LoginPage() {
@@ -92,7 +93,7 @@ export default function LoginPage() {
         />
         {/* Include the Google button CSS */}
         <style>
-{`
+          {`
           .gsi-material-button {
             -moz-user-select: none;
             -webkit-user-select: none;
@@ -196,15 +197,15 @@ export default function LoginPage() {
             background-color: #303030;
             opacity: 8%;
           }
-`}
+          `}
         </style>
         {/* Ensure Oswald is applied globally */}
         <style>
-{`
+          {`
           .font-oswald {
             font-family: 'Oswald', sans-serif;
           }
-`}
+          `}
         </style>
       </Head>
       <div className="font-oswald px-4 py-8 w-screen h-screen bg-grey-light flex flex-col">
@@ -231,7 +232,7 @@ export default function LoginPage() {
             </a>
           </div>
         </div>
-  
+
         {/* Main Content (stacked in a column) */}
         <div className="flex flex-col justify-center items-center gap-8 mt-8 px-8">
           {/* Student Sign In */}
@@ -241,7 +242,7 @@ export default function LoginPage() {
             </h2>
             <GoogleButton />
           </div>
-  
+
           {/* Business Sign In */}
           <div className="w-full max-w-md p-6 bg-white shadow-md rounded-md">
             <h2 className="text-xl font-bold mb-6 text-center">
