@@ -233,8 +233,9 @@ export default function SignUpPage() {
             </button>
           </div>
         </div>
-  
+
         {/* Main Content (stacked in a column) */}
+
         <div className="flex flex-col justify-center items-center gap-8 mt-8 px-8">
           {/* Student Sign Up */}
           <div className="w-full max-w-md p-6 bg-white shadow-md rounded-md">
