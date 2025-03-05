@@ -20,11 +20,13 @@ export default function Home() {
           </a>
           <div className="flex gap-4">
             <a href="/login">
-              <button className="px-4 py-2 bg-blue text-white rounded-md text-sm font-medium">
+              <button type="LogIn"
+              className="px-4 py-2 bg-blue text-white rounded-md text-sm font-medium">
                 Login
               </button>
             </a>
-            <button className="px-4 py-2 bg-yellow text-white rounded-md text-sm font-medium">
+            <button type="SignUp"
+            className="px-4 py-2 bg-yellow text-white rounded-md text-sm font-medium">
               Sign Up
             </button>
           </div>
