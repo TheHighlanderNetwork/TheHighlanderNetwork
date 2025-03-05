@@ -9,6 +9,7 @@ export default function GoogleSignIn() {
   return (
     <>
       <button
+        type="button"
         className="gsi-material-button block mx-auto"
         onClick={handleGoogleSignIn}
       >

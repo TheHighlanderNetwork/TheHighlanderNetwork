@@ -21,14 +21,14 @@ export default function Home() {
           <div className="flex gap-4">
             <a href="/login">
               <button
-                type="LogIn"
+                type="button"
                 className="px-4 py-2 bg-blue text-white rounded-md text-sm font-medium"
               >
                 Login
               </button>
             </a>
             <button
-              type="SignUp"
+              type="button"
               className="px-4 py-2 bg-yellow text-white rounded-md text-sm font-medium"
             >
               Sign Up
