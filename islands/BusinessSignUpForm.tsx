@@ -1,8 +1,10 @@
 "use client";
-import { FormEvent } from "preact/compat";
+import type { JSX } from "preact";
 
 export default function BusinessSignUpForm() {
-  const handleBusinessFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleBusinessFormSubmit = (
+    e: JSX.TargetedEvent<HTMLFormElement, Event>,
+  ) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);

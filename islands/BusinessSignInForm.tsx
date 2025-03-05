@@ -1,8 +1,10 @@
 "use client";
-import { FormEvent } from "preact/compat";
+import type { JSX } from "preact";
 
 export default function BusinessSignInForm() {
-  const handleBusinessFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleBusinessFormSubmit = (
+    e: JSX.TargetedEvent<HTMLFormElement, Event>,
+  ) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -30,7 +32,7 @@ export default function BusinessSignInForm() {
       />
       <button
         type="submit"
-        className="w-full px-4 py-2 bg-blue text-white rounded-md text-sm"
+        className="w-full px-4 py-2 bg-blue text-white rounded-md text-sm font-medium"
       >
         Sign In with Username & Password
       </button>
