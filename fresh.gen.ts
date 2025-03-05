@@ -9,7 +9,12 @@ import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login_index from "./routes/login/index.tsx";
 import * as $signup_index from "./routes/signup/index.tsx";
+import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
+import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
 import * as $Counter from "./islands/Counter.tsx";
+import * as $GoogleSignIn from "./islands/GoogleSignIn.tsx";
+import * as $GoogleSignUp from "./islands/GoogleSignUp.tsx";
+import * as $HeaderSignUpButton from "./islands/HeaderSignUpButton.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -23,7 +28,12 @@ const manifest = {
     "./routes/signup/index.tsx": $signup_index,
   },
   islands: {
+    "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
+    "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
     "./islands/Counter.tsx": $Counter,
+    "./islands/GoogleSignIn.tsx": $GoogleSignIn,
+    "./islands/GoogleSignUp.tsx": $GoogleSignUp,
+    "./islands/HeaderSignUpButton.tsx": $HeaderSignUpButton,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

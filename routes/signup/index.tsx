@@ -1,90 +1,10 @@
+"use client";
 import { Head } from "$fresh/runtime.ts";
+import GoogleSignUp from "../../islands/GoogleSignUp.tsx";
+import HeaderSignUpButton from "../../islands/HeaderSignUpButton.tsx";
+import BusinessSignUpForm from "../../islands/BusinessSignUpForm.tsx";
 
 export default function SignUpPage() {
-  // Handler for header Sign Up button (if needed)
-  const handleHeaderSignUp = () => {
-    // Example: Navigate to the sign up page or call firebase logic.
-    console.log("Header Sign Up clicked");
-  };
-
-  const handleBusinessFormSubmit = (e: Event) => {
-    e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-    // Assume username is the email for Firebase.
-    const email = formData.get("username") as string;
-    const password = formData.get("password") as string;
-    // Firebase email/password sign up:
-    // firebase.auth().createUserWithEmailAndPassword(email, password)
-    //   .then((userCredential) => {
-    //     console.log("Firebase Business Sign Up success", userCredential);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Firebase Business Sign Up error", error);
-    //   });
-    console.log("Business Sign Up", { email, password });
-  };
-
-  const handleGoogleSignUp = () => {
-    // Firebase Google sign up:
-    // const provider = new firebase.auth.GoogleAuthProvider();
-    // firebase.auth().signInWithPopup(provider)
-    //   .then((result) => {
-    //     console.log("Firebase Google Sign Up success", result);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Firebase Google Sign Up error", error);
-    //   });
-    console.log("Google Sign Up clicked");
-  };
-
-  // Google button markup converted to JSX.
-  const GoogleButton = () => (
-    <button
-      className="gsi-material-button block mx-auto"
-      onClick={handleGoogleSignUp}
-    >
-      <div className="gsi-material-button-state"></div>
-      <div className="gsi-material-button-content-wrapper">
-        <div className="gsi-material-button-icon">
-          <svg
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 48 48"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-            style={{ display: "block" }}
-          >
-            <path
-              fill="#EA4335"
-              d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
-            >
-            </path>
-            <path
-              fill="#4285F4"
-              d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
-            >
-            </path>
-            <path
-              fill="#FBBC05"
-              d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"
-            >
-            </path>
-            <path
-              fill="#34A853"
-              d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
-            >
-            </path>
-            <path fill="none" d="M0 0h48v48H0z"></path>
-          </svg>
-        </div>
-        <span className="gsi-material-button-contents">
-          Sign up with Google
-        </span>
-        <span style={{ display: "none" }}>Sign up with Google</span>
-      </div>
-    </button>
-  );
-
   return (
     <>
       <Head>
@@ -119,8 +39,8 @@ export default function SignUpPage() {
             padding: 0 12px;
             position: relative;
             text-align: center;
-            -webkit-transition: background-color .218s, border-color .218s, box-shadow .218s;
-            transition: background-color .218s, border-color .218s, box-shadow .218s;
+            -webkit-transition: background-color 0.218s, border-color 0.218s, box-shadow 0.218s;
+            transition: background-color 0.218s, border-color 0.218s, box-shadow 0.218s;
             vertical-align: middle;
             white-space: nowrap;
             width: auto;
@@ -160,8 +80,8 @@ export default function SignUpPage() {
           }
           
           .gsi-material-button .gsi-material-button-state {
-            -webkit-transition: opacity .218s;
-            transition: opacity .218s;
+            -webkit-transition: opacity 0.218s;
+            transition: opacity 0.218s;
             bottom: 0;
             left: 0;
             opacity: 0;
@@ -191,8 +111,8 @@ export default function SignUpPage() {
           }
           
           .gsi-material-button:not(:disabled):hover {
-            -webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
-            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+            -webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.30), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.30), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
           }
           
           .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
@@ -201,7 +121,6 @@ export default function SignUpPage() {
           }
           `}
         </style>
-        {/* Ensure Oswald is applied globally */}
         <style>
           {`
           .font-oswald {
@@ -221,28 +140,26 @@ export default function SignUpPage() {
           </a>
           <div className="flex gap-4">
             <a href="/login">
-              <button className="px-4 py-2 bg-blue text-white rounded-md text-sm font-medium">
+              <button
+                type="submit"
+                className="px-4 py-2 bg-blue text-white rounded-md text-sm font-medium"
+              >
                 Login
               </button>
             </a>
-            <button
-              onClick={handleHeaderSignUp}
-              className="px-4 py-2 bg-yellow text-white rounded-md text-sm font-medium"
-            >
-              Sign Up
-            </button>
+            {/* Header sign-up button rendered as an island */}
+            <HeaderSignUpButton />
           </div>
         </div>
 
-        {/* Main Content (stacked in a column) */}
-
+        {/* Main Content */}
         <div className="flex flex-col justify-center items-center gap-8 mt-8 px-8">
           {/* Student Sign Up */}
           <div className="w-full max-w-md p-6 bg-white shadow-md rounded-md">
             <h2 className="text-xl font-bold mb-6 text-center">
               Student Sign Up
             </h2>
-            <GoogleButton />
+            <GoogleSignUp />
           </div>
 
           {/* Business Sign Up */}
@@ -250,33 +167,9 @@ export default function SignUpPage() {
             <h2 className="text-xl font-bold mb-6 text-center">
               Business Sign Up
             </h2>
-            <form
-              onSubmit={handleBusinessFormSubmit}
-              className="flex flex-col gap-4"
-            >
-              <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                className="px-4 py-2 border rounded-md"
-                required
-              />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                className="px-4 py-2 border rounded-md"
-                required
-              />
-              <button
-                type="submit"
-                className="w-full px-4 py-2 bg-yellow text-white rounded-md text-sm font-medium"
-              >
-                Sign Up with Username & Password
-              </button>
-            </form>
+            <BusinessSignUpForm />
             <div className="mt-4">
-              <GoogleButton />
+              <GoogleSignUp />
             </div>
           </div>
         </div>
