@@ -5,7 +5,9 @@ const addStudent = async (rmail: string): Promise<void> => {
     // Validate the email format
     const emailRegex = /^[a-zA-Z0-9._%+-]+@ucr\.edu$/;
     if (!emailRegex.test(rmail)) {
-      throw new Error("Invalid email format. Only `.ucr.edu` emails are allowed.");
+      throw new Error(
+        "Invalid email format. Only `.ucr.edu` emails are allowed.",
+      );
     }
 
     // Generate a unique document ID for the student
@@ -24,9 +26,3 @@ const addStudent = async (rmail: string): Promise<void> => {
 
 // Test the function
 addStudent("anna@ucr.edu");
-
-
-
-
-
-

@@ -7,7 +7,7 @@ export const loginHandler = async (req: Request): Promise<Response> => {
     if (!rmail) {
       return new Response(
         JSON.stringify({ error: "rmail is required" }),
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -15,8 +15,10 @@ export const loginHandler = async (req: Request): Promise<Response> => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@ucr\.edu$/;
     if (!emailRegex.test(rmail)) {
       return new Response(
-        JSON.stringify({ error: "Invalid email format. Only `.ucr.edu` emails are allowed." }),
-        { status: 400 }
+        JSON.stringify({
+          error: "Invalid email format. Only `.ucr.edu` emails are allowed.",
+        }),
+        { status: 400 },
       );
     }
 
@@ -27,7 +29,7 @@ export const loginHandler = async (req: Request): Promise<Response> => {
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
 
     const data = await response.json();
@@ -35,28 +37,32 @@ export const loginHandler = async (req: Request): Promise<Response> => {
     if (!response.ok || !data.documents) {
       return new Response(
         JSON.stringify({ error: "Failed to retrieve student data" }),
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     // Filter manually for the matching rmail
-    const user = data.documents.find((doc: any) => doc.fields.rmail.stringValue === rmail);
+    const user = data.documents.find((doc: tgvf) =>
+      doc.fields.rmail.stringValue === rmail
+    );
 
     if (!user) {
       return new Response(
         JSON.stringify({ error: "User not found" }),
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     // Return success response with user data
     return new Response(
       JSON.stringify({ message: "Login successful", user }),
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error during login:", error.message);
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+    });
   }
 };
 
