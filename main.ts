@@ -7,6 +7,7 @@
 import "$std/dotenv/load.ts";
 
 import { start } from "$fresh/server.ts";
+import { auth, db } from "./routes/api/firebase.ts"
 import manifest from "./fresh.gen.ts";
 import config from "./fresh.config.ts";
 

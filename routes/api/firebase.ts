@@ -1,5 +1,9 @@
 import "https://deno.land/x/dotenv/mod.ts";
 
+import { initializeApp, cert, getApps, getApp } from "npm:firebase-admin/app";
+import { getAuth } from "npm:firebase-admin/auth";
+import { getFirestore } from "npm:firebase-admin/firestore";
+
 const FIREBASE_FIRESTORE_URL =
   `https://firestore.googleapis.com/v1/projects/thehighlandernetwork/databases/(default)/documents`;
 
@@ -67,3 +71,21 @@ export const firestoreGetDocument = async (
   }
   return data;
 };
+
+// Check if Firebase has already been initialized
+
+console.log("Initializing Firebase Admin App...")
+let adminApp;
+if (!getApps().length) {
+  adminApp = initializeApp({
+    credential: cert(JSON.parse(Deno.env.get("FIREBASE_SERVICE_ACCOUNT") || "{}")),
+  });
+  console.log("Firebase Admin initialized");
+} else {
+  adminApp = getApp(); // Reuse existing app instance
+  console.log("Firebase app reused");
+}
+
+// Export Firebase services for reuse
+export const auth = getAuth(adminApp);
+export const db = getFirestore(adminApp);
