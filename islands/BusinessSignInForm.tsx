@@ -4,7 +4,7 @@ import type { JSX } from "preact";
 import { auth, provider } from "../utils/firebase.ts";
 import {
   signInWithEmailAndPassword,
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+} from "firebase/auth";
 
 
 export default function BusinessSignInForm() {

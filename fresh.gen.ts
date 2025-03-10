@@ -6,7 +6,7 @@ import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $api_customClaims_getUserClaims from "./routes/api/customClaims/getUserClaims.ts";
 import * as $api_customClaims_setUserClaims from "./routes/api/customClaims/setUserClaims.ts";
-import * as $api_firebase from "./routes/api/firebase.ts";
+import * as $api_firebase from "./routes/api/firebaseAdmin.ts";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_login_login from "./routes/api/login/login.ts";
 import * as $api_registration_register from "./routes/api/registration/register.ts";

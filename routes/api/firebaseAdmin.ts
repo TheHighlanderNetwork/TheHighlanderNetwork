@@ -1,4 +1,4 @@
-import "https://deno.land/x/dotenv/mod.ts";
+import "https://deno.land/x/dotenv@v3.2.2/mod.ts";
 
 import { initializeApp, cert, getApps, getApp } from "npm:firebase-admin/app";
 import { getAuth } from "npm:firebase-admin/auth";
@@ -76,6 +76,7 @@ export const firestoreGetDocument = async (
 
 console.log("Initializing Firebase Admin App...")
 let adminApp;
+// Only initialize if it is uninitialized to avoid creating duplicate instances
 if (!getApps().length) {
   adminApp = initializeApp({
     credential: cert(JSON.parse(Deno.env.get("FIREBASE_SERVICE_ACCOUNT") || "{}")),

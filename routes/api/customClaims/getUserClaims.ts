@@ -1,9 +1,8 @@
-import { cert, initializeApp } from "npm:firebase-admin/app";
-import { getAuth } from "npm:firebase-admin/auth";
-import { auth, db } from "../firebase.ts";
+import { auth } from "../firebaseAdmin.ts";
 
 async function getUserClaims(uid: string) {
   try {
+    // Retrieve custom claims from Firebase
     const user = await auth.getUser(uid);
     console.log("Custom Claims:", user.customClaims);
     return user.customClaims;

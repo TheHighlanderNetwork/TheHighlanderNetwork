@@ -1,10 +1,9 @@
-import { cert, initializeApp } from "npm:firebase-admin/app";
-import { getAuth } from "npm:firebase-admin/auth";
-import { auth, db } from "../firebase.ts";
+import { auth, db } from "../firebaseAdmin.ts";
 import { Handlers } from "$fresh/server.ts";
 
 async function setUserClaims(uid: string, claims: Record<string, unknown>) {
     try {
+        // Set claim in Firebase
         await auth.setCustomUserClaims(uid, claims);
         console.log(`Custom claims set for user: ${uid}`, claims);
     } catch (error) {
@@ -13,12 +12,24 @@ async function setUserClaims(uid: string, claims: Record<string, unknown>) {
 }
 
 export const handler: Handlers = {
+  // Automatically sets a user's role
   async POST(req) {
     try {
-      const { uid } = await req.json(); // Only accept UID, no role from frontend
+      console.log("Received request to assign role...");
+      const { uid } = await req.json(); // Only accept UID
 
-      // Fetch user details
+      // Return error if no uid is included 
+      if (!uid) {
+        return new Response(
+          JSON.stringify({ success: false, error: "UID is required" }),
+          { status: 400 }
+        );
+      }
+
+      // Fetch user details from Firebase
+      console.log("Retrieving user record...");
       const userRecord = await auth.getUser(uid);
+      console.log("Retrieved");
       const email = userRecord.email || "";
 
       let newRole = "business"; // Role for non-students
@@ -29,7 +40,9 @@ export const handler: Handlers = {
       }
 
       // Assign admin role only if email is an admin email
+      console.log("Checking admin doc...");
       const adminDoc = await db.collection("admins").get();
+      console.log("Received admin doc...");
       adminDoc.forEach((doc) => {
         if (email == doc.data().email) {
           newRole = "admin";
@@ -39,7 +52,7 @@ export const handler: Handlers = {
       // Set custom claim securely
       await setUserClaims(uid, { role: newRole });
 
-      return new Response(JSON.stringify({ success: true, message: `Role ${role} assigned` }), {
+      return new Response(JSON.stringify({ success: true, message: `Role ${newRole} assigned` }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
@@ -53,4 +66,4 @@ export const handler: Handlers = {
 };
 
 
-setUserClaims("kLwjp4lZxPgR5UJgZ4nerSqT7xS2", { role: "admin" });
+// setUserClaims("kLwjp4lZxPgR5UJgZ4nerSqT7xS2", { role: "admin" });
