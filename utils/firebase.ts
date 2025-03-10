@@ -1,9 +1,6 @@
 //utils/firebase.ts
 import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const isDeno = typeof Deno !== "undefined" && Deno.env;
 
