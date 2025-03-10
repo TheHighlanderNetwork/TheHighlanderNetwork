@@ -6,8 +6,12 @@ async function getUserClaims(uid: string) {
     const user = await auth.getUser(uid);
     console.log("Custom Claims:", user.customClaims);
     return user.customClaims;
-  } catch (error) {
-    console.error("Error while retrieving custom claims", error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error("An unknown error occurred", error);
+    }
   }
 }
 

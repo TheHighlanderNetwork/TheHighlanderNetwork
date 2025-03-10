@@ -1,16 +1,16 @@
 import "https://deno.land/x/dotenv@v3.2.2/mod.ts";
 
-import { initializeApp, cert, getApps, getApp } from "npm:firebase-admin/app";
+import { cert, getApp, getApps, initializeApp } from "npm:firebase-admin/app";
 import { getAuth } from "npm:firebase-admin/auth";
 import { getFirestore } from "npm:firebase-admin/firestore";
 
 const FIREBASE_FIRESTORE_URL =
   `https://firestore.googleapis.com/v1/projects/thehighlandernetwork/databases/(default)/documents`;
 
-export const firestoreSetDocument = async (
+export const firestoreSetDocument = async <T extends Record<string, unknown>>(
   collection: string,
   documentId: string,
-  data: Record<string, any>,
+  data: T,
 ): Promise<any> => {
   const formattedData = {
     fields: Object.fromEntries(
@@ -74,12 +74,14 @@ export const firestoreGetDocument = async (
 
 // Check if Firebase has already been initialized
 
-console.log("Initializing Firebase Admin App...")
+console.log("Initializing Firebase Admin App...");
 let adminApp;
 // Only initialize if it is uninitialized to avoid creating duplicate instances
 if (!getApps().length) {
   adminApp = initializeApp({
-    credential: cert(JSON.parse(Deno.env.get("FIREBASE_SERVICE_ACCOUNT") || "{}")),
+    credential: cert(
+      JSON.parse(Deno.env.get("FIREBASE_SERVICE_ACCOUNT") || "{}"),
+    ),
   });
   console.log("Firebase Admin initialized");
 } else {

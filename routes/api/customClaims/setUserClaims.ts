@@ -2,13 +2,17 @@ import { auth, db } from "../firebaseAdmin.ts";
 import { Handlers } from "$fresh/server.ts";
 
 async function setUserClaims(uid: string, claims: Record<string, unknown>) {
-    try {
-        // Set claim in Firebase
-        await auth.setCustomUserClaims(uid, claims);
-        console.log(`Custom claims set for user: ${uid}`, claims);
-    } catch (error) {
-        console.error("Error setting custom claims:", error);
+  try {
+    // Set claim in Firebase
+    await auth.setCustomUserClaims(uid, claims);
+    console.log(`Custom claims set for user: ${uid}`, claims);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error("An unknown error occurred", error);
     }
+  }
 }
 
 export const handler: Handlers = {
@@ -18,11 +22,11 @@ export const handler: Handlers = {
       console.log("Received request to assign role...");
       const { uid } = await req.json(); // Only accept UID
 
-      // Return error if no uid is included 
+      // Return error if no uid is included
       if (!uid) {
         return new Response(
           JSON.stringify({ success: false, error: "UID is required" }),
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -52,18 +56,33 @@ export const handler: Handlers = {
       // Set custom claim securely
       await setUserClaims(uid, { role: newRole });
 
-      return new Response(JSON.stringify({ success: true, message: `Role ${newRole} assigned` }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
-    } catch (error) {
-      return new Response(JSON.stringify({ success: false, error: error.message }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ success: true, message: `Role ${newRole} assigned` }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return new Response(
+          JSON.stringify({ success: false, error: error.message }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      } else {
+        return new Response(
+          JSON.stringify({ success: false, error: error }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      }
     }
   },
 };
-
 
 // setUserClaims("kLwjp4lZxPgR5UJgZ4nerSqT7xS2", { role: "admin" });
