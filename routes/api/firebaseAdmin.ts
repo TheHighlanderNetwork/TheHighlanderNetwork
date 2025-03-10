@@ -11,7 +11,7 @@ export const firestoreSetDocument = async <T extends Record<string, unknown>>(
   collection: string,
   documentId: string,
   data: T,
-): Promise<any> => {
+): Promise<unknown> => {
   const formattedData = {
     fields: Object.fromEntries(
       Object.entries(data).map(([key, value]) => {
@@ -53,7 +53,7 @@ export const firestoreSetDocument = async <T extends Record<string, unknown>>(
 export const firestoreGetDocument = async (
   collection: string,
   documentId: string,
-): Promise<any> => {
+): Promise<unknown> => {
   const response = await fetch(
     `${FIREBASE_FIRESTORE_URL}/${collection}/${documentId}`,
     {

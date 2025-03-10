@@ -26,7 +26,7 @@ export default function GoogleSignIn() {
     }
   };
 
-  async function assignUserRole(uid) {
+  async function assignUserRole(uid: string) {
     console.log("Assigning role to UID:", uid);
     try {
       const response = await fetch("/api/customClaims/setUserClaims", {
