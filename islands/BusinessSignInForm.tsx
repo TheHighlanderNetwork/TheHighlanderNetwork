@@ -1,18 +1,17 @@
 "use client";
 import { useState } from "preact/hooks";
 import type { JSX } from "preact";
-import { auth, provider } from "../utils/firebase.ts";
+import { auth, provider as _provider } from "../utils/firebase.ts";
 import {
   signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
 
 export default function BusinessSignInForm() {
   const [message, setMessage] = useState("");
 
   // Handle Email/Password Login
   const handleBusinessFormSubmit = async (
-    e: JSX.TargetedEvent<HTMLFormElement, Event>
+    e: JSX.TargetedEvent<HTMLFormElement, Event>,
   ) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -24,14 +23,13 @@ export default function BusinessSignInForm() {
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
       );
       setMessage(`Successfully signed in: ${userCredential.user.email}`);
     } catch (error) {
       setMessage(`Login failed: ${(error as Error).message}`);
     }
   };
-
 
   return (
     <div className="flex flex-col gap-4">
@@ -57,8 +55,6 @@ export default function BusinessSignInForm() {
           Sign In with Email & Password
         </button>
       </form>
-
-
 
       {message && <p className="text-red-500 text-sm">{message}</p>}
     </div>
