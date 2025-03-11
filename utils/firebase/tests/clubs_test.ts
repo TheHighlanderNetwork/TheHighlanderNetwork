@@ -29,21 +29,25 @@ Deno.test("Club CRUD Operations", async (t) => {
     );
   });
 
-  await t.step("Delete Club", async () => {
+ await t.step("Delete Club", async () => {
     await deleteClub(clubId);
+
+    let threwNotFound = false;
     try {
       await getClub(clubId);
-      console.assert(false, "Club should be deleted");
     } catch (error) {
       if (error instanceof Deno.errors.NotFound) {
+        threwNotFound = true;
         console.assert(
-          error.message === "Club not found",
+          error.message === "Business not found",
           "Proper error on delete",
         );
       } else {
         throw error;
       }
     }
+
+    console.assert(threwNotFound, "getBusiness should throw NotFound error");
   });
 
   await db.terminate();
