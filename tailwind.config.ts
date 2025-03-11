@@ -16,6 +16,7 @@ export default {
       sans: ["Graphik", "sans-serif"],
       serif: ["Merriweather", "serif"],
       display: ["Oswald"],
+      oswald: ["Oswald", "sans-serif"],
     },
   },
 } satisfies Config;
