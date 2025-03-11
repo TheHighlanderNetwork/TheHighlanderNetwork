@@ -33,19 +33,23 @@ Deno.test("Student CRUD Operations", async (t) => {
 
   await t.step("Delete Student", async () => {
     await deleteStudent(studentId);
+
+    let threwNotFound = false;
     try {
       await getStudent(studentId);
-      console.assert(false, "Student should be deleted");
     } catch (error) {
       if (error instanceof Deno.errors.NotFound) {
+        threwNotFound = true;
         console.assert(
-          error.message === "Student not found",
+          error.message === "Business not found",
           "Proper error on delete",
         );
       } else {
         throw error;
       }
     }
+
+    console.assert(threwNotFound, "getBusiness should throw NotFound error");
   });
 
   await db.terminate();
