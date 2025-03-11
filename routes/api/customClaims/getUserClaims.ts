@@ -1,6 +1,6 @@
 import { auth } from "../firebaseAdmin.ts";
 
-async function getUserClaims(uid: string) {
+async function getUserClaims(uid: string): Promise<Record<string, unknown>> {
   try {
     // Retrieve custom claims from Firebase
     const user = await auth.getUser(uid);
@@ -12,6 +12,7 @@ async function getUserClaims(uid: string) {
     } else {
       console.error("An unknown error occurred", error);
     }
+    return {};
   }
 }
 

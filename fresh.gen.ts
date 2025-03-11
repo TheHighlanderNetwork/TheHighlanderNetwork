@@ -6,9 +6,10 @@ import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $api_customClaims_getUserClaims from "./routes/api/customClaims/getUserClaims.ts";
 import * as $api_customClaims_setUserClaims from "./routes/api/customClaims/setUserClaims.ts";
-import * as $api_firebase from "./routes/api/firebaseAdmin.ts";
+import * as $api_firebaseAdmin from "./routes/api/firebaseAdmin.ts";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_login_login from "./routes/api/login/login.ts";
+import * as $api_login_verifyIdToken from "./routes/api/login/verifyIdToken.ts";
 import * as $api_registration_register from "./routes/api/registration/register.ts";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
@@ -30,9 +31,10 @@ const manifest = {
       $api_customClaims_getUserClaims,
     "./routes/api/customClaims/setUserClaims.ts":
       $api_customClaims_setUserClaims,
-    "./routes/api/firebase.ts": $api_firebase,
+    "./routes/api/firebaseAdmin.ts": $api_firebaseAdmin,
     "./routes/api/joke.ts": $api_joke,
     "./routes/api/login/login.ts": $api_login_login,
+    "./routes/api/login/verifyIdToken.ts": $api_login_verifyIdToken,
     "./routes/api/registration/register.ts": $api_registration_register,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,

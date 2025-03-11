@@ -47,7 +47,8 @@ export const handler: Handlers = {
       console.log("Checking admin doc...");
       const adminDoc = await db.collection("admins").get();
       console.log("Received admin doc...");
-      adminDoc.forEach((doc) => {
+      adminDoc.forEach((doc: unknown) => {
+        console.log(doc.data());
         if (email == doc.data().email) {
           newRole = "admin";
         }
