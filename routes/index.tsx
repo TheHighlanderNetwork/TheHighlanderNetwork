@@ -27,12 +27,14 @@ export default function Home() {
                 Login
               </button>
             </a>
-            <button
-              type="button"
-              className="px-4 py-2 bg-yellow text-white rounded-md text-sm font-medium"
-            >
-              Sign Up
-            </button>
+            <a href="/signup">
+              <button
+                type="button"
+                className="px-4 py-2 bg-yellow text-white rounded-md text-sm font-medium"
+              >
+                Sign Up
+              </button>
+            </a>
           </div>
         </div>
 
