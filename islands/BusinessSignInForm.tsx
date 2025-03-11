@@ -1,10 +1,8 @@
 "use client";
 import { useState } from "preact/hooks";
 import type { JSX } from "preact";
-import { auth, provider as _provider } from "../utils/firebase.ts";
-import {
-  signInWithEmailAndPassword,
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { auth } from "../utils/firebase.ts";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function BusinessSignInForm() {
   const [message, setMessage] = useState("");
