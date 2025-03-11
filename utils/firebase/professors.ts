@@ -15,7 +15,7 @@ export async function createProfessor(data: Professor) {
 
 export async function getProfessor(id: string) {
   const doc = await db.collection(collection).doc(id).get();
-  if (!doc.exists) throw new Error("Professor not found");
+  if (!doc.exists) throw new Deno.errors.NotFound("Professor not found");
   return { id: doc.id, ...doc.data() as Professor };
 }
 

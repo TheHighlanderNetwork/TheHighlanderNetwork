@@ -20,7 +20,7 @@ export async function createBusiness(data: Business) {
 
 export async function getBusiness(id: string) {
   const doc = await db.collection(collection).doc(id).get();
-  if (!doc.exists) throw new Error("Business not found");
+  if (!doc.exists) throw new Deno.errors.NotFound("Business not found");
   return { id: doc.id, ...doc.data() as Business };
 }
 

@@ -18,7 +18,7 @@ export async function createReview(data: Review) {
 
 export async function getReview(id: string) {
   const doc = await db.collection(collection).doc(id).get();
-  if (!doc.exists) throw new Error("Review not found");
+  if (!doc.exists) throw new Deno.errors.NotFound("Review not found");
   return { id: doc.id, ...doc.data() as Review };
 }
 

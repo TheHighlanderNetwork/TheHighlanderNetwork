@@ -18,7 +18,7 @@ export async function createClub(data: Club) {
 
 export async function getClub(id: string) {
   const doc = await db.collection(collection).doc(id).get();
-  if (!doc.exists) throw new Error("Club not found");
+  if (!doc.exists) throw new Deno.errors.NotFound("Club not found");
   return { id: doc.id, ...doc.data() as Club };
 }
 
