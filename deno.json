@@ -33,7 +33,7 @@
     "tailwindcss/": "npm:/tailwindcss@3.4.1/",
     "tailwindcss/plugin": "npm:/tailwindcss@3.4.1/plugin.js",
     "$std/": "https://deno.land/std@0.216.0/",
-    "npm:firebase-admin/": "npm:firebase-admin@11.10.1/"
+    "npm:firebase-admin/": "npm:firebase-admin@11.10.1/",
     "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
     "firebase/auth": "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"
   },
