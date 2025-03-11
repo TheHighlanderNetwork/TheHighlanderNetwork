@@ -36,19 +36,23 @@ Deno.test("Review CRUD Operations", async (t) => {
 
   await t.step("Delete Review", async () => {
     await deleteReview(reviewId);
+
+    let threwNotFound = false;
     try {
       await getReview(reviewId);
-      console.assert(false, "Review should be deleted");
     } catch (error) {
       if (error instanceof Deno.errors.NotFound) {
+        threwNotFound = true;
         console.assert(
-          error.message === "Review not found",
+          error.message === "Business not found",
           "Proper error on delete",
         );
       } else {
         throw error;
       }
     }
+
+    console.assert(threwNotFound, "getBusiness should throw NotFound error");
   });
 
   await db.terminate();
