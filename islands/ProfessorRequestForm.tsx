@@ -2,15 +2,21 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../utils/firebase.ts";
 import { useEffect, useState } from "preact/hooks";
-import type { User } from "firebase/auth";
+
+type FirebaseUser = {
+  displayName?: string | null;
+};
 
 export default function ProfessorRequestForm() {
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
-      setIsSignedIn(!!user);
-    });
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user: FirebaseUser | null) => {
+        setIsSignedIn(!!user);
+      },
+    );
     return () => unsubscribe();
   }, []);
 
@@ -19,7 +25,7 @@ export default function ProfessorRequestForm() {
       e.preventDefault();
       alert("You must be signed in to submit a professor.");
     }
-    // If signed in, form submission proceeds normally.
+    // Otherwise, allow form submission
   };
 
   return (
