@@ -38,11 +38,13 @@ Deno.test("Business CRUD Operations", async (t) => {
 
   await t.step("Delete Business", async () => {
     await deleteBusiness(businessId);
+
+    let threwNotFound = false;
     try {
       await getBusiness(businessId);
-      console.assert(false, "Business should be deleted");
     } catch (error) {
       if (error instanceof Deno.errors.NotFound) {
+        threwNotFound = true;
         console.assert(
           error.message === "Business not found",
           "Proper error on delete",
@@ -51,7 +53,10 @@ Deno.test("Business CRUD Operations", async (t) => {
         throw error;
       }
     }
+
+    console.assert(threwNotFound, "getBusiness should throw NotFound error");
   });
+
 
   await db.terminate();
   await new Promise((resolve) => setTimeout(resolve, 1000)); // Tell deno tests to stfu for 1 second
