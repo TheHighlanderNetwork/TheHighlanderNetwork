@@ -29,7 +29,7 @@ Deno.test("Club CRUD Operations", async (t) => {
     );
   });
 
- await t.step("Delete Club", async () => {
+  await t.step("Delete Club", async () => {
     await deleteClub(clubId);
 
     let threwNotFound = false;

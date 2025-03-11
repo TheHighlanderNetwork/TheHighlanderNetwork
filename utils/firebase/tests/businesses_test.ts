@@ -57,7 +57,6 @@ Deno.test("Business CRUD Operations", async (t) => {
     console.assert(threwNotFound, "getBusiness should throw NotFound error");
   });
 
-
   await db.terminate();
   await new Promise((resolve) => setTimeout(resolve, 1000)); // Tell deno tests to stfu for 1 second
 });
