@@ -35,6 +35,9 @@ export default function AddReviewModal() {
 
   function handleSubmit(e: Event) {
     e.preventDefault();
+    // Underscored remove underscore if being used.
+    // If not being used with backend please delete to keep code clean.
+    // Delete this comment once you made that decision.
     const _data = { rating, reviewText };
     alert(`Review submitted!\nRating: ${rating}\nReview: ${reviewText}`);
     // Replace with your actual submission logic (API call, DB insert, etc.)
@@ -66,7 +69,10 @@ export default function AddReviewModal() {
 
   return (
     <>
-      <button onClick={openModal} className="text-blue hover:underline">
+      <button 
+      type="button"
+      onClick={openModal}
+      className="text-blue hover:underline">
         Add review
       </button>
       {isOpen && (
@@ -98,6 +104,7 @@ export default function AddReviewModal() {
                 Cancel
               </button>
               <button
+                type="button"
                 onClick={handleSubmit}
                 className="bg-blue text-white rounded-md px-4 py-2 text-sm font-medium"
               >
