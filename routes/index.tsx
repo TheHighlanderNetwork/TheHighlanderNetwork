@@ -1,4 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
+import UsernameHeader from "../islands/UsernameHeader.tsx"; // Adjust the path as needed
 
 export default function Home() {
   return (
@@ -10,7 +11,6 @@ export default function Home() {
         />
       </Head>
       <div class="px-4 py-8 w-screen h-screen bg-grey-light flex flex-col font-oswald">
-        {/* Header */}
         <div className="flex justify-between items-center w-full px-8">
           <a href="/">
             <div className="flex text-2xl font-bold">
@@ -18,27 +18,11 @@ export default function Home() {
               <h1 className="text-blue">Network</h1>
             </div>
           </a>
-          <div className="flex gap-4">
-            <a href="/login">
-              <button
-                type="button"
-                className="px-4 py-2 bg-blue text-white rounded-md text-sm font-medium"
-              >
-                Login
-              </button>
-            </a>
-            <a href="/signup">
-              <button
-                type="button"
-                className="px-4 py-2 bg-yellow text-white rounded-md text-sm font-medium"
-              >
-                Sign Up
-              </button>
-            </a>
+          <div className="!font-normal">
+            <UsernameHeader />
           </div>
         </div>
 
-        {/* Main Content */}
         <main class="flex flex-col items-center flex-grow mt-8">
           <div class="max-w-screen-md flex flex-col items-center">
             <div class="flex flex-row text-4xl font-bold text-yellow">
