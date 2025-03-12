@@ -57,16 +57,16 @@ export default function Home() {
                 <h2>Classes</h2>
               </div>
               <a href="/reviewprofessors">
-              <div class="flex flex-col items-center">
-                <img
-                  class="my-6"
-                  src="/professors.svg"
-                  width="128"
-                  height="128"
-                  alt="Professors logo"
-                />
-                <h2>Professors</h2>
-              </div>
+                <div class="flex flex-col items-center">
+                  <img
+                    class="my-6"
+                    src="/professors.svg"
+                    width="128"
+                    height="128"
+                    alt="Professors logo"
+                  />
+                  <h2>Professors</h2>
+                </div>
               </a>
 
               <div class="flex flex-col items-center">

@@ -15,6 +15,7 @@ import * as $login_index from "./routes/login/index.tsx";
 import * as $requestprofessor_index from "./routes/requestprofessor/index.tsx";
 import * as $reviewprofessors_index from "./routes/reviewprofessors/index.tsx";
 import * as $signup_index from "./routes/signup/index.tsx";
+import * as $AddProfessorReview from "./islands/AddProfessorReview.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
 import * as $Counter from "./islands/Counter.tsx";
@@ -22,6 +23,7 @@ import * as $GoogleSignIn from "./islands/GoogleSignIn.tsx";
 import * as $GoogleSignUp from "./islands/GoogleSignUp.tsx";
 import * as $HeaderSignUpButton from "./islands/HeaderSignUpButton.tsx";
 import * as $ProfessorRequestForm from "./islands/ProfessorRequestForm.tsx";
+import * as $ProfessorReviews from "./islands/ProfessorReviews.tsx";
 import * as $UsernameHeader from "./islands/UsernameHeader.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -44,6 +46,7 @@ const manifest = {
     "./routes/signup/index.tsx": $signup_index,
   },
   islands: {
+    "./islands/AddProfessorReview.tsx": $AddProfessorReview,
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
     "./islands/Counter.tsx": $Counter,
@@ -51,6 +54,7 @@ const manifest = {
     "./islands/GoogleSignUp.tsx": $GoogleSignUp,
     "./islands/HeaderSignUpButton.tsx": $HeaderSignUpButton,
     "./islands/ProfessorRequestForm.tsx": $ProfessorRequestForm,
+    "./islands/ProfessorReviews.tsx": $ProfessorReviews,
     "./islands/UsernameHeader.tsx": $UsernameHeader,
   },
   baseUrl: import.meta.url,
