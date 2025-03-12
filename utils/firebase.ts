@@ -2,14 +2,29 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
+const isDeno = typeof Deno !== "undefined" && Deno.env;
+
 const firebaseConfig = {
-  apiKey: Deno.env.get("FIREBASE_API_KEY"),
-  authDomain: Deno.env.get("FIREBASE_AUTH_DOMAIN"),
-  projectId: Deno.env.get("FIREBASE_PROJECT_ID"),
-  storageBucket: Deno.env.get("FIREBASE_STORAGE_BUCKET"),
-  messagingSenderId: Deno.env.get("FIREBASE_MESSAGING_SENDER_ID"),
-  appId: Deno.env.get("FIREBASE_APP_ID"),
+  apiKey: isDeno
+    ? Deno.env.get("FIREBASE_API_KEY")
+    : "AIzaSyCvXS7B_Xd04q__oLg5BEiPKsgmNYrdn2A",
+  authDomain: isDeno
+    ? Deno.env.get("FIREBASE_AUTH_DOMAIN")
+    : "thehighlandernetwork.firebaseapp.com",
+  projectId: isDeno
+    ? Deno.env.get("FIREBASE_PROJECT_ID")
+    : "thehighlandernetwork",
+  storageBucket: isDeno
+    ? Deno.env.get("FIREBASE_STORAGE_BUCKET")
+    : "thehighlandernetwork.appspot.com",
+  messagingSenderId: isDeno
+    ? Deno.env.get("FIREBASE_MESSAGING_SENDER_ID")
+    : "236202663343",
+  appId: isDeno
+    ? Deno.env.get("FIREBASE_APP_ID")
+    : "1:236202663343:web:43c2500c8e488af4d7235a",
 };
+
 
 console.log("Initializing Client Side Firebase App...");
 let app;

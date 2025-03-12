@@ -1,10 +1,56 @@
 "use client";
+import { useState } from "preact/hooks";
+import { auth, provider } from "../utils/firebase.ts";
+import { signInWithPopup } from "firebase/auth";
+
 
 export default function GoogleSignUp() {
-  const handleGoogleSignUp = () => {
-    // Replace this with your actual Google sign-up logic (e.g., Firebase OAuth)
-    console.log("Google Sign Up clicked");
+  const [message, setMessage] = useState("");
+
+  const handleGoogleSignUp = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log(user);
+      if (user.email.endsWith("@ucr.edu")) {
+        console.log(`Successfully registered: ${user.email}`);
+        setMessage(`Successfully registered: ${user.email}`);
+        await assignUserRole(user.uid);
+      } else {
+        await auth.signOut();
+        console.warn(`Unauthorized domain: ${user.email}`);
+        setMessage("Failed: Only @ucr.edu emails are allowed.");
+      }
+    } catch (error) {
+      console.error("Google sign-up failed:", error);
+      setMessage(`Google sign-up failed: ${(error as Error).message}`);
+    }
   };
+
+
+  async function assignUserRole(uid: string) {
+    console.log("Assigning role to UID:", uid);
+    try {
+      const response = await fetch("/api/customClaims/setUserClaims", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ uid }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text(); // Get the raw response text (may be HTML or plain text)
+        console.error("Error response from server:", errorText);
+        throw new Error(errorText);
+      }
+
+      const data = await response.json();
+      console.log("Role assigned:", data);
+    } catch (error) {
+      console.error("Error assigning role:", error);
+    }
+  }
 
   return (
     <>
