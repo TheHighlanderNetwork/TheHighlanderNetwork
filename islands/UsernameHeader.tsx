@@ -12,14 +12,14 @@ export default function UsernameHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser: FirebaseUser | null) => {
       setUser(firebaseUser);
     });
     return () => unsubscribe();
   }, []);
 
   function handleLogout() {
-    signOut(auth).catch((err) => {
+    signOut(auth).catch((err: unknown) => {
       console.error("Sign out error:", err);
     });
   }
