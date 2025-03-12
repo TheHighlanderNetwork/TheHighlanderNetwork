@@ -35,7 +35,7 @@ export default function AddReviewModal() {
 
   function handleSubmit(e: Event) {
     e.preventDefault();
-    const data = { rating, reviewText };
+    const _data = { rating, reviewText };
     alert(`Review submitted!\nRating: ${rating}\nReview: ${reviewText}`);
     // Replace with your actual submission logic (API call, DB insert, etc.)
     closeModal();
@@ -86,8 +86,7 @@ export default function AddReviewModal() {
                 rows={5}
                 value={reviewText}
                 onInput={(e) =>
-                  setReviewText((e.target as HTMLTextAreaElement).value)
-                }
+                  setReviewText((e.target as HTMLTextAreaElement).value)}
               />
             </div>
             <div className="flex justify-end gap-4">
