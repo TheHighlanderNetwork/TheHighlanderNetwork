@@ -44,7 +44,7 @@ export default function GoogleSignIn() {
       }
 
       const data = await response.json();
-      console.log("Role assigned:", data);
+      console.log("Role assigned:", data.message);
     } catch (error) {
       console.error("Error assigning role:", error);
     }
