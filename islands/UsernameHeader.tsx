@@ -12,9 +12,12 @@ export default function UsernameHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser: FirebaseUser | null) => {
-      setUser(firebaseUser);
-    });
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (firebaseUser: FirebaseUser | null) => {
+        setUser(firebaseUser);
+      },
+    );
     return () => unsubscribe();
   }, []);
 
