@@ -13,6 +13,7 @@ import * as $api_login_verifyIdToken from "./routes/api/login/verifyIdToken.ts";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login_index from "./routes/login/index.tsx";
+import * as $requestprofessor_index from "./routes/requestprofessor/index.tsx";
 import * as $signup_index from "./routes/signup/index.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
@@ -20,6 +21,8 @@ import * as $Counter from "./islands/Counter.tsx";
 import * as $GoogleSignIn from "./islands/GoogleSignIn.tsx";
 import * as $GoogleSignUp from "./islands/GoogleSignUp.tsx";
 import * as $HeaderSignUpButton from "./islands/HeaderSignUpButton.tsx";
+import * as $ProfessorRequestForm from "./islands/ProfessorRequestForm.tsx";
+import * as $UsernameHeader from "./islands/UsernameHeader.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -37,6 +40,7 @@ const manifest = {
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/login/index.tsx": $login_index,
+    "./routes/requestprofessor/index.tsx": $requestprofessor_index,
     "./routes/signup/index.tsx": $signup_index,
   },
   islands: {
@@ -46,6 +50,8 @@ const manifest = {
     "./islands/GoogleSignIn.tsx": $GoogleSignIn,
     "./islands/GoogleSignUp.tsx": $GoogleSignUp,
     "./islands/HeaderSignUpButton.tsx": $HeaderSignUpButton,
+    "./islands/ProfessorRequestForm.tsx": $ProfessorRequestForm,
+    "./islands/UsernameHeader.tsx": $UsernameHeader,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
