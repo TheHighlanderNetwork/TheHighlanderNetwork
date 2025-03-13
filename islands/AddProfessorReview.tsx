@@ -24,35 +24,31 @@ export default function AddProfessorReview({
 }) {
   const [isOpen, setIsOpen] = useState(true);
   const [isSignedIn, setIsSignedIn] = useState(false);
-
   const initialProfessor = mockProfessors.find((p) => p.id === professorId) ||
     mockProfessors[0];
   const [selectedProfessor, setSelectedProfessor] = useState<Professor>(
     initialProfessor,
   );
-
   const [searchTerm, setSearchTerm] = useState(selectedProfessor.name);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user: unknown) => {
       setIsSignedIn(!!user);
     });
     return () => unsubscribe();
   }, []);
 
-  // Ask for confirmation if there's typed text
   function handleClose() {
     if (reviewText.trim() !== "") {
       const confirmClose = confirm(
         "You have typed some text in the review. Close anyway?",
       );
       if (!confirmClose) {
-        return; // If user cancels, do not close
+        return;
       }
     }
     setIsOpen(false);
@@ -71,7 +67,6 @@ export default function AddProfessorReview({
     alert(
       `Review submitted!\nProfessor: ${selectedProfessor.name}\nRating: ${rating}\nReview: ${reviewText}`,
     );
-    // Insert real submission logic here (Firebase, API, etc.)
     handleClose();
   }
 
@@ -101,8 +96,8 @@ export default function AddProfessorReview({
 
   if (!isOpen) return null;
 
-  const filteredProfessors = mockProfessors.filter((prof) =>
-    prof.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProfessors = mockProfessors.filter((p) =>
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   function handleSelectProfessor(prof: Professor) {
@@ -122,7 +117,6 @@ export default function AddProfessorReview({
           ✕
         </button>
         <h2 className="text-xl font-bold mb-4">Add Review</h2>
-
         <div className="mb-4 relative">
           <label className="block mb-2 font-medium">
             Search / Select Professor
@@ -152,7 +146,6 @@ export default function AddProfessorReview({
             </ul>
           )}
         </div>
-
         <div className="mb-4">
           <label className="block mb-2 font-medium">Rating</label>
           {renderStars()}

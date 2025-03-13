@@ -18,9 +18,9 @@ export default function AddReviewButton() {
       >
         Add Review
       </button>
-
       {showAddReview && (
         <AddProfessorReview
+          professorId={1}
           onClose={handleClose}
         />
       )}
