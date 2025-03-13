@@ -1,7 +1,7 @@
 import { Head } from "$fresh/runtime.ts";
 import UsernameHeader from "../../islands/UsernameHeader.tsx";
 import ProfessorReviews from "../../islands/ProfessorReviews.tsx";
-import AddReviewModal from "../../islands/AddProfessorReview.tsx";
+import AddReviewButton from "../../islands/AddReviewButton.tsx";
 
 export default function ProfessorReviewsPage() {
   return (
@@ -21,7 +21,7 @@ export default function ProfessorReviewsPage() {
             </div>
           </a>
           <div className="flex items-center gap-4">
-            <AddReviewModal />
+            <AddReviewButton />
             <UsernameHeader />
           </div>
         </div>
