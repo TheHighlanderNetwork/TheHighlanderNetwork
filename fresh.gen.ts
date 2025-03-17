@@ -13,7 +13,10 @@ import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login_index from "./routes/login/index.tsx";
 import * as $requestprofessor_index from "./routes/requestprofessor/index.tsx";
+import * as $reviewprofessors_index from "./routes/reviewprofessors/index.tsx";
 import * as $signup_index from "./routes/signup/index.tsx";
+import * as $AddProfessorReview from "./islands/AddProfessorReview.tsx";
+import * as $AddReviewButton from "./islands/AddReviewButton.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
 import * as $Counter from "./islands/Counter.tsx";
@@ -21,6 +24,7 @@ import * as $GoogleSignIn from "./islands/GoogleSignIn.tsx";
 import * as $GoogleSignUp from "./islands/GoogleSignUp.tsx";
 import * as $HeaderSignUpButton from "./islands/HeaderSignUpButton.tsx";
 import * as $ProfessorRequestForm from "./islands/ProfessorRequestForm.tsx";
+import * as $ProfessorReviews from "./islands/ProfessorReviews.tsx";
 import * as $UsernameHeader from "./islands/UsernameHeader.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -39,9 +43,12 @@ const manifest = {
     "./routes/index.tsx": $index,
     "./routes/login/index.tsx": $login_index,
     "./routes/requestprofessor/index.tsx": $requestprofessor_index,
+    "./routes/reviewprofessors/index.tsx": $reviewprofessors_index,
     "./routes/signup/index.tsx": $signup_index,
   },
   islands: {
+    "./islands/AddProfessorReview.tsx": $AddProfessorReview,
+    "./islands/AddReviewButton.tsx": $AddReviewButton,
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
     "./islands/Counter.tsx": $Counter,
@@ -49,6 +56,7 @@ const manifest = {
     "./islands/GoogleSignUp.tsx": $GoogleSignUp,
     "./islands/HeaderSignUpButton.tsx": $HeaderSignUpButton,
     "./islands/ProfessorRequestForm.tsx": $ProfessorRequestForm,
+    "./islands/ProfessorReviews.tsx": $ProfessorReviews,
     "./islands/UsernameHeader.tsx": $UsernameHeader,
   },
   baseUrl: import.meta.url,

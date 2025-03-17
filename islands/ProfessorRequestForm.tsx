@@ -21,12 +21,15 @@ export default function ProfessorRequestForm() {
   }, []);
 
   const handleSubmit = (e: Event) => {
+    e.preventDefault();
     if (!isSignedIn) {
-      e.preventDefault();
       alert("You must be signed in to submit a professor.");
+      return;
     }
-    // Otherwise, allow form submission
+    alert("Form submitted successfully!");
   };
+
+  const buttonText = isSignedIn ? "Submit" : "Log In to Submit";
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
@@ -44,13 +47,8 @@ export default function ProfessorRequestForm() {
           !isSignedIn ? "opacity-50 cursor-not-allowed" : ""
         }`}
       >
-        Submit
+        {buttonText}
       </button>
-      {!isSignedIn && (
-        <p className="text-red-500 text-sm">
-          You must be signed in to submit a professor.
-        </p>
-      )}
     </form>
   );
 }
