@@ -15,7 +15,7 @@ export const handler: Handlers = {
         );
       }
 
-      // const response = await auth.verifyIdToken(idToken);
+      const response = await auth.verifyIdToken(idToken);
 
       return new Response(
         JSON.stringify({

@@ -1,5 +1,6 @@
 import { auth, db } from "../firebaseAdmin.ts";
 import { Handlers } from "$fresh/server.ts";
+import { QueryDocumentSnapshot } from "npm:firebase-admin/firestore"
 
 async function setUserClaims(uid: string, claims: Record<string, unknown>) {
   try {
@@ -19,8 +20,9 @@ export const handler: Handlers = {
   // Automatically sets a user's role
   async POST(req) {
     try {
-      console.log("Received request to assign role...");
       const { uid } = await req.json(); // Only accept UID
+
+      console.log("Received request to assign role to user: ", uid);
 
       // Return error if no uid is included
       if (!uid) {
@@ -47,7 +49,7 @@ export const handler: Handlers = {
       console.log("Checking admin doc...");
       const adminDoc = await db.collection("admins").get();
       console.log("Received admin doc...");
-      adminDoc.forEach((doc: unknown) => {
+      adminDoc.forEach((doc: QueryDocumentSnapshot) => {
         console.log(doc.data());
         if (email == doc.data().email) {
           newRole = "admin";

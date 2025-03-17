@@ -1,6 +1,6 @@
 import { auth } from "../firebaseAdmin.ts";
 
-async function getUserClaims(uid: string): Promise<Record<string, unknown>> {
+async function getUserClaims(uid: string): Promise<Record<string, unknown> | undefined> {
   try {
     // Retrieve custom claims from Firebase
     const user = await auth.getUser(uid);
