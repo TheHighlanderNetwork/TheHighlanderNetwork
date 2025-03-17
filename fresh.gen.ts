@@ -17,6 +17,7 @@ import * as $reviewprofessors_index from "./routes/reviewprofessors/index.tsx";
 import * as $signup_index from "./routes/signup/index.tsx";
 import * as $AddProfessorReview from "./islands/AddProfessorReview.tsx";
 import * as $AddReviewButton from "./islands/AddReviewButton.tsx";
+import * as $BusinessDashboard from "./islands/BusinessDashboard.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
 import * as $Counter from "./islands/Counter.tsx";
@@ -49,6 +50,7 @@ const manifest = {
   islands: {
     "./islands/AddProfessorReview.tsx": $AddProfessorReview,
     "./islands/AddReviewButton.tsx": $AddReviewButton,
+    "./islands/BusinessDashboard.tsx": $BusinessDashboard,
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
     "./islands/Counter.tsx": $Counter,

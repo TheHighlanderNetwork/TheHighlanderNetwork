@@ -1,184 +1,196 @@
 "use client";
 import { useEffect, useState } from "preact/hooks";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../utils/firebase.ts";
+import AddProfessorReview from "../islands/AddProfessorReview.tsx";
 
-interface Professor {
+
+type Review = {
+  user: string;
+  rating: number;
+  text: string;
+};
+
+type Professor = {
   id: number;
   name: string;
-}
+  description: string;
+  rating: number;
+  reviews: Review[];
+};
 
-const mockProfessors: Professor[] = [
-  { id: 1, name: "Professor Alice" },
-  { id: 2, name: "Professor Bob" },
-  { id: 3, name: "Professor Carol" },
-  { id: 4, name: "Professor Dave" },
-];
+export default function ProfessorReviews() {
+  const mockProfessors: Professor[] = [
+    {
+      id: 1,
+      name: "Professor Alice",
+      description: "Teaches Intro to Biology",
+      rating: 4,
+      reviews: [
+        { user: "StudentA", rating: 5, text: "Great explanations!" },
+        { user: "StudentB", rating: 3, text: "Decent, but moves quickly." },
+      ],
+    },
+  ];
 
-export default function AddProfessorReview({
-  professorId,
-  onClose,
-}: {
-  professorId: number;
-  onClose: () => void;
-}) {
-  const [isOpen, setIsOpen] = useState(true);
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const initialProfessor = mockProfessors.find((p) => p.id === professorId) ||
-    mockProfessors[0];
-  const [selectedProfessor, setSelectedProfessor] = useState<Professor>(
-    initialProfessor,
+  const [selectedProfessor, setSelectedProfessor] = useState<Professor | null>(
+    null,
   );
-  const [searchTerm, setSearchTerm] = useState(selectedProfessor.name);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
-  const [reviewText, setReviewText] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const [professors, setProfessors] = useState<Professor[]>([]);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [showAddReview, setShowAddReview] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user: unknown) => {
-      setIsSignedIn(!!user);
-    });
-    return () => unsubscribe();
+    async function fetchProfessors() {
+      setLoading(true);
+      try {
+        const profList = await getAllProfessors();
+        setProfessors(profList);
+      } catch (error) {
+        console.error("Error fetching professors:", error);
+      }
+      setLoading(false);
+    }
+    fetchProfessors();
   }, []);
 
-  function handleClose() {
-    if (reviewText.trim() !== "") {
-      const confirmClose = confirm(
-        "You have typed some text in the review. Close anyway?",
-      );
-      if (!confirmClose) {
-        return;
-      }
-    }
-    setIsOpen(false);
-    setRating(0);
-    setHoverRating(0);
-    setReviewText("");
-    onClose();
+  async function openModal(prof: Professor) {
+    setSelectedProfessor(prof);
+    setModalOpen(true);
   }
 
-  function handleSubmit(e: Event) {
-    e.preventDefault();
-    if (!isSignedIn) {
-      alert("You must be signed in to add a review.");
-      return;
-    }
-    alert(
-      `Review submitted!\nProfessor: ${selectedProfessor.name}\nRating: ${rating}\nReview: ${reviewText}`,
-    );
-    handleClose();
+  function closeModal() {
+    setSelectedProfessor(null);
+    setModalOpen(false);
+    setShowAddReview(false);
   }
 
-  function renderStars() {
+  function renderStars(rating: number) {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
-      let starColor = "text-gray-300";
-      if (i <= hoverRating) {
-        starColor = "text-yellow";
-      } else if (i <= rating) {
-        starColor = "text-yellow";
-      }
       stars.push(
-        <span
-          key={i}
-          className={`cursor-pointer text-2xl ${starColor}`}
-          onMouseEnter={() => setHoverRating(i)}
-          onMouseLeave={() => setHoverRating(0)}
-          onClick={() => setRating(i)}
-        >
+        <span key={i} className={i <= rating ? "text-yellow" : "text-gray-300"}>
           ★
         </span>,
       );
     }
-    return <div className="flex mb-2">{stars}</div>;
+    return <div className="text-2xl flex">{stars}</div>;
   }
 
-  if (!isOpen) return null;
-
-  const filteredProfessors = mockProfessors.filter((p) =>
-    p.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  function handleSelectProfessor(prof: Professor) {
-    setSelectedProfessor(prof);
-    setSearchTerm(prof.name);
-    setDropdownOpen(false);
+  function renderReviews(reviews: Review[]) {
+    if (reviews.length === 0) {
+      return <p className="text-sm text-gray-600">No reviews yet.</p>;
+    }
+    return (
+      <ul className="flex flex-col gap-2">
+        {reviews.map((r, i) => (
+          <li key={i} className="border-b pb-2">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="font-bold text-sm">{r.user}:</span>
+              {renderStars(r.rating)}
+            </div>
+            <p className="text-sm text-gray-700 ml-6">{r.text}</p>
+          </li>
+        ))}
+      </ul>
+    );
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[999]">
-      <div className="bg-white p-6 rounded-md w-full max-w-md relative">
-        <button
-          type="button"
-          onClick={handleClose}
-          className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
-        >
-          ✕
-        </button>
-        <h2 className="text-xl font-bold mb-4">Add Review</h2>
-        <div className="mb-4 relative">
-          <label className="block mb-2 font-medium">
-            Search / Select Professor
-          </label>
+    <div className="flex flex-1 px-8 pb-8 gap-8">
+      <div className="w-1/4 bg-white rounded-md shadow-md p-6">
+        <h2 className="text-xl font-bold mb-6">Name</h2>
+        <div className="mb-4">
           <input
             type="text"
+            placeholder="Search Professor"
             className="w-full px-4 py-2 border rounded-md"
-            placeholder="Type a name..."
-            value={searchTerm}
-            onFocus={() => setDropdownOpen(true)}
-            onInput={(e) => {
-              setSearchTerm((e.target as HTMLInputElement).value);
-              setDropdownOpen(true);
-            }}
-          />
-          {dropdownOpen && filteredProfessors.length > 0 && (
-            <ul className="absolute left-0 right-0 bg-white border shadow-md max-h-60 overflow-auto z-10">
-              {filteredProfessors.map((prof) => (
-                <li
-                  key={prof.id}
-                  className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-                  onClick={() => handleSelectProfessor(prof)}
-                >
-                  {prof.name}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-        <div className="mb-4">
-          <label className="block mb-2 font-medium">Rating</label>
-          {renderStars()}
-        </div>
-        <div className="mb-4">
-          <label className="block mb-2 font-medium">
-            Write a Review (optional)
-          </label>
-          <textarea
-            className="w-full px-4 py-2 border rounded-md"
-            rows={5}
-            value={reviewText}
-            onInput={(e) =>
-              setReviewText((e.target as HTMLTextAreaElement).value)}
           />
         </div>
-        <div className="flex justify-end gap-4">
-          <button
-            type="button"
-            onClick={handleClose}
-            className="px-4 py-2 text-sm font-medium text-gray-600"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            onClick={handleSubmit}
-            className="bg-blue text-white rounded-md px-4 py-2 text-sm font-medium"
-          >
-            Submit
-          </button>
+        <div className="mb-4">
+          <label className="block mb-2 font-medium">Categories</label>
+          <select className="w-full px-4 py-2 border rounded-md">
+            <option value="">All</option>
+            <option value="humanities">Humanities</option>
+            <option value="sciences">Sciences</option>
+            <option value="engineering">Engineering</option>
+          </select>
+        </div>
+        <div>
+          <label className="block mb-2 font-medium">Sorting</label>
+          <select className="w-full px-4 py-2 border rounded-md">
+            <option value="alphabetical">Alphabetical</option>
+            <option value="rating">Rating</option>
+          </select>
         </div>
       </div>
+
+      <div className="flex-1 bg-white rounded-md shadow-md p-6">
+        <h2 className="text-xl font-bold mb-6">Name</h2>
+        <div className="flex flex-col gap-6">
+          {mockProfessors.map((prof) => (
+            <div
+              key={prof.id}
+              className="flex gap-4 items-start cursor-pointer"
+              onClick={() => openModal(prof)}
+            >
+              <div className="w-20 h-20 bg-gray-300 rounded-md" />
+              <div>
+                <h3 className="font-bold text-lg">{prof.name}</h3>
+                <p className="text-gray-600">{prof.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {modalOpen && selectedProfessor && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-md w-full max-w-md">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold">{selectedProfessor.name}</h2>
+              <button
+                type="button"
+                onClick={closeModal}
+                className="text-gray-600 hover:text-gray-800"
+              >
+                ✕
+              </button>
+            </div>
+            <p className="text-gray-600 mb-4">
+              {selectedProfessor.description}
+            </p>
+            <div className="flex items-center gap-2 mb-4">
+              {renderStars(selectedProfessor.rating)}
+              <span className="text-sm text-gray-600">
+                {selectedProfessor.rating} / 5
+              </span>
+            </div>
+            <h3 className="font-medium mb-2">Reviews:</h3>
+            {renderReviews(selectedProfessor.reviews)}
+
+            {/* Add Review button */}
+            <div className="mt-4">
+              <button
+                type="button"
+                onClick={() => setShowAddReview(true)}
+                className="bg-blue text-white rounded-md px-4 py-2 text-sm font-medium"
+              >
+                Add Review
+              </button>
+            </div>
+
+            {/* Show the AddProfessorReview if showAddReview is true */}
+            {showAddReview && (
+              <AddProfessorReview
+                professorId={selectedProfessor.id} // Pass the ID
+                onClose={() => setShowAddReview(false)}
+              />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

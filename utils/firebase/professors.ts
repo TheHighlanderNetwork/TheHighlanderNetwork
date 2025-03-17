@@ -1,4 +1,4 @@
-import { db } from "./firebase.ts";
+import { db } from "../firebase.ts";
 
 export type Professor = {
   name: string;
@@ -27,4 +27,12 @@ export async function updateProfessor(id: string, data: Partial<Professor>) {
 export async function deleteProfessor(id: string) {
   await db.collection(collection).doc(id).delete();
   return { message: `Professor ${id} deleted` };
+}
+
+export async function getAllProfessors() {
+  const snapshot = await getDocs(collectionRef);
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data() as Professor,
+  }));
 }
