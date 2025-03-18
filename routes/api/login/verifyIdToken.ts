@@ -1,52 +1,72 @@
+import { auth } from "../firebaseAdmin.ts";
 import { Handlers } from "$fresh/server.ts";
+import { autoSetRole } from "../customClaims/setUserClaims.ts";
 
-const FIREBASE_AUTH_URL = "https://identitytoolkit.googleapis.com/v1/accounts:lookup";
-const FIREBASE_API_KEY = Deno.env.get("FIREBASE_API_KEY");
+export async function verifyIdToken(idToken: string) {
+  try {
+    const decodedToken = await auth.verifyIdToken(idToken);
+    console.log("Token is valid. User ID:", decodedToken.uid);
+    return decodedToken;
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    throw new Error("Unauthorized access");
+  }
+}
 
 export const handler: Handlers = {
+  // Handler to verify an ID token
   async POST(req) {
     try {
       const { idToken } = await req.json();
 
-      // ✅ Validate input
+      // Validate input
       if (!idToken) {
         return new Response(
-          JSON.stringify({ error: "❌ ID Token is required" }),
-          { status: 400 }
+          JSON.stringify({ error: "ID Token is required" }),
+          { status: 400 },
         );
       }
 
-      // ✅ Verify token using Firebase Auth REST API
-      const response = await fetch(`${FIREBASE_AUTH_URL}?key=${FIREBASE_API_KEY}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idToken }),
-      });
+      const decodedToken = await verifyIdToken(idToken);
 
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error?.message || "❌ Invalid authentication token");
+      // Assign role if user doesnt have a role
+      if (!decodedToken.role) {
+        try {
+          decodedToken.role = await autoSetRole(decodedToken.uid);
+        } catch (error) {
+          console.error("Error assigning role:", error);
+        }
       }
 
-      // ✅ Successfully verified user
+      console.log("Verified token: ", decodedToken);
       return new Response(
         JSON.stringify({
           success: true,
-          user: data.users[0], // Firebase returns an array of users
+          verifiedToken: decodedToken,
         }),
         {
           status: 200,
           headers: { "Content-Type": "application/json" },
-        }
+        },
       );
     } catch (error: unknown) {
-      return new Response(
-        JSON.stringify({ success: false, error: (error as Error).message }),
-        {
-          status: 500,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      if (error instanceof Error) {
+        return new Response(
+          JSON.stringify({ success: false, error: error.message }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      } else {
+        return new Response(
+          JSON.stringify({ success: false, error: error }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      }
     }
   },
 };
