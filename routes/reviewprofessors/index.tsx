@@ -1,7 +1,8 @@
 import { Head } from "$fresh/runtime.ts";
 import UsernameHeader from "../../islands/UsernameHeader.tsx";
 import ProfessorReviews from "../../islands/ProfessorReviews.tsx";
-import AddReviewButton from "../../islands/AddReviewButton.tsx";
+import AddProfessorReviewButton from "../../islands/AddProfessorReviewButton.tsx";
+import RequestProfessorButton from "../../islands/RequestProfessorButton.tsx";
 
 export default function ProfessorReviewsPage() {
   return (
@@ -21,7 +22,8 @@ export default function ProfessorReviewsPage() {
             </div>
           </a>
           <div className="flex items-center gap-4">
-            <AddReviewButton />
+            <RequestProfessorButton />
+            <AddProfessorReviewButton />
             <UsernameHeader />
           </div>
         </div>
