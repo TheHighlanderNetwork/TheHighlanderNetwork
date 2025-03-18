@@ -1,8 +1,14 @@
-// import { auth } from "../firebaseAdmin.ts";
 import { Handlers } from "$fresh/server.ts";
 
+const FIREBASE_AUTH_URL =
+  "https://identitytoolkit.googleapis.com/v1/accounts:lookup";
+const FIREBASE_API_KEY = Deno.env.get("FIREBASE_API_KEY");
+
+if (!FIREBASE_API_KEY) {
+  throw new Error("❌ Missing FIREBASE_API_KEY in environment variables.");
+}
+
 export const handler: Handlers = {
-  // Handler to verify an ID token
   async POST(req) {
     try {
       const { idToken } = await req.json();
@@ -15,36 +21,34 @@ export const handler: Handlers = {
         );
       }
 
-      // const response = await auth.verifyIdToken(idToken);
+      // ✅ Verify ID token using Firebase REST API
+      const response = await fetch(`${FIREBASE_AUTH_URL}?key=${FIREBASE_API_KEY}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idToken }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        return new Response(
+          JSON.stringify({ success: false, error: data.error?.message || "Invalid ID Token" }),
+          { status: 401, headers: { "Content-Type": "application/json" } },
+        );
+      }
 
       return new Response(
         JSON.stringify({
           success: true,
-          message: `Verified token: ${idToken}`,
+          message: "Token verified successfully",
+          user: data.users[0], // ✅ Returns user info from Firebase
         }),
-        {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        },
+        { status: 200, headers: { "Content-Type": "application/json" } },
       );
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        return new Response(
-          JSON.stringify({ success: false, error: error.message }),
-          {
-            status: 500,
-            headers: { "Content-Type": "application/json" },
-          },
-        );
-      } else {
-        return new Response(
-          JSON.stringify({ success: false, error: error }),
-          {
-            status: 500,
-            headers: { "Content-Type": "application/json" },
-          },
-        );
-      }
+      return new Response(
+        JSON.stringify({ success: false, error: error instanceof Error ? error.message : error }),
+        { status: 500, headers: { "Content-Type": "application/json" } },
+      );
     }
   },
 };

@@ -1,19 +1,30 @@
-import { auth } from "../firebaseAdmin.ts";
+import "https://deno.land/x/dotenv@v3.2.2/mod.ts";
 
-async function getUserClaims(uid: string): Promise<Record<string, unknown>> {
-  try {
-    // Retrieve custom claims from Firebase
-    const user = await auth.getUser(uid);
-    console.log("Custom Claims:", user.customClaims);
-    return user.customClaims;
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    } else {
-      console.error("An unknown error occurred", error);
-    }
-    return {};
-  }
+const FIREBASE_AUTH_URL = "https://identitytoolkit.googleapis.com/v1/accounts:lookup";
+const FIREBASE_API_KEY = Deno.env.get("FIREBASE_API_KEY");
+
+if (!FIREBASE_API_KEY) {
+  throw new Error("❌ Missing FIREBASE_API_KEY in environment variables.");
 }
 
-getUserClaims("kLwjp4lZxPgR5UJgZ4nerSqT7xS2");
+/**
+ * Get Firebase user claims via REST API
+ */
+export async function getUserClaims(idToken: string) {
+  const response = await fetch(`${FIREBASE_AUTH_URL}?key=${FIREBASE_API_KEY}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ idToken }),
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error?.message || "Failed to get user claims");
+  }
+
+  return data.users[0]; // Returns user details & claims
+}
+
+console.log("✅ Firebase Authentication REST API is Ready");

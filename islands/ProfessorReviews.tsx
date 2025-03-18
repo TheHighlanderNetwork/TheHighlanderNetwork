@@ -1,60 +1,114 @@
+/** @jsxImportSource preact */
 "use client";
 import { useEffect, useState } from "preact/hooks";
-import { getAllProfessors } from "../utils/firebase/professors.ts";
 
+const FIREBASE_AUTH_URL =
+  "https://identitytoolkit.googleapis.com/v1/accounts:lookup";
+const FIREBASE_FIRESTORE_URL =
+  "https://firestore.googleapis.com/v1/projects/thehighlandernetwork/databases/(default)/documents/professors";
+const FIREBASE_API_KEY = Deno.env.get("FIREBASE_API_KEY");
 
-type Professor = {
-  id: string;
-  name: string;
-  department?: string;
-};
-
-export default function ProfessorList() {
-  const [professors, setProfessors] = useState<Professor[]>([]);
+export default function ProfessorReviews() {
+  const [professors, setProfessors] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(() => {
+    // ✅ Retrieve user data from localStorage on first load
+    const savedUser = localStorage.getItem("firebaseUser");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
   useEffect(() => {
-    async function fetchProfessors() {
-      try {
-        const profList = await getAllProfessors();
-        console.log("Professors fetched:", profList); // Debugging log
-        setProfessors(profList);
-      } catch (error) {
-        console.error("Error fetching professors:", error);
+    async function checkAuthStatus() {
+      const idToken = localStorage.getItem("firebaseIdToken"); // ✅ Retrieve auth token
+      if (!idToken) {
+        console.error("❌ User is not authenticated.");
+        setUser(null);
+        return;
       }
+
+      try {
+        // ✅ Verify token with Firebase Auth REST API
+        const response = await fetch(`${FIREBASE_AUTH_URL}?key=${FIREBASE_API_KEY}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ idToken }),
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error?.message || "Invalid authentication token");
+        }
+
+        // ✅ Store user data persistently
+        setUser(data.users[0]);
+        localStorage.setItem("firebaseUser", JSON.stringify(data.users[0]));
+
+        // ✅ Ensure professors are fetched only after authentication
+        fetchProfessors(idToken);
+      } catch (error) {
+        console.error("❌ Authentication error:", error);
+        localStorage.removeItem("firebaseIdToken"); // Remove invalid token
+        localStorage.removeItem("firebaseUser");
+        setUser(null);
+      }
+    }
+
+    checkAuthStatus(); // ✅ Always run authentication check on page load
+  }, []); // ✅ Runs only on initial load
+
+  async function fetchProfessors(idToken) {
+    if (!idToken) {
+      console.error("❌ No authentication token found. Cannot fetch professors.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch(FIREBASE_FIRESTORE_URL, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${idToken}`, // ✅ Include auth token
+        },
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error?.message || "Failed to fetch professors");
+      }
+
+      const professorsList = data.documents.map((doc) => ({
+        id: doc.name.split("/").pop(),
+        name: doc.fields.name.stringValue,
+        department: doc.fields.department.stringValue,
+      }));
+
+      console.log("✅ Professors fetched:", professorsList);
+      setProfessors(professorsList);
+      localStorage.setItem("professors", JSON.stringify(professorsList)); // ✅ Store in cache
+    } catch (error) {
+      console.error("❌ Error fetching professors:", error);
+    } finally {
       setLoading(false);
     }
-    fetchProfessors();
-  }, []);
+  }
+
+  if (!user) {
+    return <p>❌ You must be logged in to view this page.</p>;
+  }
+
+  if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="flex flex-col items-center px-8 pb-8">
-      <h1 className="text-2xl font-bold mb-6">Professors</h1>
-
-      {/* Professors Container */}
-      <div className="w-full max-w-3xl bg-white rounded-lg shadow-md p-6 overflow-y-auto max-h-[600px]">
-        {loading ? (
-          <p className="text-gray-500 text-center">Loading professors...</p>
-        ) : professors.length === 0 ? (
-          <p className="text-gray-500 text-center">No professors found.</p>
-        ) : (
-          <ul className="space-y-4">
-            {professors.map((prof) => (
-              <li
-                key={prof.id}
-                className="flex flex-col bg-gray-50 p-4 rounded-lg shadow-sm border hover:bg-gray-100 transition"
-              >
-                <h3 className="text-lg font-semibold">{prof.name}</h3>
-                <p className="text-gray-600">
-                  {prof.department && prof.department.trim() !== ""
-                    ? prof.department
-                    : "No department available"}
-                </p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+    <div>
+      <h1>Professors</h1>
+      <ul>
+        {professors.map((prof) => (
+          <li key={prof.id}>
+            {prof.name} - {prof.department}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

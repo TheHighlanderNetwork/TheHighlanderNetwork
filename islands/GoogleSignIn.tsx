@@ -5,6 +5,7 @@ import { signInWithPopup } from "firebase/auth";
 
 export default function GoogleSignIn() {
   const [message, setMessage] = useState("");
+  console.log("HELLOOOO")
 
   const handleGoogleSignIn = async () => {
     try {

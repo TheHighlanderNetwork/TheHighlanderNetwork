@@ -1,4 +1,5 @@
-import { db } from "../firebase.ts";
+import { db } from "./firebase.ts";
+import { getFirestore, collection, getDocs } from "https://esm.sh/firebase/firestore";
 
 export type Professor = {
   name: string;
@@ -30,9 +31,28 @@ export async function deleteProfessor(id: string) {
 }
 
 export async function getAllProfessors() {
-  const snapshot = await getDocs(collectionRef);
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data() as Professor,
-  }));
+  console.log("🟠 Fetching professors from Firestore...");
+
+  try {
+    const firestore = getFirestore(db); // Get Firestore instance
+    const profsCollection = collection(firestore, "professors"); // Reference collection
+    const snapshot = await getDocs(profsCollection); // Get documents
+
+    if (snapshot.empty) {
+      console.warn("⚠️ No professors found in Firestore");
+      return [];
+    }
+
+    const data = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      name: doc.data().name || "Unknown Professor",
+      department: doc.data().department || "No department available",
+    }));
+
+    console.log("✅ Firestore Data Fetched:", data);
+    return data;
+  } catch (error) {
+    console.error("❌ Firestore Fetch Error:", error);
+    return [];
+  }
 }
