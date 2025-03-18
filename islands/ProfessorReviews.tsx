@@ -9,11 +9,10 @@ const FIREBASE_FIRESTORE_URL =
 
 export default function ProfessorReviews() {
   const [professors, setProfessors] = useState(() => {
-    // ✅ Load from localStorage on first render
     const cachedProfessors = localStorage.getItem("cachedProfessors");
     return cachedProfessors ? JSON.parse(cachedProfessors) : [];
   });
-  const [loading, setLoading] = useState(professors.length === 0); // Avoid loading if cache exists
+  const [loading, setLoading] = useState(professors.length === 0);
   const [user, setUser] = useState(null);
   const listRef = useRef(null);
 
@@ -22,8 +21,6 @@ export default function ProfessorReviews() {
       if (firebaseUser) {
         console.log("✅ User is logged in:", firebaseUser);
         setUser(firebaseUser);
-        
-        // ✅ Only fetch professors if not in cache
         if (!localStorage.getItem("cachedProfessors")) {
           fetchProfessors(firebaseUser);
         }
@@ -70,6 +67,7 @@ export default function ProfessorReviews() {
       // ✅ Save to localStorage to prevent redundant Firestore reads
       localStorage.setItem("cachedProfessors", JSON.stringify(professorsList));
 
+      // ✅ Auto-scroll to the last item smoothly when new professors are loaded
       setTimeout(() => {
         if (listRef.current) {
           listRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -93,27 +91,59 @@ export default function ProfessorReviews() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">Professors</h1>
+    <div className="flex min-h-screen bg-gray-100 p-6">
+      {/* Sidebar */}
+      <aside className="w-1/4 bg-white shadow-lg p-6 rounded-md">
+        <h2 className="text-xl font-bold mb-6">Name</h2>
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Search Professor"
+            className="w-full px-4 py-2 border rounded-md"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block mb-2 font-medium">Categories</label>
+          <select className="w-full px-4 py-2 border rounded-md">
+            <option value="">All</option>
+            <option value="humanities">Humanities</option>
+            <option value="sciences">Sciences</option>
+            <option value="engineering">Engineering</option>
+          </select>
+        </div>
+        <div>
+          <label className="block mb-2 font-medium">Sorting</label>
+          <select className="w-full px-4 py-2 border rounded-md">
+            <option value="alphabetical">Alphabetical</option>
+            <option value="rating">Rating</option>
+          </select>
+        </div>
+      </aside>
 
-      {loading ? (
-        <p className="text-lg text-gray-600">Loading...</p>
-      ) : (
-        <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md overflow-y-auto max-h-[500px]">
-          <ul className="space-y-4">
+      {/* Main Content */}
+      <main className="flex-1 bg-white shadow-lg p-6 rounded-md ml-6 overflow-y-auto max-h-[500px]">
+        <h2 className="text-xl font-bold mb-6">Name</h2>
+
+        {loading ? (
+          <p className="text-lg text-gray-600">Loading...</p>
+        ) : (
+          <div className="flex flex-col gap-6">
             {professors.map((prof, index) => (
-              <li
+              <div
                 key={prof.id}
                 ref={index === professors.length - 1 ? listRef : null}
-                className="p-4 bg-gray-50 border-l-4 border-blue-500 rounded-lg shadow-sm"
+                className="flex gap-4 items-start"
               >
-                <h3 className="font-semibold text-lg text-gray-900">{prof.name}</h3>
-                <p className="text-gray-600">{prof.department}</p>
-              </li>
+                <div className="w-20 h-20 bg-gray-300 rounded-md" />
+                <div>
+                  <h3 className="font-bold text-lg">{prof.name}</h3>
+                  <p className="text-gray-600">{prof.department}</p>
+                </div>
+              </div>
             ))}
-          </ul>
-        </div>
-      )}
+          </div>
+        )}
+      </main>
     </div>
   );
 }
