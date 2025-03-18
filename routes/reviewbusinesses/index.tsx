@@ -1,7 +1,6 @@
 import { Head } from "$fresh/runtime.ts";
 import UsernameHeader from "../../islands/UsernameHeader.tsx";
 import BusinessReview from "../../islands/BusinessReview.tsx";
-import AddBusinessReview from "../../islands/AddBusinessReview.tsx";
 import AddBusinessReviewButton from "../../islands/AddBusinessReviewButton.tsx";
 
 export default function BusinessReviewsPage() {

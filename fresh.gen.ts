@@ -13,14 +13,13 @@ import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login_index from "./routes/login/index.tsx";
 import * as $requestprofessor_index from "./routes/requestprofessor/index.tsx";
-import * as $reviewprofessors_index from "./routes/reviewprofessors/index.tsx";
-import * as $signup_index from "./routes/signup/index.tsx";
-import * as $AddProfessorReview from "./islands/AddProfessorReview.tsx";
-import * as $AddReviewButton from "./islands/AddReviewButton.tsx";
 import * as $reviewbusinesses_index from "./routes/reviewbusinesses/index.tsx";
+import * as $reviewprofessors_index from "./routes/reviewprofessors/index.tsx";
 import * as $signup_index from "./routes/signup/index.tsx";
 import * as $AddBusinessReview from "./islands/AddBusinessReview.tsx";
 import * as $AddBusinessReviewButton from "./islands/AddBusinessReviewButton.tsx";
+import * as $AddProfessorReview from "./islands/AddProfessorReview.tsx";
+import * as $AddReviewButton from "./islands/AddReviewButton.tsx";
 import * as $BusinessReview from "./islands/BusinessReview.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
@@ -48,18 +47,15 @@ const manifest = {
     "./routes/index.tsx": $index,
     "./routes/login/index.tsx": $login_index,
     "./routes/requestprofessor/index.tsx": $requestprofessor_index,
-    "./routes/reviewprofessors/index.tsx": $reviewprofessors_index,
-    "./routes/signup/index.tsx": $signup_index,
-  },
-  islands: {
-    "./islands/AddProfessorReview.tsx": $AddProfessorReview,
-    "./islands/AddReviewButton.tsx": $AddReviewButton,
     "./routes/reviewbusinesses/index.tsx": $reviewbusinesses_index,
+    "./routes/reviewprofessors/index.tsx": $reviewprofessors_index,
     "./routes/signup/index.tsx": $signup_index,
   },
   islands: {
     "./islands/AddBusinessReview.tsx": $AddBusinessReview,
     "./islands/AddBusinessReviewButton.tsx": $AddBusinessReviewButton,
+    "./islands/AddProfessorReview.tsx": $AddProfessorReview,
+    "./islands/AddReviewButton.tsx": $AddReviewButton,
     "./islands/BusinessReview.tsx": $BusinessReview,
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
