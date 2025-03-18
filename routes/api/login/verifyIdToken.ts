@@ -1,5 +1,17 @@
-// import { auth } from "../firebaseAdmin.ts";
+import { auth } from "../firebaseAdmin.ts";
 import { Handlers } from "$fresh/server.ts";
+import { autoSetRole } from "../customClaims/setUserClaims.ts";
+
+export async function verifyIdToken(idToken: string) {
+  try {
+    const decodedToken = await auth.verifyIdToken(idToken);
+    console.log("Token is valid. User ID:", decodedToken.uid);
+    return decodedToken;
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    throw new Error("Unauthorized access");
+  }
+}
 
 export const handler: Handlers = {
   // Handler to verify an ID token
@@ -15,12 +27,22 @@ export const handler: Handlers = {
         );
       }
 
-      // const response = await auth.verifyIdToken(idToken);
+      const decodedToken = await verifyIdToken(idToken);
 
+      // Assign role if user doesnt have a role
+      if (!decodedToken.role) {
+        try {
+          decodedToken.role = await autoSetRole(decodedToken.uid);
+        } catch (error) {
+          console.error("Error assigning role:", error);
+        }
+      }
+
+      console.log("Verified token: ", decodedToken);
       return new Response(
         JSON.stringify({
           success: true,
-          message: `Verified token: ${idToken}`,
+          verifiedToken: decodedToken,
         }),
         {
           status: 200,
