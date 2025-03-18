@@ -19,7 +19,7 @@ import * as $signup_index from "./routes/signup/index.tsx";
 import * as $AddBusinessReview from "./islands/AddBusinessReview.tsx";
 import * as $AddBusinessReviewButton from "./islands/AddBusinessReviewButton.tsx";
 import * as $AddProfessorReview from "./islands/AddProfessorReview.tsx";
-import * as $AddReviewButton from "./islands/AddReviewButton.tsx";
+import * as $AddProfessorReviewButton from "./islands/AddProfessorReviewButton.tsx";
 import * as $BusinessReview from "./islands/BusinessReview.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
@@ -29,6 +29,7 @@ import * as $GoogleSignUp from "./islands/GoogleSignUp.tsx";
 import * as $HeaderSignUpButton from "./islands/HeaderSignUpButton.tsx";
 import * as $ProfessorRequestForm from "./islands/ProfessorRequestForm.tsx";
 import * as $ProfessorReviews from "./islands/ProfessorReviews.tsx";
+import * as $RequestProfessorButton from "./islands/RequestProfessorButton.tsx";
 import * as $UsernameHeader from "./islands/UsernameHeader.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -55,7 +56,7 @@ const manifest = {
     "./islands/AddBusinessReview.tsx": $AddBusinessReview,
     "./islands/AddBusinessReviewButton.tsx": $AddBusinessReviewButton,
     "./islands/AddProfessorReview.tsx": $AddProfessorReview,
-    "./islands/AddReviewButton.tsx": $AddReviewButton,
+    "./islands/AddProfessorReviewButton.tsx": $AddProfessorReviewButton,
     "./islands/BusinessReview.tsx": $BusinessReview,
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
@@ -65,6 +66,7 @@ const manifest = {
     "./islands/HeaderSignUpButton.tsx": $HeaderSignUpButton,
     "./islands/ProfessorRequestForm.tsx": $ProfessorRequestForm,
     "./islands/ProfessorReviews.tsx": $ProfessorReviews,
+    "./islands/RequestProfessorButton.tsx": $RequestProfessorButton,
     "./islands/UsernameHeader.tsx": $UsernameHeader,
   },
   baseUrl: import.meta.url,
