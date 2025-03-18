@@ -12,5 +12,7 @@ node_modules/
 
 # Test Directory
 GoogleAuthTest/
+faculty_data/
+course_data/
 
 .DS_STORE

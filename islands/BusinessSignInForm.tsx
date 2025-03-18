@@ -3,6 +3,7 @@ import { useState } from "preact/hooks";
 import type { JSX } from "preact";
 import { auth } from "../utils/firebase.ts";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { verifyUserToken } from "../utils/firebase/verify/verifyToken.ts";
 
 export default function BusinessSignInForm() {
   const [message, setMessage] = useState("");
@@ -23,6 +24,11 @@ export default function BusinessSignInForm() {
         email,
         password,
       );
+      const token = await userCredential.user.getIdToken();
+      if (!await verifyUserToken(token)) {
+        await auth.signOut();
+        throw new Error("Invalid token.");
+      }
       setMessage(`Successfully signed in: ${userCredential.user.email}`);
     } catch (error) {
       setMessage(`Login failed: ${(error as Error).message}`);
