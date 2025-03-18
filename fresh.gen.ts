@@ -17,6 +17,11 @@ import * as $reviewprofessors_index from "./routes/reviewprofessors/index.tsx";
 import * as $signup_index from "./routes/signup/index.tsx";
 import * as $AddProfessorReview from "./islands/AddProfessorReview.tsx";
 import * as $AddReviewButton from "./islands/AddReviewButton.tsx";
+import * as $reviewbusinesses_index from "./routes/reviewbusinesses/index.tsx";
+import * as $signup_index from "./routes/signup/index.tsx";
+import * as $AddBusinessReview from "./islands/AddBusinessReview.tsx";
+import * as $AddBusinessReviewButton from "./islands/AddBusinessReviewButton.tsx";
+import * as $BusinessReview from "./islands/BusinessReview.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
 import * as $Counter from "./islands/Counter.tsx";
@@ -49,6 +54,13 @@ const manifest = {
   islands: {
     "./islands/AddProfessorReview.tsx": $AddProfessorReview,
     "./islands/AddReviewButton.tsx": $AddReviewButton,
+    "./routes/reviewbusinesses/index.tsx": $reviewbusinesses_index,
+    "./routes/signup/index.tsx": $signup_index,
+  },
+  islands: {
+    "./islands/AddBusinessReview.tsx": $AddBusinessReview,
+    "./islands/AddBusinessReviewButton.tsx": $AddBusinessReviewButton,
+    "./islands/BusinessReview.tsx": $BusinessReview,
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
     "./islands/Counter.tsx": $Counter,
