@@ -1,6 +1,8 @@
 //utils/firebase.ts
 import { getApp, getApps, initializeApp } from "firebase/app";
+import { getFirestore } from "firestore";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
+
 const isDeno = typeof Deno !== "undefined" && Deno.env;
 
 const firebaseConfig = {
@@ -35,5 +37,6 @@ if (!getApps().length) {
 }
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+const db = getFirestore(app);
 
-export { auth, provider };
+export { auth, db, provider };

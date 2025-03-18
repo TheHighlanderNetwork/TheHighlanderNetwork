@@ -9,17 +9,20 @@ import * as $api_customClaims_setUserClaims from "./routes/api/customClaims/setU
 import * as $api_firebaseAdmin from "./routes/api/firebaseAdmin.ts";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_login_verifyIdToken from "./routes/api/login/verifyIdToken.ts";
+import * as $api_search_search from "./routes/api/search/search.ts";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login_index from "./routes/login/index.tsx";
 import * as $requestprofessor_index from "./routes/requestprofessor/index.tsx";
 import * as $reviewprofessors_index from "./routes/reviewprofessors/index.tsx";
 import * as $signup_index from "./routes/signup/index.tsx";
+import * as $test_index from "./routes/test/index.tsx";
 import * as $AddProfessorReview from "./islands/AddProfessorReview.tsx";
 import * as $AddReviewButton from "./islands/AddReviewButton.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
 import * as $Counter from "./islands/Counter.tsx";
+import * as $FirestoreQuery from "./islands/FirestoreQuery.tsx";
 import * as $GoogleSignIn from "./islands/GoogleSignIn.tsx";
 import * as $GoogleSignUp from "./islands/GoogleSignUp.tsx";
 import * as $HeaderSignUpButton from "./islands/HeaderSignUpButton.tsx";
@@ -39,12 +42,14 @@ const manifest = {
     "./routes/api/firebaseAdmin.ts": $api_firebaseAdmin,
     "./routes/api/joke.ts": $api_joke,
     "./routes/api/login/verifyIdToken.ts": $api_login_verifyIdToken,
+    "./routes/api/search/search.ts": $api_search_search,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/login/index.tsx": $login_index,
     "./routes/requestprofessor/index.tsx": $requestprofessor_index,
     "./routes/reviewprofessors/index.tsx": $reviewprofessors_index,
     "./routes/signup/index.tsx": $signup_index,
+    "./routes/test/index.tsx": $test_index,
   },
   islands: {
     "./islands/AddProfessorReview.tsx": $AddProfessorReview,
@@ -52,6 +57,7 @@ const manifest = {
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
     "./islands/Counter.tsx": $Counter,
+    "./islands/FirestoreQuery.tsx": $FirestoreQuery,
     "./islands/GoogleSignIn.tsx": $GoogleSignIn,
     "./islands/GoogleSignUp.tsx": $GoogleSignUp,
     "./islands/HeaderSignUpButton.tsx": $HeaderSignUpButton,
