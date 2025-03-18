@@ -1,74 +1,55 @@
 /** @jsxImportSource preact */
 "use client";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useState, useRef } from "preact/hooks";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../utils/firebase.ts";
 
-const FIREBASE_AUTH_URL =
-  "https://identitytoolkit.googleapis.com/v1/accounts:lookup";
 const FIREBASE_FIRESTORE_URL =
   "https://firestore.googleapis.com/v1/projects/thehighlandernetwork/databases/(default)/documents/professors";
-const FIREBASE_API_KEY = Deno.env.get("FIREBASE_API_KEY");
 
 export default function ProfessorReviews() {
-  const [professors, setProfessors] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(() => {
-    // ✅ Retrieve user data from localStorage on first load
-    const savedUser = localStorage.getItem("firebaseUser");
-    return savedUser ? JSON.parse(savedUser) : null;
+  const [professors, setProfessors] = useState(() => {
+    // ✅ Load from localStorage on first render
+    const cachedProfessors = localStorage.getItem("cachedProfessors");
+    return cachedProfessors ? JSON.parse(cachedProfessors) : [];
   });
+  const [loading, setLoading] = useState(professors.length === 0); // Avoid loading if cache exists
+  const [user, setUser] = useState(null);
+  const listRef = useRef(null);
 
   useEffect(() => {
-    async function checkAuthStatus() {
-      const idToken = localStorage.getItem("firebaseIdToken"); // ✅ Retrieve auth token
-      if (!idToken) {
-        console.error("❌ User is not authenticated.");
-        setUser(null);
-        return;
-      }
-
-      try {
-        // ✅ Verify token with Firebase Auth REST API
-        const response = await fetch(`${FIREBASE_AUTH_URL}?key=${FIREBASE_API_KEY}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ idToken }),
-        });
-
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.error?.message || "Invalid authentication token");
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        console.log("✅ User is logged in:", firebaseUser);
+        setUser(firebaseUser);
+        
+        // ✅ Only fetch professors if not in cache
+        if (!localStorage.getItem("cachedProfessors")) {
+          fetchProfessors(firebaseUser);
         }
-
-        // ✅ Store user data persistently
-        setUser(data.users[0]);
-        localStorage.setItem("firebaseUser", JSON.stringify(data.users[0]));
-
-        // ✅ Ensure professors are fetched only after authentication
-        fetchProfessors(idToken);
-      } catch (error) {
-        console.error("❌ Authentication error:", error);
-        localStorage.removeItem("firebaseIdToken"); // Remove invalid token
-        localStorage.removeItem("firebaseUser");
+      } else {
+        console.warn("❌ User is not authenticated");
         setUser(null);
       }
-    }
+    });
 
-    checkAuthStatus(); // ✅ Always run authentication check on page load
-  }, []); // ✅ Runs only on initial load
+    return () => unsubscribe();
+  }, []);
 
-  async function fetchProfessors(idToken) {
-    if (!idToken) {
-      console.error("❌ No authentication token found. Cannot fetch professors.");
+  async function fetchProfessors(firebaseUser) {
+    if (!firebaseUser) {
+      console.error("❌ No authenticated user found. Cannot fetch professors.");
       return;
     }
 
     setLoading(true);
     try {
+      const idToken = await firebaseUser.getIdToken();
       const response = await fetch(FIREBASE_FIRESTORE_URL, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${idToken}`, // ✅ Include auth token
+          "Authorization": `Bearer ${idToken}`,
         },
       });
 
@@ -85,7 +66,15 @@ export default function ProfessorReviews() {
 
       console.log("✅ Professors fetched:", professorsList);
       setProfessors(professorsList);
-      localStorage.setItem("professors", JSON.stringify(professorsList)); // ✅ Store in cache
+
+      // ✅ Save to localStorage to prevent redundant Firestore reads
+      localStorage.setItem("cachedProfessors", JSON.stringify(professorsList));
+
+      setTimeout(() => {
+        if (listRef.current) {
+          listRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+        }
+      }, 500);
     } catch (error) {
       console.error("❌ Error fetching professors:", error);
     } finally {
@@ -94,21 +83,37 @@ export default function ProfessorReviews() {
   }
 
   if (!user) {
-    return <p>❌ You must be logged in to view this page.</p>;
+    return (
+      <div className="flex items-center justify-center min-h-screen text-center">
+        <p className="text-red-500 text-lg font-semibold">
+          ❌ You must be logged in to view this page.
+        </p>
+      </div>
+    );
   }
 
-  if (loading) return <p>Loading...</p>;
-
   return (
-    <div>
-      <h1>Professors</h1>
-      <ul>
-        {professors.map((prof) => (
-          <li key={prof.id}>
-            {prof.name} - {prof.department}
-          </li>
-        ))}
-      </ul>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+      <h1 className="text-2xl font-bold text-gray-800 mb-4">Professors</h1>
+
+      {loading ? (
+        <p className="text-lg text-gray-600">Loading...</p>
+      ) : (
+        <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md overflow-y-auto max-h-[500px]">
+          <ul className="space-y-4">
+            {professors.map((prof, index) => (
+              <li
+                key={prof.id}
+                ref={index === professors.length - 1 ? listRef : null}
+                className="p-4 bg-gray-50 border-l-4 border-blue-500 rounded-lg shadow-sm"
+              >
+                <h3 className="font-semibold text-lg text-gray-900">{prof.name}</h3>
+                <p className="text-gray-600">{prof.department}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

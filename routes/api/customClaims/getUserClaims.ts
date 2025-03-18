@@ -1,30 +1,67 @@
-import "https://deno.land/x/dotenv@v3.2.2/mod.ts";
+import { auth } from "../firebaseAdmin.ts";
+import { Handlers } from "$fresh/server.ts";
 
-const FIREBASE_AUTH_URL = "https://identitytoolkit.googleapis.com/v1/accounts:lookup";
-const FIREBASE_API_KEY = Deno.env.get("FIREBASE_API_KEY");
-
-if (!FIREBASE_API_KEY) {
-  throw new Error("❌ Missing FIREBASE_API_KEY in environment variables.");
-}
-
-/**
- * Get Firebase user claims via REST API
- */
-export async function getUserClaims(idToken: string) {
-  const response = await fetch(`${FIREBASE_AUTH_URL}?key=${FIREBASE_API_KEY}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ idToken }),
-  });
-
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.error?.message || "Failed to get user claims");
+export async function getUserClaims(
+  uid: string,
+): Promise<Record<string, unknown> | undefined> {
+  try {
+    // Retrieve custom claims from Firebase
+    const user = await auth.getUser(uid);
+    console.log("Custom Claims:", user.customClaims);
+    return user.customClaims;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    } else {
+      console.error("An unknown error occurred", error);
+    }
+    return {};
   }
-
-  return data.users[0]; // Returns user details & claims
 }
 
-console.log("✅ Firebase Authentication REST API is Ready");
+export const handler: Handlers = {
+  // Retrieve a user's role
+  async GET(req) {
+    try {
+      const { uid } = await req.json(); // Only accept UID
+
+      console.log("Received request to retrieve role for user: ", uid);
+
+      // Return error if no uid is included
+      if (!uid) {
+        return new Response(
+          JSON.stringify({ success: false, error: "UID is required" }),
+          { status: 400 },
+        );
+      }
+
+      const role = await getUserClaims(uid);
+
+      return new Response(
+        JSON.stringify({ success: true, role: role }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return new Response(
+          JSON.stringify({ success: false, error: error.message }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      } else {
+        return new Response(
+          JSON.stringify({ success: false, error: error }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      }
+    }
+  },
+};
