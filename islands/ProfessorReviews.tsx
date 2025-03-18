@@ -93,8 +93,8 @@ export default function ProfessorReviews() {
   return (
     <div className="flex min-h-screen bg-gray-100 p-6">
       {/* Sidebar */}
-      <aside className="w-1/4 bg-white shadow-lg p-6 rounded-md">
-        <h2 className="text-xl font-bold mb-6">Name</h2>
+      <aside className="w-1/4 bg-white shadow-lg p-6 rounded-md max-h-[600px] overflow-auto">
+      <h2 className="text-xl font-bold mb-6">Name</h2>
         <div className="mb-4">
           <input
             type="text"
@@ -121,7 +121,7 @@ export default function ProfessorReviews() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 bg-white shadow-lg p-6 rounded-md ml-6 overflow-y-auto max-h-[500px]">
+      <main className="flex-1 bg-white shadow-lg p-6 rounded-md ml-6 overflow-y-auto max-h-[600px]">
         <h2 className="text-xl font-bold mb-6">Name</h2>
 
         {loading ? (
