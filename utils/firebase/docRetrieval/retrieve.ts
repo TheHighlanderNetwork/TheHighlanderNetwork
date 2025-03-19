@@ -1,5 +1,5 @@
 import { db } from "../../firebase.ts";
-import { collection, doc, getDoc, getDocs } from "firestore";
+import { collection, doc, getDoc, getDocs, query, where } from "firestore";
 import { DocumentData } from "npm:firebase-admin/firestore";
 
 // Retrieves all documents from a given collection
@@ -48,4 +48,27 @@ export async function retrieveDocument(
       throw new Error("Unknown error occurred");
     }
   }
+}
+
+// Queries a collection for documents that have fields equal to the filters
+export async function fetchMatchedData(
+  collectionName: string,
+  filters: Record<string, unknown>,
+) {
+  const queryRef = collection(db, collectionName);
+  let q = queryRef; // Base query
+
+  // Iterate over each key in filters and apply where() conditions
+  Object.entries(filters).forEach(([key, value]) => {
+    q = query(q, where(key, "==", value));
+  });
+
+  // Execute the query
+  const querySnapshot = await getDocs(q);
+  const results = querySnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  return results;
 }

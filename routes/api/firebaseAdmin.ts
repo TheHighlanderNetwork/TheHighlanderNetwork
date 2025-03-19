@@ -80,7 +80,9 @@ let adminApp;
 if (!getApps().length) {
   adminApp = initializeApp({
     credential: cert(
-      JSON.parse(Deno.env.get("FIREBASE_SERVICE_ACCOUNT") || "{}"),
+      JSON.parse(
+        Deno.env.get("FIREBASE_SERVICE_ACCOUNT")?.replace(/\n/g, "\\n") || "{}",
+      ),
     ),
   });
   console.log("Firebase Admin initialized");

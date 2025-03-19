@@ -29,7 +29,10 @@ const firebaseConfig = {
 console.log("Initializing Client Side Firebase App...");
 let app;
 if (!getApps().length) {
-  app = initializeApp(firebaseConfig, "highlandernetwork");
+  app = initializeApp(firebaseConfig, {
+    experimentalForceLongPolling: true,
+    useFetchStreams: false,
+  });
   console.log("Firebase Client App initialized");
 } else {
   app = getApp(); // Reuse existing app instance
