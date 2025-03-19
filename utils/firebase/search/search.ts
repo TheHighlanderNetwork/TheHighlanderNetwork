@@ -11,6 +11,7 @@ export function search(
 > {
   try {
     // Check if query is empty, return all results if empty
+    // Omitted to reduce number of reads
     // if (!query.trim()) {
     //   return Promise.resolve(
     //     Object.keys(entryData).map((id) => ({
