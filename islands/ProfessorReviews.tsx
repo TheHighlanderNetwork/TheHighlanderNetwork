@@ -64,17 +64,15 @@ export default function ProfessorReviews() {
       console.log("✅ Professors fetched:", professorsList);
       setProfessors(professorsList);
 
-      // ✅ Save to localStorage to prevent redundant Firestore reads
       localStorage.setItem("cachedProfessors", JSON.stringify(professorsList));
 
-      // ✅ Auto-scroll to the last item smoothly when new professors are loaded
       setTimeout(() => {
         if (listRef.current) {
           listRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
         }
       }, 500);
     } catch (error) {
-      console.error("❌ Error fetching professors:", error);
+      console.error(" Error fetching professors:", error);
     } finally {
       setLoading(false);
     }

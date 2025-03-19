@@ -22,7 +22,6 @@ export default function AddProfessorReview({ professorId, onClose }: AddProfesso
 
     setIsSubmitting(true);
     try {
-      // Mock API Call to submit review (replace with actual API integration)
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       setMessage("✅ Review submitted successfully!");
@@ -36,6 +35,8 @@ export default function AddProfessorReview({ professorId, onClose }: AddProfesso
       setIsSubmitting(false);
     }
   };
+
+
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
