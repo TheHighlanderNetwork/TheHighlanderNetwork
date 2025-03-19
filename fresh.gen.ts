@@ -21,6 +21,7 @@ import * as $BusinessDashboard from "./islands/BusinessDashboard.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
 import * as $Counter from "./islands/Counter.tsx";
+import * as $CourseInfo from "./islands/CourseInfo.tsx";
 import * as $GoogleSignIn from "./islands/GoogleSignIn.tsx";
 import * as $GoogleSignUp from "./islands/GoogleSignUp.tsx";
 import * as $HeaderSignUpButton from "./islands/HeaderSignUpButton.tsx";
@@ -54,6 +55,7 @@ const manifest = {
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
     "./islands/Counter.tsx": $Counter,
+    "./islands/CourseInfo.tsx": $CourseInfo,
     "./islands/GoogleSignIn.tsx": $GoogleSignIn,
     "./islands/GoogleSignUp.tsx": $GoogleSignUp,
     "./islands/HeaderSignUpButton.tsx": $HeaderSignUpButton,

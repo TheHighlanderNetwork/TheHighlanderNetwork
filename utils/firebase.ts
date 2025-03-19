@@ -1,5 +1,6 @@
 //utils/firebase.ts
 import { getApp, getApps, initializeApp } from "firebase/app";
+import { getFirestore } from "firestore";
 import { getAuth, GoogleAuthProvider, setPersistence, browserLocalPersistence } from "firebase/auth";
 const isDeno = typeof Deno !== "undefined" && Deno.env;
 
@@ -38,6 +39,7 @@ if (!getApps().length) {
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+const db = getFirestore(app);
 
 
 setPersistence(auth, browserLocalPersistence)
@@ -45,4 +47,4 @@ setPersistence(auth, browserLocalPersistence)
   .catch((error) => console.error("❌ Error setting auth persistence:", error));
 
 
-export { auth, provider };
+export { auth, db, provider };
