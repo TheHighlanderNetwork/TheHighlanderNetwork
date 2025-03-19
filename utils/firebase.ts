@@ -1,6 +1,8 @@
 //utils/firebase.ts
 import { getApp, getApps, initializeApp } from "firebase/app";
+import { getFirestore } from "firestore";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
+
 const isDeno = typeof Deno !== "undefined" && Deno.env;
 
 const firebaseConfig = {
@@ -27,7 +29,10 @@ const firebaseConfig = {
 console.log("Initializing Client Side Firebase App...");
 let app;
 if (!getApps().length) {
-  app = initializeApp(firebaseConfig, "highlandernetwork");
+  app = initializeApp(firebaseConfig, {
+    experimentalForceLongPolling: true,
+    useFetchStreams: false,
+  });
   console.log("Firebase Client App initialized");
 } else {
   app = getApp(); // Reuse existing app instance
@@ -35,5 +40,6 @@ if (!getApps().length) {
 }
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+const db = getFirestore(app);
 
-export { auth, provider };
+export { auth, db, provider };

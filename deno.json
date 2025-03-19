@@ -35,7 +35,9 @@
     "$std/": "https://deno.land/std@0.216.0/",
     "npm:firebase-admin/": "npm:firebase-admin@11.10.1/",
     "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
-    "firebase/auth": "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"
+    "firebase/auth": "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js",
+    "firestore": "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js",
+    "fuse": "https://cdn.skypack.dev/fuse.js@6.6.2"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
