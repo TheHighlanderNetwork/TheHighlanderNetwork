@@ -3,7 +3,6 @@ export default function ReviewIsland(
 ) {
   return (
     <div class="review">
-      <p>{review.content}</p>
       <p>
         <em>Rating: {review.rating}/5</em>
       </p>
