@@ -1,56 +1,14 @@
 import Fuse from "fuse";
-import { db } from "../../firebase.ts";
-import { collection, doc, getDoc, getDocs } from "firestore";
 import { DocumentData } from "npm:firebase-admin/firestore";
+import { retrieveDocument } from "../docRetrieval/retrieve.ts";
 
-export async function retrieveAllDocuments(collec: string) {
-  try {
-    console.log("Fetching data");
-    console.time("Retrieved all entries");
-    // Retrieve document from
-    const querySnapshot = await getDocs(collection(db, collec));
-    console.timeEnd("Retrieved all entries");
-
-    console.log(querySnapshot);
-    return querySnapshot.docs.map((doc) => doc.data());
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error("Error while retrieving document data: ", error.message);
-    } else {
-      throw new Error("Unknown error occurred");
-    }
-  }
-}
-
-export async function retrieveDocument(
-  collec: string,
-  docID: string,
-): Promise<DocumentData> {
-  try {
-    console.log("Fetching data");
-
-    console.time("Retrieve document");
-    const docRef = doc(db, collec, docID); // "yourCollection" is the collection name
-    const docSnapshot = await getDoc(docRef);
-    console.timeEnd("Retrieve document");
-
-    // console.log(docSnapshot.data());
-
-    return docSnapshot.data();
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error("Error while retrieving document data: ", error.message);
-      return Promise.reject(error);
-    } else {
-      throw new Error("Unknown error occurred");
-    }
-  }
-}
-
+// Searches the given documents with the query using Fuse
 export function search(
   entryData: DocumentData,
   query: string,
-): Promise<{ item: { id: string; name: string, type: number }; score: number }[]> {
+): Promise<
+  { item: { id: string; name: string; type: number }; score: number }[]
+> {
   try {
     // Check if query is empty, return all results if empty
     // if (!query.trim()) {
@@ -65,7 +23,7 @@ export function search(
     //     })),
     //   );
     // }
-    
+
     // Format DocumentData to search with Fuse
     const formattedCourses = Object.keys(entryData).map((id) => ({
       id: id, // Store the ID as 'id'
@@ -77,7 +35,7 @@ export function search(
     // Setup Fuse.js
     const options = {
       keys: ["name"], // Search by name
-      threshold: 0.3, 
+      threshold: 0.3,
       includeScore: true,
     };
     const fuse = new Fuse(formattedCourses, options);
@@ -96,9 +54,10 @@ export function search(
   }
 }
 
+// Retrives the full information of all search results
 export async function retrieveDocFromSearch(
   searchResult: {
-    item: { id: string; name: string, type: number };
+    item: { id: string; name: string; type: number };
     score: number;
   }[],
 ): Promise<DocumentData[]> {
@@ -106,7 +65,10 @@ export async function retrieveDocFromSearch(
     const allData: DocumentData[] = [];
 
     for (const result of searchResult) {
-      const currDoc = await retrieveDocument(getCollectionFromType(result.item.type), result.item.id);
+      const currDoc = await retrieveDocument(
+        getCollectionFromType(result.item.type),
+        result.item.id,
+      );
       if (!currDoc) {
         console.log(`Document with ID ${result.item.id} does not exist.`);
         continue;
@@ -124,6 +86,7 @@ export async function retrieveDocFromSearch(
   }
 }
 
+// Helper function to add typing to searches
 function transformDocumentData(
   docData: DocumentData,
   collection: string,
@@ -167,7 +130,9 @@ function getCollectionFromType(type: number): string {
 export async function userSearch(
   filter: number,
   query: string,
-): Promise<{ item: { id: string; name: string, type: number }; score: number }[]> {
+): Promise<
+  { item: { id: string; name: string; type: number }; score: number }[]
+> {
   try {
     if (filter < 0 || filter > 15) {
       throw new Error("The bitField must be a 4-bit value (between 0 and 15)");

@@ -1,5 +1,8 @@
 import { useState } from "preact/hooks";
-import { userSearch, retrieveDocFromSearch } from "../utils/firebase/search/search.ts";
+import {
+  retrieveDocFromSearch,
+  userSearch,
+} from "../utils/firebase/search/search.ts";
 
 function FirestoreQuery() {
   const [data, setData] = useState<unknown[]>([]);
@@ -7,7 +10,9 @@ function FirestoreQuery() {
   const [bitfield, setBitfield] = useState(0b1100);
 
   const handleSearch = async () => {
-    const result = await retrieveDocFromSearch(await userSearch(bitfield, query));
+    const result = await retrieveDocFromSearch(
+      await userSearch(bitfield, query),
+    );
     setData([result]);
   };
 
