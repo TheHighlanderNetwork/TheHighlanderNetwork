@@ -10,7 +10,10 @@ export default function CoursePage(
       <CourseInfo course_id={params.course_id} />
 
       {/* Reviews Island */}
-      <ReviewsIsland course_id={params.course_id} query ={{ class: params.course_id, type: 2 }}/>
+      <ReviewsIsland
+        course_id={params.course_id}
+        query={{ class: params.course_id, type: 2 }}
+      />
     </div>
   );
 }

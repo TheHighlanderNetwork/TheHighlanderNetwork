@@ -1,10 +1,9 @@
 import { Head } from "$fresh/runtime.ts";
 import UsernameHeader from "../../islands/UsernameHeader.tsx";
-import ProfessorReviews from "../../islands/ProfessorReviews.tsx";
-import AddProfessorReviewButton from "../../islands/AddProfessorReviewButton.tsx";
-import RequestProfessorButton from "../../islands/RequestProfessorButton.tsx";
+import BusinessReview from "../../islands/BusinessReview.tsx";
+import AddBusinessReviewButton from "../../islands/AddBusinessReviewButton.tsx";
 
-export default function ProfessorReviewsPage() {
+export default function BusinessReviewsPage() {
   return (
     <>
       <Head>
@@ -22,12 +21,11 @@ export default function ProfessorReviewsPage() {
             </div>
           </a>
           <div className="flex items-center gap-4">
-            <RequestProfessorButton />
-            <AddProfessorReviewButton />
+            <AddBusinessReviewButton />
             <UsernameHeader />
           </div>
         </div>
-        <ProfessorReviews />
+        <BusinessReview />
       </div>
     </>
   );

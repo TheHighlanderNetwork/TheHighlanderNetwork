@@ -1,5 +1,13 @@
 import { db } from "../../firebase.ts";
-import { collection, doc, getDoc, getDocs, query, QuerySnapshot, where } from "firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  QuerySnapshot,
+  where,
+} from "firestore";
 import { DocumentData } from "npm:firebase-admin/firestore";
 
 // Retrieves all documents from a given collection
@@ -75,19 +83,19 @@ export async function fetchMatchedData(
 
 // Queries a collection for documents that have fields equal to the filters, returns the full snapshot instead of the document data
 export async function fetchMatchedDataSnapshot(
-    collectionName: string,
-    filters: Record<string, unknown>,
+  collectionName: string,
+  filters: Record<string, unknown>,
 ): Promise<QuerySnapshot> {
-    const queryRef = collection(db, collectionName);
-    let q = queryRef; // Base query
-  
-    // Iterate over each key in filters and apply where() conditions
-    Object.entries(filters).forEach(([key, value]) => {
-      q = query(q, where(key, "==", value));
-    });
-  
-    // Execute the query
-    const querySnapshot = await getDocs(q);
-  
-    return querySnapshot;
-  }
+  const queryRef = collection(db, collectionName);
+  let q = queryRef; // Base query
+
+  // Iterate over each key in filters and apply where() conditions
+  Object.entries(filters).forEach(([key, value]) => {
+    q = query(q, where(key, "==", value));
+  });
+
+  // Execute the query
+  const querySnapshot = await getDocs(q);
+
+  return querySnapshot;
+}
