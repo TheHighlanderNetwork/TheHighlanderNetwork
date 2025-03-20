@@ -41,7 +41,6 @@ import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
 import * as $ClubCreationForm from "./islands/ClubCreationForm.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import * as $CourseInfo from "./islands/CourseInfo.tsx";
-import * as $CreateReviewIsland from "./islands/CreateReviewIsland.tsx";
 import * as $Filters from "./islands/Filters.tsx";
 import * as $FiltersVertical from "./islands/FiltersVertical.tsx";
 import * as $FirestoreQuery from "./islands/FirestoreQuery.tsx";
@@ -116,7 +115,6 @@ const manifest = {
     "./islands/ClubCreationForm.tsx": $ClubCreationForm,
     "./islands/Counter.tsx": $Counter,
     "./islands/CourseInfo.tsx": $CourseInfo,
-    "./islands/CreateReviewIsland.tsx": $CreateReviewIsland,
     "./islands/Filters.tsx": $Filters,
     "./islands/FiltersVertical.tsx": $FiltersVertical,
     "./islands/FirestoreQuery.tsx": $FirestoreQuery,

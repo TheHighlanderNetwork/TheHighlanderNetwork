@@ -2,31 +2,22 @@
 import { useEffect, useState } from "preact/hooks";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../utils/firebase.ts";
+import { userSearch } from "../utils/firebase/search/search.ts";
+import { createReview } from "../utils/firebase/createReview.ts";
 
-interface Business {
-  id: number;
+interface Entry {
+  id: string;
   name: string;
+  type: number;
 }
 
-const mockBusinesses: Business[] = [
-  { id: 1, name: "Coffee Haven" },
-  { id: 2, name: "Tech Solutions" },
-  { id: 3, name: "Book Nook" },
-  { id: 4, name: "Green Eats" },
-];
+const mockBusinesses: { id: string; name: string; type: number }[] =
+  (await userSearch(15, "")).map((result) => result.item);
 
-export default function AddBusinessReview({
-  businessId: businessId,
-  onClose,
-}: {
-  businessId: number;
-  onClose: () => void;
-}) {
-  const [isOpen, setIsOpen] = useState(true);
+export default function AddBusinessReview() {
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const initialBusiness = mockBusinesses.find((p) => p.id === businessId) ||
-    mockBusinesses[0];
-  const [selectedBusiness, setSelectedBusiness] = useState<Business>(
+  const initialBusiness = mockBusinesses[0];
+  const [selectedBusiness, setSelectedBusiness] = useState<Entry>(
     initialBusiness,
   );
   const [searchTerm, setSearchTerm] = useState(selectedBusiness.name);
@@ -42,32 +33,21 @@ export default function AddBusinessReview({
     return () => unsubscribe();
   }, []);
 
-  function handleClose() {
-    if (reviewText.trim() !== "") {
-      const confirmClose = confirm(
-        "You have typed some text in the review. Close anyway?",
-      );
-      if (!confirmClose) {
-        return;
-      }
-    }
-    setIsOpen(false);
-    setRating(0);
-    setHoverRating(0);
-    setReviewText("");
-    onClose();
-  }
-
-  function handleSubmit(e: Event) {
+  async function handleSubmit(e: Event) {
     e.preventDefault();
     if (!isSignedIn) {
       alert("You must be signed in to add a review.");
       return;
     }
-    alert(
-      `Review submitted!\nBusiness: ${selectedBusiness.name}\nRating: ${rating}\nReview: ${reviewText}`,
+    await createReview(
+      selectedBusiness.id,
+      reviewText,
+      rating,
+      selectedBusiness.type,
     );
-    handleClose();
+    alert(
+      `Review submitted!`, // \nBusiness: ${selectedBusiness.name}\nRating: ${rating}\nReview: ${reviewText}`,
+    );
   }
 
   function renderStars() {
@@ -94,13 +74,11 @@ export default function AddBusinessReview({
     return <div className="flex mb-2">{stars}</div>;
   }
 
-  if (!isOpen) return null;
-
   const filteredBusiness = mockBusinesses.filter((p) =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  function handleSelectBusiness(prof: Business) {
+  function handleSelectBusiness(prof: Entry) {
     setSelectedBusiness(prof);
     setSearchTerm(prof.name);
     setDropdownOpen(false);
@@ -109,13 +87,6 @@ export default function AddBusinessReview({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[999]">
       <div className="bg-white p-6 rounded-md w-full max-w-md relative">
-        <button
-          type="button"
-          onClick={handleClose}
-          className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
-        >
-          ✕
-        </button>
         <h2 className="text-xl font-bold mb-4">Add Review</h2>
         <div className="mb-4 relative">
           <label className="block mb-2 font-medium">
@@ -163,13 +134,6 @@ export default function AddBusinessReview({
           />
         </div>
         <div className="flex justify-end gap-4">
-          <button
-            type="button"
-            onClick={handleClose}
-            className="px-4 py-2 text-sm font-medium text-gray-600"
-          >
-            Cancel
-          </button>
           <button
             type="button"
             onClick={handleSubmit}
