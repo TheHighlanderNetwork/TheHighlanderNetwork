@@ -95,7 +95,7 @@ export default function SearchWrapper(
         </div>
         <div className="mt-4">
           <p className="text-sm text-gray-600">
-            {query ? `Results for "${query}"` : 'Results for'}
+            {query ? `Results for "${query}"` : "Results for"}
           </p>
           <p className="text-xs text-gray-400">
             {results.length} result{results.length !== 1 && "s"}
