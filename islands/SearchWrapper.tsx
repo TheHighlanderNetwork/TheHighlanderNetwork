@@ -52,7 +52,7 @@ export default function SearchWrapper(
     doSearch(query, bitfield);
   }, []);
 
-  function handleSearch(newQuery: string) {
+  function _handleSearch(newQuery: string) {
     setQuery(newQuery);
     doSearch(newQuery, bitfield);
   }
@@ -83,7 +83,7 @@ export default function SearchWrapper(
             */
             }
             <div className="flex-1 min-w-[300px] max-w-2xl">
-              <SearchBox onSearch={handleSearch} initialQuery={query} />
+              <SearchBox initialQuery={query} />
             </div>
           </div>
           <div className="flex items-center gap-6">
