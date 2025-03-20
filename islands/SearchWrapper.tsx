@@ -3,57 +3,71 @@ import { useEffect, useState } from "preact/hooks";
 import UsernameHeader from "./UsernameHeader.tsx";
 import SearchBox from "./SearchBox.tsx";
 import FiltersVertical from "./FiltersVertical.tsx";
-import SearchResults, { SearchItem } from "./SearchResults.tsx";
-import {
-  retrieveDocFromSearch,
-  userSearch,
-} from "../utils/firebase/search/search.ts";
-import { retrieveDocument } from "../utils/firebase/docRetrieval/retrieve.ts";
+import SearchResults from "./SearchResults.tsx";
+import { userSearch } from "../utils/firebase/search/search.ts";
 
-interface SearchWrapperProps {
-  initialQuery?: string;
+interface SearchIslandProps {
+  initialQuery: string;
+  initialPage: number;
+  initialFilter: number;
 }
-
 export default function SearchWrapper(
-  { initialQuery = "" }: SearchWrapperProps,
+  { initialQuery, initialPage, initialFilter }: SearchIslandProps,
 ) {
-  const [results, setResults] = useState<SearchItem[]>([]);
-  const [loaded, setLoaded] = useState(false);
-  const [bitfield, setBitfield] = useState(0b1100);
   const [query, setQuery] = useState(initialQuery);
+  const [page, setPage] = useState(initialPage);
+  const [results, setResults] = useState<
+    { item: { id: string; name: string; type: number }; score: number }[]
+  >([]);
+  const [maxPage, setMaxPage] = useState(0);
+  const [bitfield, setBitfield] = useState(initialFilter);
 
-  // We'll store a page number in state
-  const [page, setPage] = useState(1);
+  const [numResults, setNumResults] = useState(0);
 
   // Ensure URL has &page=1 if missing
   useEffect(() => {
     ensurePageParam();
     doSearch(query, bitfield);
-  }, []);
+  }, [page, query, bitfield]);
 
   async function doSearch(q: string, b: number) {
     try {
-      console.log("Performing search with bitfield:", b, "and query:", q);
-      const fuseResults = await userSearch(b, q);
-      const docData = await retrieveDocFromSearch(fuseResults);
-      const finalData = Array.isArray(docData) ? docData : [docData];
+      // Needs bitfield to add filters
+      const data = await userSearch(b, q);
+      setMaxPage(Math.ceil(data.length / 10));
+      setNumResults(data.length);
 
-      let typedData: SearchItem[] = finalData.map((item) => item as SearchItem);
+      if (page > Math.ceil(data.length / 10)) {
+        setPage(Math.ceil(data.length / 10)); // Adjust page if it exceeds maxPage
+      }
 
-      // Convert classes[] → courseNames[]
-      const allCourses = await retrieveDocument("all_entries", "courses");
-      typedData = typedData.map((item) => {
-        if (item.classes && Array.isArray(item.classes)) {
-          const courseNames = item.classes
-            .map((id) => allCourses[id] || "Unknown Course")
-            .sort();
-          return { ...item, courseNames };
-        }
-        return item;
-      });
+      console.log("set results");
+      setResults(data.slice(10 * (page - 1), 10 + 10 * (page - 1)));
 
-      setResults(typedData);
-      setLoaded(true);
+      // console.log("Performing search with bitfield:", b, "and query:", q);
+      // const fuseResults = await userSearch(b, q);
+      // console.log("Search results:", fuseResults);
+      // const docData = await retrieveDocFromSearch();
+
+      // console.log("Full results:", docData);
+      // const finalData = Array.isArray(docData) ? docData : [docData];
+      // console.log("Final results:", finalData);
+      // let typedData: SearchItem[] = finalData.map((item) => item as SearchItem);
+
+      // // Convert classes[] → courseNames[]
+      // const allCourses = await retrieveDocument("all_entries", "courses");
+      // typedData = typedData.map((item) => {
+      //   if (item.classes && Array.isArray(item.classes)) {
+      //     const courseNames = item.classes
+      //       .map((id) => allCourses[id] || "Unknown Course")
+      //       .sort();
+      //     return { ...item, courseNames };
+      //   }
+      //   return item;
+      // });
+
+      // setResults(typedData);
+      // setLoaded(true);
     } catch (err) {
       console.error("Error fetching data in SearchWrapper:", err);
     }
@@ -65,18 +79,21 @@ export default function SearchWrapper(
     setPage(1);
 
     doSearch(newQuery, bitfield);
-    updateUrl(newQuery, 1);
+    updateUrl(newQuery, 1, bitfield);
   }
 
   function handleFilterChange(newBitfield: number) {
     setBitfield(newBitfield);
     doSearch(query, newBitfield);
+    updateUrl(query, page, bitfield);
   }
 
   function nextPage() {
-    const newPage = page + 1;
-    setPage(newPage);
-    updateUrl(query, newPage);
+    if (page < maxPage) {
+      const newPage = page + 1;
+      setPage(newPage);
+      updateUrl(query, newPage, bitfield);
+    }
     // If you want to do actual paging, call doSearch(query, bitfield, newPage)
   }
 
@@ -84,18 +101,18 @@ export default function SearchWrapper(
     if (page > 1) {
       const newPage = page - 1;
       setPage(newPage);
-      updateUrl(query, newPage);
+      updateUrl(query, newPage, bitfield);
       // doSearch(query, bitfield, newPage)
     }
   }
 
   // Updates the browser URL with &page=...
-  function updateUrl(q: string, p: number) {
+  function updateUrl(q: string, p: number, filter: number) {
     const encodedQuery = encodeURIComponent(q);
     globalThis.history.pushState(
       {},
       "",
-      `/searchwrapper?query=${encodedQuery}&page=${p}`,
+      `/searchwrapper?query=${encodedQuery}&page=${p}&filter=${filter}`,
     );
   }
 
@@ -136,7 +153,7 @@ export default function SearchWrapper(
             {query ? `Results for "${query}"` : "Results for"}
           </p>
           <p className="text-xs text-gray-400">
-            {results.length} result{results.length !== 1 && "s"}
+            {numResults} result{numResults !== 1 && "s"}
           </p>
         </div>
       </div>
@@ -157,15 +174,23 @@ export default function SearchWrapper(
             </select>
           </div>
           <div className="text-sm mt-6">
-            <p className="text-gray-500">Can't find my class</p>
-            <p className="text-xs text-gray-400">ADS</p>
+            {
+              /* <p className="text-gray-500">Can't find my class</p>
+            <p className="text-xs text-gray-400">ADS</p> */
+            }
           </div>
         </aside>
 
         <main className="flex-1 px-4 py-6 overflow-auto">
-          {loaded
-            ? <SearchResults data={results} />
-            : <p className="text-sm text-gray-500">Loading data...</p>}
+          {results
+            ? results.map((result) => (
+              <SearchResults
+                key={result.item.id}
+                id={result.item.id}
+                type={result.item.type}
+              />
+            ))
+            : "No results found."}
         </main>
       </div>
 
@@ -178,7 +203,7 @@ export default function SearchWrapper(
         >
           <img src="/left.svg" alt="Prev" width="20" height="20" />
         </button>
-        <span className="text-sm">Page {page}</span>
+        <span className="text-sm">Page {page} of {maxPage}</span>
         <button
           type="button"
           onClick={nextPage}
