@@ -1,4 +1,4 @@
-import { Timestamp } from "firestore";
+import type { Timestamp } from "npm:firebase-admin/firestore";
 import { db } from "../../../routes/api/firebaseAdmin.ts";
 
 export type Review = {

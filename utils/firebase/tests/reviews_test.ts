@@ -5,7 +5,7 @@ import {
   updateReview,
 } from "../crud/reviews.ts";
 import { db } from "../../../routes/api/firebaseAdmin.ts";
-import { Timestamp } from "firestore";
+import { Timestamp } from "npm:firebase-admin/firestore";
 
 Deno.test("Review CRUD Operations", async (t) => {
   let reviewId: string;
