@@ -4,7 +4,7 @@ import ReviewIsland from "./Review.tsx"; // Your individual review island compon
 import { fetchMatchedData } from "../utils/firebase/docRetrieval/retrieve.ts";
 
 export default function ReviewsIsland(
-  { query }: { course_id: string; query: Record<string, unknown> },
+  { query }: { query: Record<string, unknown> },
 ) {
   // Signal to store reviews
   const reviews = useSignal<Record<string, string>[]>([]);

@@ -17,6 +17,7 @@ import * as $login_index from "./routes/login/index.tsx";
 import * as $requestprofessor_index from "./routes/requestprofessor/index.tsx";
 import * as $reviewbusinesses_index from "./routes/reviewbusinesses/index.tsx";
 import * as $reviewprofessors_index from "./routes/reviewprofessors/index.tsx";
+import * as $search_index from "./routes/search/index.tsx";
 import * as $signup_index from "./routes/signup/index.tsx";
 import * as $test_index from "./routes/test/index.tsx";
 import * as $AddBusinessReview from "./islands/AddBusinessReview.tsx";
@@ -37,6 +38,8 @@ import * as $ProfessorReviews from "./islands/ProfessorReviews.tsx";
 import * as $RequestProfessorButton from "./islands/RequestProfessorButton.tsx";
 import * as $Review from "./islands/Review.tsx";
 import * as $Reviews from "./islands/Reviews.tsx";
+import * as $Search from "./islands/Search.tsx";
+import * as $SearchResults from "./islands/SearchResults.tsx";
 import * as $UsernameHeader from "./islands/UsernameHeader.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -59,6 +62,7 @@ const manifest = {
     "./routes/requestprofessor/index.tsx": $requestprofessor_index,
     "./routes/reviewbusinesses/index.tsx": $reviewbusinesses_index,
     "./routes/reviewprofessors/index.tsx": $reviewprofessors_index,
+    "./routes/search/index.tsx": $search_index,
     "./routes/signup/index.tsx": $signup_index,
     "./routes/test/index.tsx": $test_index,
   },
@@ -81,6 +85,8 @@ const manifest = {
     "./islands/RequestProfessorButton.tsx": $RequestProfessorButton,
     "./islands/Review.tsx": $Review,
     "./islands/Reviews.tsx": $Reviews,
+    "./islands/Search.tsx": $Search,
+    "./islands/SearchResults.tsx": $SearchResults,
     "./islands/UsernameHeader.tsx": $UsernameHeader,
   },
   baseUrl: import.meta.url,

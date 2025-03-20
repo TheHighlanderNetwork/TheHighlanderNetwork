@@ -11,7 +11,6 @@ export default function CoursePage(
 
       {/* Reviews Island */}
       <ReviewsIsland
-        course_id={params.course_id}
         query={{ class: params.course_id, type: 2 }}
       />
     </div>
