@@ -22,20 +22,23 @@ export default function SearchWrapper(
   const [bitfield, setBitfield] = useState(0b1100);
   const [query, setQuery] = useState(initialQuery);
 
+  // Perform Firestore search
   async function doSearch(q: string, b: number) {
     try {
+      console.log("Performing search with bitfield:", b, "and query:", q);
+
       const fuseResults = await userSearch(b, q);
       const docData = await retrieveDocFromSearch(fuseResults);
-
       const finalData = Array.isArray(docData) ? docData : [docData];
+
       let typedData: SearchItem[] = finalData.map((item) => item as SearchItem);
 
       const allCourses = await retrieveDocument("all_entries", "courses");
       typedData = typedData.map((item) => {
         if (item.classes && Array.isArray(item.classes)) {
-          const courseNames = item.classes.map((id) =>
-            allCourses[id] || "Unknown Course"
-          ).sort();
+          const courseNames = item.classes
+            .map((id) => allCourses[id] || "Unknown Course")
+            .sort();
           return { ...item, courseNames };
         }
         return item;
@@ -48,15 +51,22 @@ export default function SearchWrapper(
     }
   }
 
+  // On mount, do an initial search with initialQuery + bitfield
   useEffect(() => {
     doSearch(query, bitfield);
   }, []);
 
-  function _handleSearch(newQuery: string) {
+  // Called by SearchBox when user clicks search icon/button
+  function handleSearch(newQuery: string) {
     setQuery(newQuery);
     doSearch(newQuery, bitfield);
+
+    // Update the URL query param (without reloading the page)
+    const encoded = encodeURIComponent(newQuery);
+    globalThis.history.pushState({}, "", `/searchwrapper?query=${encoded}`);
   }
 
+  // Called by FiltersVertical
   function handleFilterChange(newBitfield: number) {
     setBitfield(newBitfield);
     doSearch(query, newBitfield);
@@ -73,17 +83,18 @@ export default function SearchWrapper(
                 <h1 className="text-blue">Network</h1>
               </div>
             </a>
-
-            {
-              /*
-              Use dynamic sizing for the SearchBox container:
-              - flex-1: let it grow to fill remaining horizontal space
-              - min-w-[300px]: ensure it doesn't shrink below 300px
-              - max-w-2xl: cap it at ~42rem
-            */
-            }
             <div className="flex-1 min-w-[300px] max-w-2xl">
-              <SearchBox initialQuery={query} />
+              {
+                /*
+                Pass handleSearch to SearchBox.
+                Now the child can call onResults(query),
+                and we update the URL + doSearch.
+              */
+              }
+              <SearchBox
+                onResults={handleSearch}
+                initialQuery={query}
+              />
             </div>
           </div>
           <div className="flex items-center gap-6">
@@ -93,6 +104,7 @@ export default function SearchWrapper(
             <UsernameHeader />
           </div>
         </div>
+
         <div className="mt-4">
           <p className="text-sm text-gray-600">
             {query ? `Results for "${query}"` : "Results for"}
