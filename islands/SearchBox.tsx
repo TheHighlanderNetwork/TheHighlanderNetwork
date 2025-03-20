@@ -18,6 +18,15 @@ export default function SearchBox({
   }, [initialQuery]);
 
   function handleSearch() {
+    // 1) Update the browser URL to have ?query=...&page=1
+    const encoded = encodeURIComponent(query);
+    globalThis.history.pushState(
+      {},
+      "",
+      `/searchwrapper?query=${encoded}&page=1`,
+    );
+
+    // 2) Then call the parent's callback
     onResults(query);
   }
 
@@ -61,8 +70,9 @@ export default function SearchBox({
 
       {
         /*
-        Example: If you want a "Search" button or bitfield checkboxes, do so here
-      */
+    	If you want a separate "Search" button or checkboxes for bitfield,
+    	you can add them here.
+  	*/
       }
     </div>
   );
