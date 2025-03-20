@@ -15,7 +15,7 @@ export async function createClub(data: Club) {
   const all_entries = db.collection("all_entries").doc(collection);
   await docRef.set(data);
 
-  await all_entries.update({[docRef.id] : data.name});
+  await all_entries.update({ [docRef.id]: data.name });
   return { id: docRef.id, ...data };
 }
 
