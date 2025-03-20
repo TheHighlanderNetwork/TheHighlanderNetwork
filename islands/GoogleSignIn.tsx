@@ -6,6 +6,7 @@ import { verifyUserToken } from "../utils/firebase/verify/verifyToken.ts";
 
 export default function GoogleSignIn() {
   const [message, setMessage] = useState("");
+  console.log("HELLOOOO");
 
   const handleGoogleSignIn = async () => {
     try {
@@ -14,6 +15,10 @@ export default function GoogleSignIn() {
       const token = await user.getIdToken(); // Get the ID token
 
       console.log(user);
+      if (!user.email) {
+        throw new Error("No email.");
+      }
+
       if (user.email.endsWith("@ucr.edu")) {
         console.log(`Successfully logged in: ${user.email}`);
         setMessage(`Successfully logged in: ${user.email}`);

@@ -2,7 +2,7 @@ import { db } from "./firebase.ts";
 
 export type Club = {
   description: string;
-  email: string;
+  uid: string;
   images: string[];
   location: string;
   name: string;
@@ -12,7 +12,10 @@ const collection = "clubs";
 
 export async function createClub(data: Club) {
   const docRef = db.collection(collection).doc();
+  const all_entries = db.collection("all_entries").doc(collection);
   await docRef.set(data);
+
+  await all_entries.update({ [docRef.id]: data.name });
   return { id: docRef.id, ...data };
 }
 

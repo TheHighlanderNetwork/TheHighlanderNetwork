@@ -11,6 +11,7 @@ export function search(
 > {
   try {
     // Check if query is empty, return all results if empty
+
     // Omitted to reduce number of reads
     // if (!query.trim()) {
     //   return Promise.resolve(
@@ -100,6 +101,7 @@ function transformDocumentData(
 }
 
 // Convert docID to type value used for filtering search results
+
 export function getEntryType(collection: string): number {
   if (collection === "professors") {
     return 1;
@@ -114,6 +116,7 @@ export function getEntryType(collection: string): number {
 }
 
 // Convert type back to collection for retrieving information from search results
+
 export function getCollectionFromType(type: number): string {
   if (type === 1) {
     return "professors";

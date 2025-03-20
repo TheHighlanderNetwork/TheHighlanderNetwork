@@ -2,7 +2,7 @@ import { useEffect, useState } from "preact/hooks";
 import { retrieveDocument } from "../../utils/firebase/docRetrieval/retrieve.ts";
 
 export default function ProfessorInfo({ netid }: { netid: string }) {
-  const [professor, setProfessor] = useState<Record<string, unknown>>({});
+  const [professor, setProfessor] = useState<Record<string, string>>({});
   const [classes, setClasses] = useState<string[]>([]);
 
   useEffect(() => {

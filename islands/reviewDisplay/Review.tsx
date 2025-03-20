@@ -1,8 +1,17 @@
+import { Timestamp } from "firestore";
+
+export interface Review {
+  rating: number;
+  class?: string;
+  review: string;
+  time: Timestamp | Date; // Accept both types
+}
+
 export default function ReviewIsland(
-  { review }: { review: Record<string, unknown> },
+  { review }: { review: Review },
 ) {
   // Convert Firebase Timestamp to a readable date
-  const formatTimestamp = (time: unknown): string => {
+  const formatTimestamp = (time: Timestamp | Date): string => {
     if (typeof time === "object" && time !== null && "seconds" in time) {
       // If it's a Firestore Timestamp object
       return new Date(time.seconds * 1000).toLocaleDateString();

@@ -4,15 +4,20 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $api_createClub from "./routes/api/createClub.ts";
 import * as $api_customClaims_getUserClaims from "./routes/api/customClaims/getUserClaims.ts";
 import * as $api_customClaims_setUserClaims from "./routes/api/customClaims/setUserClaims.ts";
+import * as $api_customClaims_setflag from "./routes/api/customClaims/setflag.ts";
 import * as $api_deletion_businessDeletion from "./routes/api/deletion/businessDeletion.ts";
 import * as $api_deletion_clubDeletion from "./routes/api/deletion/clubDeletion.ts";
 import * as $api_firebaseAdmin from "./routes/api/firebaseAdmin.ts";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_login_verifyIdToken from "./routes/api/login/verifyIdToken.ts";
 import * as $api_search_search from "./routes/api/search/search.ts";
+import * as $businesses_business_id_index from "./routes/businesses/[business_id]/index.tsx";
+import * as $clubs_club_id_index from "./routes/clubs/[club_id]/index.tsx";
 import * as $courses_course_id_index from "./routes/courses/[course_id]/index.tsx";
+import * as $createclubs_index from "./routes/createclubs/index.tsx";
 import * as $deleteUserTest_index from "./routes/deleteUserTest/index.tsx";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
@@ -32,7 +37,9 @@ import * as $AddProfessorReviewButton from "./islands/AddProfessorReviewButton.t
 import * as $BusinessReview from "./islands/BusinessReview.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
+import * as $ClubCreationForm from "./islands/ClubCreationForm.tsx";
 import * as $Counter from "./islands/Counter.tsx";
+import * as $CourseInfo from "./islands/CourseInfo.tsx";
 import * as $Filters from "./islands/Filters.tsx";
 import * as $FiltersVertical from "./islands/FiltersVertical.tsx";
 import * as $FirestoreQuery from "./islands/FirestoreQuery.tsx";
@@ -43,12 +50,16 @@ import * as $HighlanderHome from "./islands/HighlanderHome.tsx";
 import * as $ProfessorRequestForm from "./islands/ProfessorRequestForm.tsx";
 import * as $ProfessorReviews from "./islands/ProfessorReviews.tsx";
 import * as $RequestProfessorButton from "./islands/RequestProfessorButton.tsx";
+import * as $Review from "./islands/Review.tsx";
+import * as $Reviews from "./islands/Reviews.tsx";
 import * as $Search from "./islands/Search.tsx";
 import * as $SearchBox from "./islands/SearchBox.tsx";
 import * as $SearchResults from "./islands/SearchResults.tsx";
 import * as $SearchWrapper from "./islands/SearchWrapper.tsx";
 import * as $UsernameHeader from "./islands/UsernameHeader.tsx";
 import * as $deleteUserTest from "./islands/deleteUserTest.tsx";
+import * as $reviewDisplay_BusinessInfo from "./islands/reviewDisplay/BusinessInfo.tsx";
+import * as $reviewDisplay_ClubInfo from "./islands/reviewDisplay/ClubInfo.tsx";
 import * as $reviewDisplay_CourseInfo from "./islands/reviewDisplay/CourseInfo.tsx";
 import * as $reviewDisplay_ProfessorInfo from "./islands/reviewDisplay/ProfessorInfo.tsx";
 import * as $reviewDisplay_Review from "./islands/reviewDisplay/Review.tsx";
@@ -61,17 +72,23 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
+    "./routes/api/createClub.ts": $api_createClub,
     "./routes/api/customClaims/getUserClaims.ts":
       $api_customClaims_getUserClaims,
     "./routes/api/customClaims/setUserClaims.ts":
       $api_customClaims_setUserClaims,
+    "./routes/api/customClaims/setflag.ts": $api_customClaims_setflag,
     "./routes/api/deletion/businessDeletion.ts": $api_deletion_businessDeletion,
     "./routes/api/deletion/clubDeletion.ts": $api_deletion_clubDeletion,
     "./routes/api/firebaseAdmin.ts": $api_firebaseAdmin,
     "./routes/api/joke.ts": $api_joke,
     "./routes/api/login/verifyIdToken.ts": $api_login_verifyIdToken,
     "./routes/api/search/search.ts": $api_search_search,
+    "./routes/businesses/[business_id]/index.tsx":
+      $businesses_business_id_index,
+    "./routes/clubs/[club_id]/index.tsx": $clubs_club_id_index,
     "./routes/courses/[course_id]/index.tsx": $courses_course_id_index,
+    "./routes/createclubs/index.tsx": $createclubs_index,
     "./routes/deleteUserTest/index.tsx": $deleteUserTest_index,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
@@ -93,7 +110,9 @@ const manifest = {
     "./islands/BusinessReview.tsx": $BusinessReview,
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
+    "./islands/ClubCreationForm.tsx": $ClubCreationForm,
     "./islands/Counter.tsx": $Counter,
+    "./islands/CourseInfo.tsx": $CourseInfo,
     "./islands/Filters.tsx": $Filters,
     "./islands/FiltersVertical.tsx": $FiltersVertical,
     "./islands/FirestoreQuery.tsx": $FirestoreQuery,
@@ -104,12 +123,16 @@ const manifest = {
     "./islands/ProfessorRequestForm.tsx": $ProfessorRequestForm,
     "./islands/ProfessorReviews.tsx": $ProfessorReviews,
     "./islands/RequestProfessorButton.tsx": $RequestProfessorButton,
+    "./islands/Review.tsx": $Review,
+    "./islands/Reviews.tsx": $Reviews,
     "./islands/Search.tsx": $Search,
     "./islands/SearchBox.tsx": $SearchBox,
     "./islands/SearchResults.tsx": $SearchResults,
     "./islands/SearchWrapper.tsx": $SearchWrapper,
     "./islands/UsernameHeader.tsx": $UsernameHeader,
     "./islands/deleteUserTest.tsx": $deleteUserTest,
+    "./islands/reviewDisplay/BusinessInfo.tsx": $reviewDisplay_BusinessInfo,
+    "./islands/reviewDisplay/ClubInfo.tsx": $reviewDisplay_ClubInfo,
     "./islands/reviewDisplay/CourseInfo.tsx": $reviewDisplay_CourseInfo,
     "./islands/reviewDisplay/ProfessorInfo.tsx": $reviewDisplay_ProfessorInfo,
     "./islands/reviewDisplay/Review.tsx": $reviewDisplay_Review,

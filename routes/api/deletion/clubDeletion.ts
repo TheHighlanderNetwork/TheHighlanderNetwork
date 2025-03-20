@@ -1,11 +1,11 @@
-import { db } from "../firebaseAdmin.ts"
+import { db } from "../firebaseAdmin.ts";
 import { Handlers } from "$fresh/server.ts";
 import { autoSetRole } from "../customClaims/setUserClaims.ts";
 import { verifyIdToken } from "../login/verifyIdToken.ts";
 
 export async function deleteClub(uid: string, clubRef: string) {
   console.log("retrieve club doc");
-  const clubSnapshot = (await db.collection("clubs").doc(clubRef).get());
+  const clubSnapshot = await db.collection("clubs").doc(clubRef).get();
   const clubData = clubSnapshot.data();
   if (!clubData) {
     throw new Error("Club does not exist.");
@@ -14,13 +14,17 @@ export async function deleteClub(uid: string, clubRef: string) {
     throw new Error("User is not the owner of this club");
   }
   // Fetch reviews for the club
-  const reviewsSnapshot = await db.collection("reviews").where("reviewee", "==", clubRef).where("type", "==", 4).get();
-  const deletePromises = reviewsSnapshot.docs.map(doc => doc.ref.delete());
+  const reviewsSnapshot = await db.collection("reviews").where(
+    "reviewee",
+    "==",
+    clubRef,
+  ).where("type", "==", 4).get();
+  const deletePromises = reviewsSnapshot.docs.map((doc) => doc.ref.delete());
 
   // Wait for all deletions to complete
   console.log("Deleting all reviews for club ", clubRef, "...");
   await Promise.all(deletePromises);
-  
+
   console.log("Deleting club ", clubRef, "...");
   await clubSnapshot.ref.delete();
 }
@@ -50,7 +54,7 @@ export const handler: Handlers = {
         }
       }
 
-      if (decodedToken.role != 'student') {
+      if (decodedToken.role != "student") {
         throw new Error("Must be a student to delete a club");
       }
 

@@ -43,18 +43,8 @@ export default function HighlanderHome() {
               initialBitfield={bitfield}
             />
           </div>
-
-          <div className="flex flex-wrap sm:flex-row flex-col gap-8 text-4xl font-bold text-black justify-center items-center mt-8">
-            <div className="flex flex-col items-center">
-              <img
-                className="my-6"
-                src="/classes.svg"
-                width="128"
-                height="128"
-                alt="Classes logo"
-              />
-              <h2>Classes</h2>
-            </div>
+          {/* SINGLE ROW of icons */}
+          <div className="flex flex-row gap-8 text-4xl font-bold text-black justify-center items-center mt-8">
             <a href="/reviewprofessors">
               <div className="flex flex-col items-center">
                 <img
@@ -67,6 +57,7 @@ export default function HighlanderHome() {
                 <h2>Professors</h2>
               </div>
             </a>
+
             <a href="/reviewbusinesses">
               <div className="flex flex-col items-center">
                 <img
@@ -79,29 +70,18 @@ export default function HighlanderHome() {
                 <h2>Businesses</h2>
               </div>
             </a>
-          </div>
-
-          <div className="flex flex-wrap sm:flex-row flex-col gap-8 text-4xl font-bold text-black justify-center items-center mt-8">
-            <div className="flex flex-col items-center">
-              <img
-                className="my-6"
-                src="/housing.svg"
-                width="128"
-                height="128"
-                alt="Housing logo"
-              />
-              <h2>Housing</h2>
-            </div>
-            <div className="flex flex-col items-center">
-              <img
-                className="my-6"
-                src="/organizations.svg"
-                width="128"
-                height="128"
-                alt="Organizations logo"
-              />
-              <h2>Organizations</h2>
-            </div>
+            <a href="/createclubs">
+              <div className="flex flex-col items-center">
+                <img
+                  className="my-6"
+                  src="/organizations.svg"
+                  width="128"
+                  height="128"
+                  alt="Organizations logo"
+                />
+                <h2>Organizations</h2>
+              </div>
+            </a>
           </div>
         </div>
       </main>
