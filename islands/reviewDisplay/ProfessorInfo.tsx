@@ -1,11 +1,9 @@
 import { useEffect, useState } from "preact/hooks";
 import { retrieveDocument } from "../../utils/firebase/docRetrieval/retrieve.ts";
-import { deleteClub } from "../../utils/firebase/clubs.ts";
 
 export default function ProfessorInfo({ netid }: { netid: string }) {
   const [professor, setProfessor] = useState<Record<string, string>>({});
   const [classes, setClasses] = useState<string[]>([]);
-  deleteClub("test");
 
   useEffect(() => {
     async function fetchProfessor() {
