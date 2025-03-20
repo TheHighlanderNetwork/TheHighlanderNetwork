@@ -1,5 +1,5 @@
 import { createClub } from "../../utils/firebase/clubs.ts";
-import { auth, db } from "./firebaseAdmin.ts";
+import { auth } from "./firebaseAdmin.ts";
 import { Handlers } from "$fresh/server.ts";
 import { fetchMatchedData } from "../../utils/firebase/docRetrieval/retrieve.ts";
 
