@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState } from "preact/hooks";
+import { retrieveDocument } from "../utils/firebase/docRetrieval/retrieve.ts";
+import { getCollectionFromType } from "../utils/firebase/search/search.ts";
 
 // Example item shape
 export interface SearchItem {
@@ -7,52 +9,64 @@ export interface SearchItem {
   department?: string;
   classes?: string[];
   courseNames?: string[];
-  // ... any other fields you expect
   [key: string]: unknown;
 }
 
-interface SearchResultsProps {
-  data: SearchItem[];
-}
-
-export default function SearchResults({ data }: SearchResultsProps) {
-  const [localData, setLocalData] = useState<SearchItem[]>(data);
+export default function SearchIsland(
+  { id, type }: { id: string; type: number },
+) {
+  const [info, setInfo] = useState<Record<string, unknown> | null>(null);
 
   useEffect(() => {
-    console.log("SearchResults got new data:", data);
-    setLocalData(data);
-  }, [data]);
+    async function fetchCourse() {
+      const data = await retrieveDocument(getCollectionFromType(type), id);
+      console.log("Info:", data);
+      setInfo(data);
+    }
 
-  // Only show the first 10 items
-  const shownData = localData.slice(0, 10);
+    fetchCourse();
+  }, [id, type]);
+
+  const handleRedirect = () => {
+    const currentUrl = globalThis.location.origin;
+    const collection = getCollectionFromType(type);
+    const redirectTo = `${currentUrl}/${collection}/${id}`; // Modify this URL as needed
+    globalThis.location.href = redirectTo;
+  };
 
   return (
     <div className="flex flex-col gap-4">
       <p className="text-sm text-gray-600">
-        {localData.length === 0
-          ? "No results yet."
-          : `Showing ${shownData.length} of ${localData.length} result${
-            localData.length !== 1 ? "s" : ""
-          }`}
       </p>
-      {shownData.map((item, idx) => (
-        <div key={idx} className="bg-white p-4 rounded-md shadow-sm">
-          {/* Example usage of fields */}
-          <p className="font-bold text-sm">
-            {item.name || "Unnamed Entry"}
-          </p>
-          {item.department && (
-            <p className="text-xs text-gray-600">
-              Dept: {item.department}
-            </p>
-          )}
-          {item.courseNames && (
-            <p className="text-xs text-blue-600 mt-1">
-              Courses: {item.courseNames.join(", ")}
-            </p>
-          )}
-        </div>
-      ))}
+      {info
+        ? (
+          <div
+            className="bg-white p-2 rounded-md shadow-sm cursor-pointer"
+            onClick={handleRedirect}
+          >
+            <div className="bg-white p-4 rounded-md shadow-sm">
+              {/* Example usage of fields */}
+              <p className="font-bold text-sm">
+                {type == 2
+                  ? `${info.courseCode || "Unnamed Course"}: ${
+                    info.title || "Unnamed Title"
+                  }`
+                  : `${info.name || "Unnamed Entry"}`}
+              </p>
+              {info.department && (
+                <p className="text-xs text-gray-600">
+                  Dept: {info.department}
+                </p>
+              )}
+              {info.courseNames && (
+                <p className="text-xs text-blue-600 mt-1">
+                  Courses: {info.courseNames.join(", ")}
+                </p>
+              )}
+            </div>
+          </div>
+        )
+        : ""}
     </div>
   );
 }

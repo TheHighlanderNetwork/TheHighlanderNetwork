@@ -40,10 +40,10 @@ export async function retrieveDocument(
   try {
     console.log("Fetching data");
 
-    console.time("Retrieve document");
+    // console.time("Retrieve document");
     const docRef = doc(db, collec, docID);
     const docSnapshot = await getDoc(docRef);
-    console.timeEnd("Retrieve document");
+    // console.timeEnd("Retrieve document");
 
     // console.log(docSnapshot.data());
 

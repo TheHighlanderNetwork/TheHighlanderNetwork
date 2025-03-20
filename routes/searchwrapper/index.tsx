@@ -5,6 +5,8 @@ import SearchWrapper from "../../islands/SearchWrapper.tsx";
 export default function SearchPage({ url }: PageProps) {
   const searchParams = new URL(url).searchParams;
   const query = searchParams.get("query") || "";
+  const searchPage = Number(url.searchParams.get("page")) || 1;
+  const filter = Number(url.searchParams.get("filter")) || 0b1100;
 
   return (
     <>
@@ -14,7 +16,11 @@ export default function SearchPage({ url }: PageProps) {
           rel="stylesheet"
         />
       </Head>
-      <SearchWrapper initialQuery={query} />
+      <SearchWrapper
+        initialQuery={query}
+        initialPage={searchPage}
+        initialFilter={filter}
+      />
     </>
   );
 }
