@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "preact/hooks";
 import UsernameHeader from "./UsernameHeader.tsx";
-import SearchBox, { _SearchBoxProps } from "./SearchBox.tsx";
+import SearchBox from "./SearchBox.tsx";
 import FiltersVertical from "./FiltersVertical.tsx";
 import SearchResults, { SearchItem } from "./SearchResults.tsx";
 import {
@@ -95,7 +95,7 @@ export default function SearchWrapper(
         </div>
         <div className="mt-4">
           <p className="text-sm text-gray-600">
-            {query ? `Results for "${query}"` : 'Results for "COMPING 10A"'}
+            {query ? `Results for "${query}"` : 'Results for'}
           </p>
           <p className="text-xs text-gray-400">
             {results.length} result{results.length !== 1 && "s"}
