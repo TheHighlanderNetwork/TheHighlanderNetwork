@@ -13,6 +13,8 @@ import * as $api_firebaseAdmin from "./routes/api/firebaseAdmin.ts";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_login_verifyIdToken from "./routes/api/login/verifyIdToken.ts";
 import * as $api_search_search from "./routes/api/search/search.ts";
+import * as $businesses_business_id_index from "./routes/businesses/[business_id]/index.tsx";
+import * as $clubs_club_id_index from "./routes/clubs/[club_id]/index.tsx";
 import * as $courses_course_id_index from "./routes/courses/[course_id]/index.tsx";
 import * as $createbusiness_index from "./routes/createbusiness/index.tsx";
 import * as $createclubs_index from "./routes/createclubs/index.tsx";
@@ -57,6 +59,8 @@ import * as $SearchResults from "./islands/SearchResults.tsx";
 import * as $SearchWrapper from "./islands/SearchWrapper.tsx";
 import * as $UsernameHeader from "./islands/UsernameHeader.tsx";
 import * as $deleteUserTest from "./islands/deleteUserTest.tsx";
+import * as $reviewDisplay_BusinessInfo from "./islands/reviewDisplay/BusinessInfo.tsx";
+import * as $reviewDisplay_ClubInfo from "./islands/reviewDisplay/ClubInfo.tsx";
 import * as $reviewDisplay_CourseInfo from "./islands/reviewDisplay/CourseInfo.tsx";
 import * as $reviewDisplay_ProfessorInfo from "./islands/reviewDisplay/ProfessorInfo.tsx";
 import * as $reviewDisplay_Review from "./islands/reviewDisplay/Review.tsx";
@@ -80,6 +84,9 @@ const manifest = {
     "./routes/api/joke.ts": $api_joke,
     "./routes/api/login/verifyIdToken.ts": $api_login_verifyIdToken,
     "./routes/api/search/search.ts": $api_search_search,
+    "./routes/businesses/[business_id]/index.tsx":
+      $businesses_business_id_index,
+    "./routes/clubs/[club_id]/index.tsx": $clubs_club_id_index,
     "./routes/courses/[course_id]/index.tsx": $courses_course_id_index,
     "./routes/createbusiness/index.tsx": $createbusiness_index,
     "./routes/createclubs/index.tsx": $createclubs_index,
@@ -126,6 +133,8 @@ const manifest = {
     "./islands/SearchWrapper.tsx": $SearchWrapper,
     "./islands/UsernameHeader.tsx": $UsernameHeader,
     "./islands/deleteUserTest.tsx": $deleteUserTest,
+    "./islands/reviewDisplay/BusinessInfo.tsx": $reviewDisplay_BusinessInfo,
+    "./islands/reviewDisplay/ClubInfo.tsx": $reviewDisplay_ClubInfo,
     "./islands/reviewDisplay/CourseInfo.tsx": $reviewDisplay_CourseInfo,
     "./islands/reviewDisplay/ProfessorInfo.tsx": $reviewDisplay_ProfessorInfo,
     "./islands/reviewDisplay/Review.tsx": $reviewDisplay_Review,
