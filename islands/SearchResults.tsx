@@ -20,7 +20,8 @@ export default function SearchResults(
   // Fetch search results whenever query or page changes
   useEffect(() => {
     const fetchData = async () => {
-      const data = await userSearch(0b1100, query); // Adjust bitfield as needed
+      // Needs bitfield to add filters
+      const data = await userSearch(0b1100, query);
       setMaxPage(Math.ceil(data.length / 10));
       console.log("Max page:", maxPage);
 
@@ -63,6 +64,7 @@ export default function SearchResults(
 
       <h2>Results:</h2>
       <ul>
+        {/* Create islands for search results */}
         {results.map((result) => (
           <SearchIsland
             key={result.item.id}
@@ -78,7 +80,7 @@ export default function SearchResults(
             Previous
           </button>
         )}
-        <span>Page {page} of {maxPage}</span>
+        <span>&nbsp;Page {page} of {maxPage}&nbsp;</span>
         {page < maxPage && (
           <button
             type="button"
