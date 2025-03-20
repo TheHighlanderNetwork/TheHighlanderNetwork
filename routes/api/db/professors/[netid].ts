@@ -31,7 +31,7 @@ export async function deleteProfessor(id: string) {
 
 async function verifyAuthToken(
   req: Request,
-): Promise<{ user: DecodedIdToken; error: string | null }> {
+): Promise<{ user: DecodedIdToken | null; error: string | null }> {
   try {
     const authHeader = req.headers.get("Authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
