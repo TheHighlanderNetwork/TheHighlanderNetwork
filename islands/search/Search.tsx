@@ -1,6 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
-import { retrieveDocument } from "../utils/firebase/docRetrieval/retrieve.ts";
-import { getCollectionFromType } from "../utils/firebase/search/search.ts";
+import { retrieveDocument } from "../../utils/firebase/docRetrieval/retrieve.ts";
+import { getCollectionFromType } from "../../utils/firebase/search/search.ts";
 
 export default function SearchIsland(
   { id, type }: { id: string; type: number },
