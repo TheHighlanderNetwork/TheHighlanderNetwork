@@ -1,11 +1,11 @@
 /** @jsxImportSource preact */
 "use client";
 import { useEffect, useState } from "preact/hooks";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../utils/firebase.ts";
 
 export default function ClubCreationForm() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [formData, setFormData] = useState({
     organizationName: "",
     highlanderLink: "",

@@ -29,7 +29,6 @@ import * as $AddBusinessReview from "./islands/AddBusinessReview.tsx";
 import * as $AddBusinessReviewButton from "./islands/AddBusinessReviewButton.tsx";
 import * as $AddProfessorReview from "./islands/AddProfessorReview.tsx";
 import * as $AddProfessorReviewButton from "./islands/AddProfessorReviewButton.tsx";
-import * as $BusinessDashboard from "./islands/BusinessDashboard.tsx";
 import * as $BusinessReview from "./islands/BusinessReview.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
@@ -88,7 +87,6 @@ const manifest = {
     "./islands/AddBusinessReviewButton.tsx": $AddBusinessReviewButton,
     "./islands/AddProfessorReview.tsx": $AddProfessorReview,
     "./islands/AddProfessorReviewButton.tsx": $AddProfessorReviewButton,
-    "./islands/BusinessDashboard.tsx": $BusinessDashboard,
     "./islands/BusinessReview.tsx": $BusinessReview,
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
