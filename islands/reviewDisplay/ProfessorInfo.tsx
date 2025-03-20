@@ -6,7 +6,7 @@ export default function ProfessorInfo({ netid }: { netid: string }) {
   const [professor, setProfessor] = useState<Record<string, string>>({});
   const [classes, setClasses] = useState<string[]>([]);
   deleteClub("test");
-  
+
   useEffect(() => {
     async function fetchProfessor() {
       console.log("Retrieving professor's info");

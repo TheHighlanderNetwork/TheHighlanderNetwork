@@ -18,7 +18,7 @@ export default function GoogleSignIn() {
       if (!user.email) {
         throw new Error("No email.");
       }
-      
+
       if (user.email.endsWith("@ucr.edu")) {
         console.log(`Successfully logged in: ${user.email}`);
         setMessage(`Successfully logged in: ${user.email}`);
