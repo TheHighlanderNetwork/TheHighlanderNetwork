@@ -1,4 +1,4 @@
-import SearchResults from "../../islands/SearchResults.tsx";
+import SearchResults from "../../islands/search/SearchResults.tsx";
 
 export default function SearchPage(req: Request) {
   const url = new URL(req.url);

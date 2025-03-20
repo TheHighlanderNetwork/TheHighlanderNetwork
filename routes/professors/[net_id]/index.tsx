@@ -1,17 +1,17 @@
-import CourseInfo from "../../../islands/reviewDisplay/CourseInfo.tsx";
+import ProfessorInfo from "../../../islands/reviewDisplay/ProfessorInfo.tsx";
 import ReviewsIsland from "../../../islands/reviewDisplay/Reviews.tsx";
 
 export default function CoursePage(
-  { params }: { params: { course_id: string } },
+  { params }: { params: { net_id: string } },
 ) {
   return (
     <div class="max-w-3xl mx-auto p-6">
       {/* Course Info Island */}
-      <CourseInfo course_id={params.course_id} />
+      <ProfessorInfo netid={params.net_id} />
 
       {/* Reviews Island */}
       <ReviewsIsland
-        query={{ reviewee: params.course_id, type: 2 }}
+        query={{ reviewee: params.net_id, type: 1 }}
       />
     </div>
   );

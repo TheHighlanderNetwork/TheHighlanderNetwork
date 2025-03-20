@@ -40,10 +40,10 @@ export async function retrieveDocument(
   try {
     console.log("Fetching data");
 
-    console.time("Retrieve document");
+    // console.time("Retrieve document");
     const docRef = doc(db, collec, docID);
     const docSnapshot = await getDoc(docRef);
-    console.timeEnd("Retrieve document");
+    // console.timeEnd("Retrieve document");
 
     // console.log(docSnapshot.data());
 
@@ -83,7 +83,7 @@ export async function fetchMatchedData(
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Error while retrieving document data: ", error.message);
-      return Promise.reject(error);
+      return [];
     } else {
       throw new Error("Unknown error occurred");
     }
@@ -111,7 +111,7 @@ export async function fetchMatchedDataSnapshot(
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error("Error while retrieving document data: ", error.message);
-      return Promise.reject(error);
+      return new QuerySnapshot();
     } else {
       throw new Error("Unknown error occurred");
     }

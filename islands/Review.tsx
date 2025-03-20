@@ -4,6 +4,11 @@ export default function ReviewIsland(
   return (
     <div class="review">
       <p>
+        {typeof review.content === "string"
+          ? review.content
+          : "Invalid content"}
+      </p>
+      <p>
         <em>Rating: {review.rating}/5</em>
       </p>
       <p>

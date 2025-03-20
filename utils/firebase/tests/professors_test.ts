@@ -14,6 +14,7 @@ Deno.test("Professor CRUD Operations", async (t) => {
       netid: "testid420",
       name: "Dr. Smith",
       department: "Science",
+      classes: ["000"],
     });
     professorId = professor.id;
     console.assert(professorId != null, "Professor ID should exist");
@@ -25,7 +26,7 @@ Deno.test("Professor CRUD Operations", async (t) => {
   });
 
   await t.step("Update Professor", async () => {
-    await updateProfessor(professorId, { department: "Math" });
+    await updateProfessor({ netid: professorId, department: "Math" });
     console.assert(
       (await getProfessor(professorId)).department == "Math",
       "Classes updated",

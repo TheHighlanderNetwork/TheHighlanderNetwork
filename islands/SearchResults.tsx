@@ -1,95 +1,72 @@
+"use client";
 import { useEffect, useState } from "preact/hooks";
-import { userSearch } from "../utils/firebase/search/search.ts";
-import SearchIsland from "./Search.tsx";
+import { retrieveDocument } from "../utils/firebase/docRetrieval/retrieve.ts";
+import { getCollectionFromType } from "../utils/firebase/search/search.ts";
 
-interface SearchIslandProps {
-  initialQuery: string;
-  initialPage: number;
+// Example item shape
+export interface SearchItem {
+  name?: string;
+  department?: string;
+  classes?: string[];
+  courseNames?: string[];
+  [key: string]: unknown;
 }
 
-export default function SearchResults(
-  { initialQuery, initialPage }: SearchIslandProps,
+export default function SearchIsland(
+  { id, type }: { id: string; type: number },
 ) {
-  const [query, setQuery] = useState(initialQuery);
-  const [page, setPage] = useState(initialPage);
-  const [results, setResults] = useState<
-    { item: { id: string; name: string; type: number }; score: number }[]
-  >([]);
-  const [maxPage, setMaxPage] = useState(0);
+  const [info, setInfo] = useState<Record<string, unknown> | null>(null);
 
-  // Fetch search results whenever query or page changes
   useEffect(() => {
-    const fetchData = async () => {
-      // Needs bitfield to add filters
-      const data = await userSearch(0b1100, query);
-      setMaxPage(Math.ceil(data.length / 10));
-      console.log("Max page:", maxPage);
+    async function fetchCourse() {
+      const data = await retrieveDocument(getCollectionFromType(type), id);
+      console.log("Info:", data);
+      setInfo(data);
+    }
 
-      if (page > Math.ceil(data.length / 10)) {
-        setPage(Math.ceil(data.length / 10)); // Adjust page if it exceeds maxPage
-      }
+    fetchCourse();
+  }, [id, type]);
 
-      console.log("set results");
-      setResults(data.slice(10 * (page - 1), 10 + 10 * (page - 1)));
-    };
-    fetchData();
-  }, [query, page]);
-
-  // Update the URL and perform search
-  const handleSearch = (e: Event) => {
-    e.preventDefault();
-    const newUrl = `/search?query=${encodeURIComponent(query)}&page=1`;
-    globalThis.history.pushState({}, "", newUrl);
-    setPage(1);
-  };
-
-  // Pagination handler
-  const goToPage = (newPage: number) => {
-    const newUrl = `/search?query=${encodeURIComponent(query)}&page=${newPage}`;
-    globalThis.history.pushState({}, "", newUrl);
-    setPage(newPage);
+  const handleRedirect = () => {
+    const currentUrl = globalThis.location.origin;
+    const collection = getCollectionFromType(type);
+    const redirectTo = `${currentUrl}/${collection}/${id}`; // Modify this URL as needed
+    globalThis.location.href = redirectTo;
   };
 
   return (
-    <div>
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.currentTarget.value)}
-          placeholder="Enter search query"
-        />
-        <button type="submit">Search</button>
-      </form>
-
-      <h2>Results:</h2>
-      <ul>
-        {/* Create islands for search results */}
-        {results.map((result) => (
-          <SearchIsland
-            key={result.item.id}
-            id={result.item.id}
-            type={result.item.type}
-          />
-        ))}
-      </ul>
-
-      <div>
-        {page > 1 && (
-          <button type="button" onClick={() => goToPage(page - 1)}>
-            Previous
-          </button>
-        )}
-        <span>&nbsp;Page {page} of {maxPage}&nbsp;</span>
-        {page < maxPage && (
-          <button
-            type="button"
-            onClick={() => goToPage(page + 1)}
+    <div className="flex flex-col gap-4">
+      <p className="text-sm text-gray-600">
+      </p>
+      {info
+        ? (
+          <div
+            className="bg-white p-2 rounded-md shadow-sm cursor-pointer"
+            onClick={handleRedirect}
           >
-            Next
-          </button>
-        )}
-      </div>
+            <div className="bg-white p-4 rounded-md shadow-sm">
+              {/* Example usage of fields */}
+              <p className="font-bold text-sm">
+                {type == 2
+                  ? `${info.courseCode || "Unnamed Course"}: ${
+                    info.title || "Unnamed Title"
+                  }`
+                  : `${info.name || "Unnamed Entry"}`}
+              </p>
+              {info.department && (
+                <p className="text-xs text-gray-600">
+                  Dept: {info.department}
+                </p>
+              )}
+              {info.courseNames && (
+                <p className="text-xs text-blue-600 mt-1">
+                  Courses: {info.courseNames.join(", ")}
+                </p>
+              )}
+            </div>
+          </div>
+        )
+        : ""}
     </div>
   );
 }

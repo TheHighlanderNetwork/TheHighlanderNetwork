@@ -3,16 +3,17 @@ import { useEffect } from "preact/hooks";
 import ReviewIsland from "./Review.tsx"; // Your individual review island component
 import { fetchMatchedData } from "../utils/firebase/docRetrieval/retrieve.ts";
 
-export default function ReviewsIsland(
-  { query }: { query: Record<string, unknown> },
-) {
+export default function ReviewsIsland({ course_id }: { course_id: string }) {
   // Signal to store reviews
   const reviews = useSignal<Record<string, string>[]>([]);
 
   // Fetch reviews when the course_id changes
   useEffect(() => {
     async function fetchReviews() {
-      console.log("Fetching reviews with query: ", query);
+      console.log("Fetching reviews for course:", course_id);
+
+      // Define your query here
+      const query = { class: course_id, type: 2 }; // Adjust your query as needed
 
       // Fetch reviews from Firestore
       const reviewData = await fetchMatchedData("reviews", query);
@@ -23,7 +24,7 @@ export default function ReviewsIsland(
     }
 
     fetchReviews();
-  }, [query]); // Run effect when course_id changes
+  }, [course_id]); // Run effect when course_id changes
 
   return (
     <div>
