@@ -13,18 +13,18 @@ export function search(
     // Check if query is empty, return all results if empty
 
     // Omitted to reduce number of reads
-    // if (!query.trim()) {
-    //   return Promise.resolve(
-    //     Object.keys(entryData).map((id) => ({
-    //       item: {
-    //         id: id, // Store the ID as 'id'
-    //         name: String(entryData[id][0]), // Store the name
-    //         type: entryData[id][1],
-    //       },
-    //       score: 0,
-    //     })),
-    //   );
-    // }
+    if (!query.trim()) {
+      return Promise.resolve(
+        Object.keys(entryData).map((id) => ({
+          item: {
+            id: id, // Store the ID as 'id'
+            name: String(entryData[id][0]), // Store the name
+            type: entryData[id][1],
+          },
+          score: 0,
+        })),
+      );
+    }
 
     // Format DocumentData to search with Fuse
     const formattedCourses = Object.keys(entryData).map((id) => ({

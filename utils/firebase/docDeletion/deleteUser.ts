@@ -24,19 +24,55 @@ export async function deleteUserData() {
     const businessSnapshot = await fetchMatchedDataSnapshot("businesses", {
       uid: user.uid,
     });
-
+    const idToken = await user.getIdToken();
+    console.log("Id token: ", idToken);
     console.log("Deleting user reviews, clubs, and businesses.");
     const deletePromises = [
       ...reviewsSnapshot.docs.map((document: QueryDocumentSnapshot) =>
         deleteDoc(doc(db, "reviews", document.id))
       ),
-      ...clubsSnapshot.docs.map((document: QueryDocumentSnapshot) =>
-        deleteDoc(doc(db, "clubs", document.id))
-      ),
-      ...businessSnapshot.docs.map((document: QueryDocumentSnapshot) =>
-        deleteDoc(doc(db, "businesses", document.id))
-      ),
+      ...clubsSnapshot.docs.map(async (document) => {
+        try {
+          const response = await fetch("/api/deletion/clubDeletion", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              idToken: idToken,
+              clubRef: document.id,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`Failed to delete business: ${document.id}`);
+          }
+
+          console.log(`Successfully deleted: ${document.id}`);
+        } catch (error) {
+          console.error("Error deleting document:", error);
+        }
+      }),
+      ...businessSnapshot.docs.map(async (document) => {
+        try {
+          const response = await fetch("/api/deletion/businessDeletion", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              idToken: idToken,
+              businessRef: document.id,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`Failed to delete business: ${document.id}`);
+          }
+
+          console.log(`Successfully deleted: ${document.id}`);
+        } catch (error) {
+          console.error("Error deleting document:", error);
+        }
+      }),
     ];
+
     console.log(deletePromises);
     await Promise.all(deletePromises);
     console.log("Deleted user reviews and clubs.");
