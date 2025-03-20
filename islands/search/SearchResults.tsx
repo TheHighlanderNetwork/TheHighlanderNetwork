@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import { userSearch } from "../utils/firebase/search/search.ts";
+import { userSearch } from "../../utils/firebase/search/search.ts";
 import SearchIsland from "./Search.tsx";
 
 interface SearchIslandProps {

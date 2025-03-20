@@ -14,6 +14,7 @@ import * as $courses_course_id_index from "./routes/courses/[course_id]/index.ts
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login_index from "./routes/login/index.tsx";
+import * as $professors_net_id_index from "./routes/professors/[net_id]/index.tsx";
 import * as $requestprofessor_index from "./routes/requestprofessor/index.tsx";
 import * as $reviewbusinesses_index from "./routes/reviewbusinesses/index.tsx";
 import * as $reviewprofessors_index from "./routes/reviewprofessors/index.tsx";
@@ -28,7 +29,6 @@ import * as $BusinessReview from "./islands/BusinessReview.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
 import * as $Counter from "./islands/Counter.tsx";
-import * as $CourseInfo from "./islands/CourseInfo.tsx";
 import * as $FirestoreQuery from "./islands/FirestoreQuery.tsx";
 import * as $GoogleSignIn from "./islands/GoogleSignIn.tsx";
 import * as $GoogleSignUp from "./islands/GoogleSignUp.tsx";
@@ -36,11 +36,13 @@ import * as $HeaderSignUpButton from "./islands/HeaderSignUpButton.tsx";
 import * as $ProfessorRequestForm from "./islands/ProfessorRequestForm.tsx";
 import * as $ProfessorReviews from "./islands/ProfessorReviews.tsx";
 import * as $RequestProfessorButton from "./islands/RequestProfessorButton.tsx";
-import * as $Review from "./islands/Review.tsx";
-import * as $Reviews from "./islands/Reviews.tsx";
-import * as $Search from "./islands/Search.tsx";
-import * as $SearchResults from "./islands/SearchResults.tsx";
 import * as $UsernameHeader from "./islands/UsernameHeader.tsx";
+import * as $reviewDisplay_CourseInfo from "./islands/reviewDisplay/CourseInfo.tsx";
+import * as $reviewDisplay_ProfessorInfo from "./islands/reviewDisplay/ProfessorInfo.tsx";
+import * as $reviewDisplay_Review from "./islands/reviewDisplay/Review.tsx";
+import * as $reviewDisplay_Reviews from "./islands/reviewDisplay/Reviews.tsx";
+import * as $search_Search from "./islands/search/Search.tsx";
+import * as $search_SearchResults from "./islands/search/SearchResults.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -59,6 +61,7 @@ const manifest = {
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/login/index.tsx": $login_index,
+    "./routes/professors/[net_id]/index.tsx": $professors_net_id_index,
     "./routes/requestprofessor/index.tsx": $requestprofessor_index,
     "./routes/reviewbusinesses/index.tsx": $reviewbusinesses_index,
     "./routes/reviewprofessors/index.tsx": $reviewprofessors_index,
@@ -75,7 +78,6 @@ const manifest = {
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
     "./islands/Counter.tsx": $Counter,
-    "./islands/CourseInfo.tsx": $CourseInfo,
     "./islands/FirestoreQuery.tsx": $FirestoreQuery,
     "./islands/GoogleSignIn.tsx": $GoogleSignIn,
     "./islands/GoogleSignUp.tsx": $GoogleSignUp,
@@ -83,11 +85,13 @@ const manifest = {
     "./islands/ProfessorRequestForm.tsx": $ProfessorRequestForm,
     "./islands/ProfessorReviews.tsx": $ProfessorReviews,
     "./islands/RequestProfessorButton.tsx": $RequestProfessorButton,
-    "./islands/Review.tsx": $Review,
-    "./islands/Reviews.tsx": $Reviews,
-    "./islands/Search.tsx": $Search,
-    "./islands/SearchResults.tsx": $SearchResults,
     "./islands/UsernameHeader.tsx": $UsernameHeader,
+    "./islands/reviewDisplay/CourseInfo.tsx": $reviewDisplay_CourseInfo,
+    "./islands/reviewDisplay/ProfessorInfo.tsx": $reviewDisplay_ProfessorInfo,
+    "./islands/reviewDisplay/Review.tsx": $reviewDisplay_Review,
+    "./islands/reviewDisplay/Reviews.tsx": $reviewDisplay_Reviews,
+    "./islands/search/Search.tsx": $search_Search,
+    "./islands/search/SearchResults.tsx": $search_SearchResults,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
