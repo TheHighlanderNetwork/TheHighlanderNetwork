@@ -3,8 +3,8 @@ import {
   deleteBusiness,
   getBusiness,
   updateBusiness,
-} from "../businesses.ts";
-import { db } from "../firebase.ts";
+} from "../crud/businesses.ts";
+import { db } from "../../../routes/api/firebaseAdmin.ts";
 import { GeoPoint } from "npm:firebase-admin/firestore";
 
 Deno.test("Business CRUD Operations", async (t) => {

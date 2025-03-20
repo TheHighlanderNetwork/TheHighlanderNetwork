@@ -1,18 +1,19 @@
 import {
-  createProfessor,
   deleteProfessor,
   getProfessor,
   updateProfessor,
-} from "../professors.ts";
-import { db } from "../firebase.ts";
+} from "../../../routes/api/db/professors/[netid].ts";
+import { createProfessor } from "../../../routes/api/db/professors/index.ts";
+import { db } from "../../../routes/api/firebaseAdmin.ts";
 
 Deno.test("Professor CRUD Operations", async (t) => {
   let professorId: string;
 
   await t.step("Create Professor", async () => {
     const professor = await createProfessor({
+      netid: "testid420",
       name: "Dr. Smith",
-      classes: ["CS101"],
+      department: "Science",
     });
     professorId = professor.id;
     console.assert(professorId != null, "Professor ID should exist");
@@ -24,9 +25,9 @@ Deno.test("Professor CRUD Operations", async (t) => {
   });
 
   await t.step("Update Professor", async () => {
-    await updateProfessor(professorId, { classes: ["CS102"] });
+    await updateProfessor(professorId, { department: "Math" });
     console.assert(
-      (await getProfessor(professorId)).classes.includes("CS102"),
+      (await getProfessor(professorId)).department == "Math",
       "Classes updated",
     );
   });
@@ -41,7 +42,7 @@ Deno.test("Professor CRUD Operations", async (t) => {
       if (error instanceof Deno.errors.NotFound) {
         threwNotFound = true;
         console.assert(
-          error.message === "Business not found",
+          error.message === "Professor not found",
           "Proper error on delete",
         );
       } else {
@@ -49,7 +50,7 @@ Deno.test("Professor CRUD Operations", async (t) => {
       }
     }
 
-    console.assert(threwNotFound, "getBusiness should throw NotFound error");
+    console.assert(threwNotFound, "getProfessor should throw NotFound error");
   });
   await db.terminate();
   await new Promise((resolve) => setTimeout(resolve, 1000)); // Tell deno tests to stfu for 1 second

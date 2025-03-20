@@ -12,6 +12,8 @@ export default {
       "grey-dark": "#323232",
       "black": "#000000",
       "white": "#FFFFFF",
+      "green": "#28A745",
+      "red": "#DC3545",
     },
     fontFamily: {
       sans: ["Graphik", "sans-serif"],

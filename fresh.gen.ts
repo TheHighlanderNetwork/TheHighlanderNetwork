@@ -6,6 +6,8 @@ import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $api_customClaims_getUserClaims from "./routes/api/customClaims/getUserClaims.ts";
 import * as $api_customClaims_setUserClaims from "./routes/api/customClaims/setUserClaims.ts";
+import * as $api_db_professors_netid_ from "./routes/api/db/professors/[netid].ts";
+import * as $api_db_professors_index from "./routes/api/db/professors/index.ts";
 import * as $api_firebaseAdmin from "./routes/api/firebaseAdmin.ts";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_login_verifyIdToken from "./routes/api/login/verifyIdToken.ts";
@@ -40,6 +42,7 @@ import * as $Review from "./islands/Review.tsx";
 import * as $Reviews from "./islands/Reviews.tsx";
 import * as $Search from "./islands/Search.tsx";
 import * as $SearchResults from "./islands/SearchResults.tsx";
+import * as $Status from "./islands/Status.tsx";
 import * as $UsernameHeader from "./islands/UsernameHeader.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -51,6 +54,8 @@ const manifest = {
       $api_customClaims_getUserClaims,
     "./routes/api/customClaims/setUserClaims.ts":
       $api_customClaims_setUserClaims,
+    "./routes/api/db/professors/[netid].ts": $api_db_professors_netid_,
+    "./routes/api/db/professors/index.ts": $api_db_professors_index,
     "./routes/api/firebaseAdmin.ts": $api_firebaseAdmin,
     "./routes/api/joke.ts": $api_joke,
     "./routes/api/login/verifyIdToken.ts": $api_login_verifyIdToken,
@@ -87,6 +92,7 @@ const manifest = {
     "./islands/Reviews.tsx": $Reviews,
     "./islands/Search.tsx": $Search,
     "./islands/SearchResults.tsx": $SearchResults,
+    "./islands/Status.tsx": $Status,
     "./islands/UsernameHeader.tsx": $UsernameHeader,
   },
   baseUrl: import.meta.url,

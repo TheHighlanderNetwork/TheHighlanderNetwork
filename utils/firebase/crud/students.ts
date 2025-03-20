@@ -1,4 +1,4 @@
-import { db } from "./firebase.ts";
+import { db } from "../../../routes/api/firebaseAdmin.ts";
 
 export type Student = {
   clubCount: number;
