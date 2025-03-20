@@ -6,6 +6,7 @@ export type Club = {
   images: string[];
   location: string;
   name: string;
+  email: string;
 };
 
 const collection = "clubs";

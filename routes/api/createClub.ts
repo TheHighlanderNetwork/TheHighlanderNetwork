@@ -5,7 +5,8 @@ import { Handlers } from "$fresh/server.ts";
 export const handler: Handlers = {
   async POST(req) {
     try {
-      const { uid, name, description, images, location } = await req.json();
+      const { uid, name, description, images, location, email } = await req
+        .json();
 
       if (!uid) {
         return new Response(
@@ -53,16 +54,30 @@ export const handler: Handlers = {
         images,
         location,
         uid,
+        email,
       });
 
       return new Response(JSON.stringify({ success: true, id: newClub.id }), {
         status: 201,
       });
-    } catch (error) {
-      return new Response(
-        JSON.stringify({ success: false, error: error.message }),
-        { status: 500 },
-      );
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return new Response(
+          JSON.stringify({ success: false, error: error.message }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      } else {
+        return new Response(
+          JSON.stringify({ success: false, error: error }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      }
     }
   },
 };

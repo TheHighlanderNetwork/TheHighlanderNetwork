@@ -11,6 +11,7 @@ Deno.test("Club CRUD Operations", async (t) => {
       email: "chess@club.com",
       images: ["chess1.jpg"],
       location: "Library Room 101",
+      uid: "IloveChess2004",
     });
     clubId = club.id;
     console.assert(clubId != null, "Club ID should exist");

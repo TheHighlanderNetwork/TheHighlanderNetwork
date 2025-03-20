@@ -1,7 +1,8 @@
 import { Head } from "$fresh/runtime.ts";
-import UsernameHeader from "../islands/UsernameHeader.tsx"; // Adjust the path as needed
+import _HighlanderHome from "../islands/HighlanderHome.tsx";
+import UsernameHeader from "../islands/UsernameHeader.tsx";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <>
       <Head>
