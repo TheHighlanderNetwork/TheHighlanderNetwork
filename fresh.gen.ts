@@ -11,13 +11,16 @@ import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_login_verifyIdToken from "./routes/api/login/verifyIdToken.ts";
 import * as $api_search_search from "./routes/api/search/search.ts";
 import * as $courses_course_id_index from "./routes/courses/[course_id]/index.tsx";
+import * as $deleteUserTest_index from "./routes/deleteUserTest/index.tsx";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login_index from "./routes/login/index.tsx";
+import * as $professors_net_id_index from "./routes/professors/[net_id]/index.tsx";
 import * as $requestprofessor_index from "./routes/requestprofessor/index.tsx";
 import * as $reviewbusinesses_index from "./routes/reviewbusinesses/index.tsx";
 import * as $reviewprofessors_index from "./routes/reviewprofessors/index.tsx";
 import * as $searchwrapper_index from "./routes/searchwrapper/index.tsx";
+import * as $search_index from "./routes/search/index.tsx";
 import * as $signup_index from "./routes/signup/index.tsx";
 import * as $test_index from "./routes/test/index.tsx";
 import * as $AddBusinessReview from "./islands/AddBusinessReview.tsx";
@@ -46,6 +49,13 @@ import * as $SearchBox from "./islands/SearchBox.tsx";
 import * as $SearchResults from "./islands/SearchResults.tsx";
 import * as $SearchWrapper from "./islands/SearchWrapper.tsx";
 import * as $UsernameHeader from "./islands/UsernameHeader.tsx";
+import * as $deleteUserTest from "./islands/deleteUserTest.tsx";
+import * as $reviewDisplay_CourseInfo from "./islands/reviewDisplay/CourseInfo.tsx";
+import * as $reviewDisplay_ProfessorInfo from "./islands/reviewDisplay/ProfessorInfo.tsx";
+import * as $reviewDisplay_Review from "./islands/reviewDisplay/Review.tsx";
+import * as $reviewDisplay_Reviews from "./islands/reviewDisplay/Reviews.tsx";
+import * as $search_Search from "./islands/search/Search.tsx";
+import * as $search_SearchResults from "./islands/search/SearchResults.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -61,13 +71,16 @@ const manifest = {
     "./routes/api/login/verifyIdToken.ts": $api_login_verifyIdToken,
     "./routes/api/search/search.ts": $api_search_search,
     "./routes/courses/[course_id]/index.tsx": $courses_course_id_index,
+    "./routes/deleteUserTest/index.tsx": $deleteUserTest_index,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/login/index.tsx": $login_index,
+    "./routes/professors/[net_id]/index.tsx": $professors_net_id_index,
     "./routes/requestprofessor/index.tsx": $requestprofessor_index,
     "./routes/reviewbusinesses/index.tsx": $reviewbusinesses_index,
     "./routes/reviewprofessors/index.tsx": $reviewprofessors_index,
     "./routes/searchwrapper/index.tsx": $searchwrapper_index,
+    "./routes/search/index.tsx": $search_index,
     "./routes/signup/index.tsx": $signup_index,
     "./routes/test/index.tsx": $test_index,
   },
@@ -98,6 +111,13 @@ const manifest = {
     "./islands/SearchResults.tsx": $SearchResults,
     "./islands/SearchWrapper.tsx": $SearchWrapper,
     "./islands/UsernameHeader.tsx": $UsernameHeader,
+    "./islands/deleteUserTest.tsx": $deleteUserTest,
+    "./islands/reviewDisplay/CourseInfo.tsx": $reviewDisplay_CourseInfo,
+    "./islands/reviewDisplay/ProfessorInfo.tsx": $reviewDisplay_ProfessorInfo,
+    "./islands/reviewDisplay/Review.tsx": $reviewDisplay_Review,
+    "./islands/reviewDisplay/Reviews.tsx": $reviewDisplay_Reviews,
+    "./islands/search/Search.tsx": $search_Search,
+    "./islands/search/SearchResults.tsx": $search_SearchResults,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

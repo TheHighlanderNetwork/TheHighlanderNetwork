@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import { retrieveDocument } from "../utils/firebase/docRetrieval/retrieve.ts";
+import { retrieveDocument } from "../../utils/firebase/docRetrieval/retrieve.ts";
 
 export default function CourseInfo({ course_id }: { course_id: string }) {
   const [course, setCourse] = useState<Record<string, string> | null>(null);

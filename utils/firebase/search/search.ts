@@ -100,7 +100,7 @@ function transformDocumentData(
 }
 
 // Convert docID to type value used for filtering search results
-function getEntryType(collection: string): number {
+export function getEntryType(collection: string): number {
   if (collection === "professors") {
     return 1;
   } else if (collection === "courses") {
@@ -114,7 +114,7 @@ function getEntryType(collection: string): number {
 }
 
 // Convert type back to collection for retrieving information from search results
-function getCollectionFromType(type: number): string {
+export function getCollectionFromType(type: number): string {
   if (type === 1) {
     return "professors";
   } else if (type === 2) {
