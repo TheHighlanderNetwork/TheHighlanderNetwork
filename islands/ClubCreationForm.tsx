@@ -13,7 +13,7 @@ export default function ClubCreationForm() {
   });
   const [logo, setLogo] = useState<string | null>(null);
   const [images, setImages] = useState<string[]>([]);
-  const [status, setStatus] = useState<string>(""); // ✅ Fix: Define status state
+  const [status, setStatus] = useState<string>("");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
@@ -46,11 +46,11 @@ export default function ClubCreationForm() {
     e.preventDefault();
   
     if (!user) {
-      setStatus("❌ User not authenticated");
+      setStatus("User not authenticated");
       return;
     }
   
-    setStatus("⏳ Creating club...");
+    setStatus("Creating club...");
     try {
       const response = await fetch("/api/createClub", {
         method: "POST",
@@ -67,7 +67,7 @@ export default function ClubCreationForm() {
       const data = await response.json();
   
       if (response.ok && data.success) {
-        setStatus("✅ Club created successfully!");
+        setStatus("Club created successfully!");
         setFormData({ organizationName: "", highlanderLink: "", description: "" });
         setLogo(null);
         setImages([]);
@@ -75,7 +75,7 @@ export default function ClubCreationForm() {
         throw new Error(data.error || "Unknown error occurred.");
       }
     } catch (error) {
-      setStatus(`❌ Error: ${error instanceof Error ? error.message : "Unexpected error"}`);
+      setStatus(`Error: ${error instanceof Error ? error.message : "Unexpected error"}`);
     }
   };
   

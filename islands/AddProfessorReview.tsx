@@ -29,7 +29,7 @@ export default function AddProfessorReview({ professorId, onClose }: AddProfesso
         onClose();
       }, 1500);
     } catch (error) {
-      console.error("❌ Error submitting review:", error);
+      console.error("Error submitting review:", error);
       setMessage("❌ Failed to submit review. Please try again.");
     } finally {
       setIsSubmitting(false);
