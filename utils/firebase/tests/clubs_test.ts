@@ -8,7 +8,6 @@ Deno.test("Club CRUD Operations", async (t) => {
     const club = await createClub({
       name: "Chess Club",
       description: "For chess lovers",
-      email: "chess@club.com",
       images: ["chess1.jpg"],
       location: "Library Room 101",
       uid: "IloveChess2004",
