@@ -24,6 +24,7 @@ import * as $index from "./routes/index.tsx";
 import * as $login_index from "./routes/login/index.tsx";
 import * as $professors_net_id_index from "./routes/professors/[net_id]/index.tsx";
 import * as $requestprofessor_index from "./routes/requestprofessor/index.tsx";
+import * as $reviewCreation_index from "./routes/reviewCreation/index.tsx";
 import * as $reviewbusinesses_index from "./routes/reviewbusinesses/index.tsx";
 import * as $reviewprofessors_index from "./routes/reviewprofessors/index.tsx";
 import * as $search_index from "./routes/search/index.tsx";
@@ -40,6 +41,7 @@ import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
 import * as $ClubCreationForm from "./islands/ClubCreationForm.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import * as $CourseInfo from "./islands/CourseInfo.tsx";
+import * as $CreateReviewIsland from "./islands/CreateReviewIsland.tsx";
 import * as $Filters from "./islands/Filters.tsx";
 import * as $FiltersVertical from "./islands/FiltersVertical.tsx";
 import * as $FirestoreQuery from "./islands/FirestoreQuery.tsx";
@@ -95,6 +97,7 @@ const manifest = {
     "./routes/login/index.tsx": $login_index,
     "./routes/professors/[net_id]/index.tsx": $professors_net_id_index,
     "./routes/requestprofessor/index.tsx": $requestprofessor_index,
+    "./routes/reviewCreation/index.tsx": $reviewCreation_index,
     "./routes/reviewbusinesses/index.tsx": $reviewbusinesses_index,
     "./routes/reviewprofessors/index.tsx": $reviewprofessors_index,
     "./routes/search/index.tsx": $search_index,
@@ -113,6 +116,7 @@ const manifest = {
     "./islands/ClubCreationForm.tsx": $ClubCreationForm,
     "./islands/Counter.tsx": $Counter,
     "./islands/CourseInfo.tsx": $CourseInfo,
+    "./islands/CreateReviewIsland.tsx": $CreateReviewIsland,
     "./islands/Filters.tsx": $Filters,
     "./islands/FiltersVertical.tsx": $FiltersVertical,
     "./islands/FirestoreQuery.tsx": $FirestoreQuery,

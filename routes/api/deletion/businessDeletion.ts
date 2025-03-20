@@ -18,7 +18,7 @@ export async function deleteBusiness(uid: string, businessRef: string) {
     "reviewee",
     "==",
     businessRef,
-  ).where("type", "==", 4).get();
+  ).where("type", "==", 3).get();
   const deletePromises = reviewsSnapshot.docs.map((doc) => doc.ref.delete());
 
   // Wait for all deletions to complete
