@@ -174,8 +174,10 @@ export default function SearchWrapper(
             </select>
           </div>
           <div className="text-sm mt-6">
-            <p className="text-gray-500">Can't find my class</p>
-            <p className="text-xs text-gray-400">ADS</p>
+            {
+              /* <p className="text-gray-500">Can't find my class</p>
+            <p className="text-xs text-gray-400">ADS</p> */
+            }
           </div>
         </aside>
 

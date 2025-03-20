@@ -2,7 +2,6 @@ import { useSignal } from "@preact/signals";
 import { useEffect } from "preact/hooks";
 import ReviewIsland from "../reviewDisplay/Review.tsx"; // Your individual review island component
 import { fetchMatchedData } from "../../utils/firebase/docRetrieval/retrieve.ts";
-
 export default function ReviewsIsland(
   { query }: { query: Record<string, unknown> },
 ) {
