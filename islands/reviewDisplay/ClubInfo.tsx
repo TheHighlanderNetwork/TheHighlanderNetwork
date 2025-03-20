@@ -21,7 +21,9 @@ export default function ClubInfo({ club_id }: { club_id: string }) {
   return (
     <div className="p-4 border rounded-lg shadow-md">
       <h2 className="text-xl font-bold">{club.name ? club.name : ""}</h2>
-      <p className="text-gray-600">{club.description ? club.description : ""}</p>
+      <p className="text-gray-600">
+        {club.description ? club.description : ""}
+      </p>
       <p className="text-gray-600">{club.location ? club.location : ""}</p>
     </div>
   );

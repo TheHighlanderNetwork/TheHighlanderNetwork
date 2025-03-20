@@ -20,9 +20,15 @@ export default function ClubInfo({ business_id }: { business_id: string }) {
 
   return (
     <div className="p-4 border rounded-lg shadow-md">
-      <h2 className="text-xl font-bold">{business.name ? business.name : ""}</h2>
-      <p className="text-gray-600">{business.description ? business.description : ""}</p>
-      <p className="text-gray-600">{business.location ? business.location : ""}</p>
+      <h2 className="text-xl font-bold">
+        {business.name ? business.name : ""}
+      </h2>
+      <p className="text-gray-600">
+        {business.description ? business.description : ""}
+      </p>
+      <p className="text-gray-600">
+        {business.location ? business.location : ""}
+      </p>
     </div>
   );
 }
