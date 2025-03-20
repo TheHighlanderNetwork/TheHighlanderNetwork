@@ -64,13 +64,6 @@ export default function UsernameHeader() {
         <div className="absolute top-full right-0 bg-white border rounded-md shadow-md w-48 py-2 z-50">
           <button
             type="button"
-            onClick={() => (globalThis.location.href = "/settings")}
-            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-grey-light"
-          >
-            User Settings
-          </button>
-          <button
-            type="button"
             onClick={handleLogout}
             className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-grey-light"
           >
