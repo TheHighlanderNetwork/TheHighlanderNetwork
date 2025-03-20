@@ -28,7 +28,7 @@ export default function ReviewIsland(
         <em>Description: {review.review}</em>
       </p>
       <p>
-        <em>{formatTimestamp(review.time)}</em>
+        <em>{formatTimestamp(new Timestamp(review.time))}</em>
       </p>
     </div>
   );

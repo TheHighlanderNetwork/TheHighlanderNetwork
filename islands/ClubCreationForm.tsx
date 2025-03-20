@@ -1,7 +1,8 @@
 /** @jsxImportSource preact */
 "use client";
 import { useEffect, useState } from "preact/hooks";
-import { onAuthStateChanged, User } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+import type { User } from "firebase/auth";
 import { auth } from "../utils/firebase.ts";
 
 export default function ClubCreationForm() {
