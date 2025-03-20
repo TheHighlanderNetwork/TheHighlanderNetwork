@@ -6,7 +6,7 @@ import { verifyUserToken } from "../utils/firebase/verify/verifyToken.ts";
 
 export default function GoogleSignIn() {
   const [message, setMessage] = useState("");
-  console.log("HELLOOOO")
+  console.log("HELLOOOO");
 
   const handleGoogleSignIn = async () => {
     try {

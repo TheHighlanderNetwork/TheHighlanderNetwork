@@ -7,7 +7,9 @@ type AddProfessorReviewProps = {
   onClose: () => void;
 };
 
-export default function AddProfessorReview({ professorId, onClose }: AddProfessorReviewProps) {
+export default function AddProfessorReview(
+  { professorId, onClose }: AddProfessorReviewProps,
+) {
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,13 +38,13 @@ export default function AddProfessorReview({ professorId, onClose }: AddProfesso
     }
   };
 
-
-
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white p-6 rounded-md w-full max-w-md shadow-lg">
         <h2 className="text-xl font-bold mb-4">Add Review</h2>
-        <p className="text-sm text-gray-600 mb-4">Professor ID: {professorId}</p>
+        <p className="text-sm text-gray-600 mb-4">
+          Professor ID: {professorId}
+        </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {/* Rating */}
@@ -50,7 +52,8 @@ export default function AddProfessorReview({ professorId, onClose }: AddProfesso
             <label className="block font-medium mb-2">Rating</label>
             <select
               value={rating}
-              onChange={(e) => setRating(Number((e.target as HTMLSelectElement).value))}
+              onChange={(e) =>
+                setRating(Number((e.target as HTMLSelectElement).value))}
               className="w-full px-4 py-2 border rounded-md"
               required
             >
@@ -68,12 +71,14 @@ export default function AddProfessorReview({ professorId, onClose }: AddProfesso
             <label className="block font-medium mb-2">Your Review</label>
             <textarea
               value={reviewText}
-              onChange={(e) => setReviewText((e.target as HTMLTextAreaElement).value)}
+              onChange={(e) =>
+                setReviewText((e.target as HTMLTextAreaElement).value)}
               className="w-full px-4 py-2 border rounded-md resize-none"
               rows={4}
               placeholder="Write your review here..."
               required
-            ></textarea>
+            >
+            </textarea>
           </div>
 
           {/* Submit Button */}

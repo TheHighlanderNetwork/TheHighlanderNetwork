@@ -79,16 +79,16 @@ export default function Home() {
             </div>
 
             <a href="/createclubs">
-            <div class="flex flex-col items-center">
-              <img
-                class="my-6"
-                src="/organizations.svg"
-                width="128"
-                height="128"
-                alt="Organizations logo"
-              />
-              <h2>Organizations</h2>
-            </div>
+              <div class="flex flex-col items-center">
+                <img
+                  class="my-6"
+                  src="/organizations.svg"
+                  width="128"
+                  height="128"
+                  alt="Organizations logo"
+                />
+                <h2>Organizations</h2>
+              </div>
             </a>
           </div>
         </main>

@@ -1,8 +1,8 @@
 //utils/firebase.ts
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getFirestore } from "firestore";
-import { getAuth, GoogleAuthProvider, setPersistence, browserLocalPersistence } from "firebase/auth";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
+
 const isDeno = typeof Deno !== "undefined" && Deno.env;
 
 const firebaseConfig = {
@@ -38,19 +38,8 @@ if (!getApps().length) {
   app = getApp(); // Reuse existing app instance
   console.log("Firebase app reused");
 }
-
-
-
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
 
-
-setPersistence(auth, browserLocalPersistence)
-  .then(() => console.log("Auth persistence is enabled"))
-  .catch((error) => console.error("Error setting auth persistence:", error));
-
-
 export { auth, db, provider };
-
-

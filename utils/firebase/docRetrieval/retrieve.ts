@@ -1,5 +1,4 @@
 import { db } from "../../firebase.ts";
-import { collection, doc, getDoc, getDocs, query, where } from "firestore";
 import {
   collection,
   doc,
@@ -42,7 +41,6 @@ export async function retrieveDocument(
     console.log("Fetching data");
 
     console.time("Retrieve document");
-    const docRef = doc(db, collec, docID); // "yourCollection" is the collection name
     const docRef = doc(db, collec, docID);
     const docSnapshot = await getDoc(docRef);
     console.timeEnd("Retrieve document");
@@ -64,24 +62,6 @@ export async function retrieveDocument(
 export async function fetchMatchedData(
   collectionName: string,
   filters: Record<string, unknown>,
-) {
-  const queryRef = collection(db, collectionName);
-  let q = queryRef; // Base query
-
-  // Iterate over each key in filters and apply where() conditions
-  Object.entries(filters).forEach(([key, value]) => {
-    q = query(q, where(key, "==", value));
-  });
-
-  // Execute the query
-  const querySnapshot = await getDocs(q);
-  const results = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
-
-  return results;
-}
 ): Promise<DocumentData[]> {
   try {
     const queryRef = collection(db, collectionName);

@@ -15,7 +15,9 @@ export async function updateNumClubs(uid: string, numclubs: number) {
       clubLimitReached, // ✅ Set flag when reaching the limit
     });
 
-    console.log(`✅ Updated numclubs for UID ${uid}: ${numclubs}, Limit Reached: ${clubLimitReached}`);
+    console.log(
+      `✅ Updated numclubs for UID ${uid}: ${numclubs}, Limit Reached: ${clubLimitReached}`,
+    );
     return { success: true };
   } catch (error) {
     console.error("🚨 Error updating numclubs:", error);

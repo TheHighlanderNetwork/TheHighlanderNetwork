@@ -1,6 +1,6 @@
 /** @jsxImportSource preact */
 "use client";
-import { useEffect, useState, useRef } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../utils/firebase.ts";
 import { retrieveDocument } from "../utils/firebase/docRetrieval/retrieve.ts";
@@ -21,11 +21,7 @@ export default function ProfessorReviews() {
         if (professors.length === 0) {
           fetchProfessors();
         }
-      } 
-      
-
-      
-      else {
+      } else {
         console.warn("User is not authenticated");
         setUser(null);
       }
@@ -49,10 +45,13 @@ export default function ProfessorReviews() {
       }
 
       // converting document fields into a structured list
-      const professorsList = Object.entries(document).map(([key, value], index) => ({
+      const professorsList = Object.entries(document).map((
+        [key, value],
+        index,
+      ) => ({
         id: `prof-${key}`,
-        name: value || "Unnamed Professor", 
-        department: "Unknown Department",  
+        name: value || "Unnamed Professor",
+        department: "Unknown Department",
       }));
 
       console.log("All Professors fetched XD:", professorsList);
@@ -92,25 +91,25 @@ export default function ProfessorReviews() {
       <main className="flex-1 bg-white shadow-lg p-6 rounded-md ml-6 overflow-y-auto max-h-[600px]">
         <h2 className="text-xl font-bold mb-6">Professors</h2>
 
-        {loading ? (
-          <p className="text-lg text-gray-600">Loading...</p>
-        ) : (
-          <div className="flex flex-col gap-6">
-            {professors.map((prof, index) => (
-              <div
-                key={prof.id}
-                ref={index === professors.length - 1 ? listRef : null}
-                className="flex gap-4 items-start"
-              >
-                <div className="w-20 h-20 bg-gray-300 rounded-md" />
-                <div>
-                  <h3 className="font-bold text-lg">{prof.name}</h3>
-                  <p className="text-gray-600">{prof.department}</p>
+        {loading
+          ? <p className="text-lg text-gray-600">Loading...</p>
+          : (
+            <div className="flex flex-col gap-6">
+              {professors.map((prof, index) => (
+                <div
+                  key={prof.id}
+                  ref={index === professors.length - 1 ? listRef : null}
+                  className="flex gap-4 items-start"
+                >
+                  <div className="w-20 h-20 bg-gray-300 rounded-md" />
+                  <div>
+                    <h3 className="font-bold text-lg">{prof.name}</h3>
+                    <p className="text-gray-600">{prof.department}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
       </main>
     </div>
   );

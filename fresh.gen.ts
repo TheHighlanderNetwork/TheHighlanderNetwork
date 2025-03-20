@@ -11,10 +11,9 @@ import * as $api_customClaims_setflag from "./routes/api/customClaims/setflag.ts
 import * as $api_firebaseAdmin from "./routes/api/firebaseAdmin.ts";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_login_verifyIdToken from "./routes/api/login/verifyIdToken.ts";
-import * as $courses_course_id_index from "./routes/courses/[course_id]/index.tsx";
-import * as $createclubs_index from "./routes/createclubs/index.tsx";
 import * as $api_search_search from "./routes/api/search/search.ts";
 import * as $courses_course_id_index from "./routes/courses/[course_id]/index.tsx";
+import * as $createclubs_index from "./routes/createclubs/index.tsx";
 import * as $deleteUserTest_index from "./routes/deleteUserTest/index.tsx";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
@@ -26,13 +25,11 @@ import * as $reviewprofessors_index from "./routes/reviewprofessors/index.tsx";
 import * as $search_index from "./routes/search/index.tsx";
 import * as $signup_index from "./routes/signup/index.tsx";
 import * as $test_index from "./routes/test/index.tsx";
-import * as $AddProfessorReview from "./islands/AddProfessorReview.tsx";
-import * as $AddReviewButton from "./islands/AddReviewButton.tsx";
-import * as $BusinessDashboard from "./islands/BusinessDashboard.tsx";
 import * as $AddBusinessReview from "./islands/AddBusinessReview.tsx";
 import * as $AddBusinessReviewButton from "./islands/AddBusinessReviewButton.tsx";
 import * as $AddProfessorReview from "./islands/AddProfessorReview.tsx";
 import * as $AddProfessorReviewButton from "./islands/AddProfessorReviewButton.tsx";
+import * as $BusinessDashboard from "./islands/BusinessDashboard.tsx";
 import * as $BusinessReview from "./islands/BusinessReview.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
@@ -45,9 +42,9 @@ import * as $GoogleSignUp from "./islands/GoogleSignUp.tsx";
 import * as $HeaderSignUpButton from "./islands/HeaderSignUpButton.tsx";
 import * as $ProfessorRequestForm from "./islands/ProfessorRequestForm.tsx";
 import * as $ProfessorReviews from "./islands/ProfessorReviews.tsx";
+import * as $RequestProfessorButton from "./islands/RequestProfessorButton.tsx";
 import * as $Review from "./islands/Review.tsx";
 import * as $Reviews from "./islands/Reviews.tsx";
-import * as $RequestProfessorButton from "./islands/RequestProfessorButton.tsx";
 import * as $UsernameHeader from "./islands/UsernameHeader.tsx";
 import * as $deleteUserTest from "./islands/deleteUserTest.tsx";
 import * as $reviewDisplay_CourseInfo from "./islands/reviewDisplay/CourseInfo.tsx";
@@ -71,14 +68,10 @@ const manifest = {
     "./routes/api/firebaseAdmin.ts": $api_firebaseAdmin,
     "./routes/api/joke.ts": $api_joke,
     "./routes/api/login/verifyIdToken.ts": $api_login_verifyIdToken,
-
-    "./routes/courses/[course_id]/index.tsx": $courses_course_id_index,
-    "./routes/createclubs/index.tsx": $createclubs_index,
-
     "./routes/api/search/search.ts": $api_search_search,
     "./routes/courses/[course_id]/index.tsx": $courses_course_id_index,
+    "./routes/createclubs/index.tsx": $createclubs_index,
     "./routes/deleteUserTest/index.tsx": $deleteUserTest_index,
-
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/login/index.tsx": $login_index,
@@ -94,32 +87,23 @@ const manifest = {
     "./islands/AddBusinessReview.tsx": $AddBusinessReview,
     "./islands/AddBusinessReviewButton.tsx": $AddBusinessReviewButton,
     "./islands/AddProfessorReview.tsx": $AddProfessorReview,
-
-    "./islands/AddReviewButton.tsx": $AddReviewButton,
-    "./islands/BusinessDashboard.tsx": $BusinessDashboard,
-
     "./islands/AddProfessorReviewButton.tsx": $AddProfessorReviewButton,
+    "./islands/BusinessDashboard.tsx": $BusinessDashboard,
     "./islands/BusinessReview.tsx": $BusinessReview,
-
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
     "./islands/ClubCreationForm.tsx": $ClubCreationForm,
     "./islands/Counter.tsx": $Counter,
-
     "./islands/CourseInfo.tsx": $CourseInfo,
-
     "./islands/FirestoreQuery.tsx": $FirestoreQuery,
     "./islands/GoogleSignIn.tsx": $GoogleSignIn,
     "./islands/GoogleSignUp.tsx": $GoogleSignUp,
     "./islands/HeaderSignUpButton.tsx": $HeaderSignUpButton,
     "./islands/ProfessorRequestForm.tsx": $ProfessorRequestForm,
     "./islands/ProfessorReviews.tsx": $ProfessorReviews,
-
+    "./islands/RequestProfessorButton.tsx": $RequestProfessorButton,
     "./islands/Review.tsx": $Review,
     "./islands/Reviews.tsx": $Reviews,
-
-    "./islands/RequestProfessorButton.tsx": $RequestProfessorButton,
-
     "./islands/UsernameHeader.tsx": $UsernameHeader,
     "./islands/deleteUserTest.tsx": $deleteUserTest,
     "./islands/reviewDisplay/CourseInfo.tsx": $reviewDisplay_CourseInfo,

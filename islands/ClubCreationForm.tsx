@@ -1,6 +1,6 @@
 /** @jsxImportSource preact */
 "use client";
-import { useState, useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../utils/firebase.ts";
 
@@ -44,12 +44,12 @@ export default function ClubCreationForm() {
   };
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
-  
+
     if (!user) {
       setStatus("User not authenticated");
       return;
     }
-  
+
     setStatus("Creating club...");
     try {
       const response = await fetch("/api/createClub", {
@@ -63,23 +63,27 @@ export default function ClubCreationForm() {
           location: "TBD",
         }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok && data.success) {
         setStatus("Club created successfully!");
-        setFormData({ organizationName: "", highlanderLink: "", description: "" });
+        setFormData({
+          organizationName: "",
+          highlanderLink: "",
+          description: "",
+        });
         setLogo(null);
         setImages([]);
       } else {
         throw new Error(data.error || "Unknown error occurred.");
       }
     } catch (error) {
-      setStatus(`Error: ${error instanceof Error ? error.message : "Unexpected error"}`);
+      setStatus(
+        `Error: ${error instanceof Error ? error.message : "Unexpected error"}`,
+      );
     }
   };
-  
-  
 
   if (!user) {
     return (
@@ -103,13 +107,22 @@ export default function ClubCreationForm() {
           {/* Logo Upload */}
           <div className="flex items-center gap-4">
             <label className="cursor-pointer">
-              <input type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleLogoUpload}
+                className="hidden"
+              />
               <div className="w-24 h-24 border-2 border-gray-300 flex items-center justify-center rounded-full">
-                {logo ? (
-                  <img src={logo} alt="Club Logo" className="rounded-full w-full h-full" />
-                ) : (
-                  <span className="text-gray-500">Insert Logo</span>
-                )}
+                {logo
+                  ? (
+                    <img
+                      src={logo}
+                      alt="Club Logo"
+                      className="rounded-full w-full h-full"
+                    />
+                  )
+                  : <span className="text-gray-500">Insert Logo</span>}
               </div>
             </label>
           </div>
@@ -159,7 +172,13 @@ export default function ClubCreationForm() {
           <div>
             <label className="block text-gray-700">Images</label>
             <div className="border-dashed border-2 border-gray-300 rounded-md p-6 text-center">
-              <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleImageUpload}
+                className="hidden"
+              />
               <p className="text-gray-500">Drag or Upload here</p>
             </div>
           </div>
@@ -168,11 +187,16 @@ export default function ClubCreationForm() {
           <div className="mt-4 flex gap-4">
             {images.length > 0
               ? images.map((src, index) => (
-                  <img key={index} src={src} className="w-24 h-24 bg-gray-300 rounded-md" />
-                ))
+                <img
+                  key={index}
+                  src={src}
+                  className="w-24 h-24 bg-gray-300 rounded-md"
+                />
+              ))
               : [1, 2, 3].map((_, index) => (
-                  <div key={index} className="w-24 h-24 bg-gray-300 rounded-md"></div>
-                ))}
+                <div key={index} className="w-24 h-24 bg-gray-300 rounded-md">
+                </div>
+              ))}
           </div>
 
           {/* Submit Button (Centered) */}

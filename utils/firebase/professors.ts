@@ -1,5 +1,9 @@
 import { db } from "./firebase.ts";
-import { getFirestore, collection, getDocs } from "https://esm.sh/firebase/firestore";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+} from "https://esm.sh/firebase/firestore";
 
 export type Professor = {
   name: string;
