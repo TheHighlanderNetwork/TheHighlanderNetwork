@@ -19,8 +19,8 @@ import * as $professors_net_id_index from "./routes/professors/[net_id]/index.ts
 import * as $requestprofessor_index from "./routes/requestprofessor/index.tsx";
 import * as $reviewbusinesses_index from "./routes/reviewbusinesses/index.tsx";
 import * as $reviewprofessors_index from "./routes/reviewprofessors/index.tsx";
-import * as $searchwrapper_index from "./routes/searchwrapper/index.tsx";
 import * as $search_index from "./routes/search/index.tsx";
+import * as $searchwrapper_index from "./routes/searchwrapper/index.tsx";
 import * as $signup_index from "./routes/signup/index.tsx";
 import * as $test_index from "./routes/test/index.tsx";
 import * as $AddBusinessReview from "./islands/AddBusinessReview.tsx";
@@ -31,7 +31,6 @@ import * as $BusinessReview from "./islands/BusinessReview.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
 import * as $Counter from "./islands/Counter.tsx";
-import * as $CourseInfo from "./islands/CourseInfo.tsx";
 import * as $Filters from "./islands/Filters.tsx";
 import * as $FiltersVertical from "./islands/FiltersVertical.tsx";
 import * as $FirestoreQuery from "./islands/FirestoreQuery.tsx";
@@ -42,8 +41,6 @@ import * as $HighlanderHome from "./islands/HighlanderHome.tsx";
 import * as $ProfessorRequestForm from "./islands/ProfessorRequestForm.tsx";
 import * as $ProfessorReviews from "./islands/ProfessorReviews.tsx";
 import * as $RequestProfessorButton from "./islands/RequestProfessorButton.tsx";
-import * as $Review from "./islands/Review.tsx";
-import * as $Reviews from "./islands/Reviews.tsx";
 import * as $Search from "./islands/Search.tsx";
 import * as $SearchBox from "./islands/SearchBox.tsx";
 import * as $SearchResults from "./islands/SearchResults.tsx";
@@ -79,8 +76,8 @@ const manifest = {
     "./routes/requestprofessor/index.tsx": $requestprofessor_index,
     "./routes/reviewbusinesses/index.tsx": $reviewbusinesses_index,
     "./routes/reviewprofessors/index.tsx": $reviewprofessors_index,
-    "./routes/searchwrapper/index.tsx": $searchwrapper_index,
     "./routes/search/index.tsx": $search_index,
+    "./routes/searchwrapper/index.tsx": $searchwrapper_index,
     "./routes/signup/index.tsx": $signup_index,
     "./routes/test/index.tsx": $test_index,
   },
@@ -93,7 +90,6 @@ const manifest = {
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
     "./islands/Counter.tsx": $Counter,
-    "./islands/CourseInfo.tsx": $CourseInfo,
     "./islands/Filters.tsx": $Filters,
     "./islands/FiltersVertical.tsx": $FiltersVertical,
     "./islands/FirestoreQuery.tsx": $FirestoreQuery,
@@ -104,8 +100,6 @@ const manifest = {
     "./islands/ProfessorRequestForm.tsx": $ProfessorRequestForm,
     "./islands/ProfessorReviews.tsx": $ProfessorReviews,
     "./islands/RequestProfessorButton.tsx": $RequestProfessorButton,
-    "./islands/Review.tsx": $Review,
-    "./islands/Reviews.tsx": $Reviews,
     "./islands/Search.tsx": $Search,
     "./islands/SearchBox.tsx": $SearchBox,
     "./islands/SearchResults.tsx": $SearchResults,

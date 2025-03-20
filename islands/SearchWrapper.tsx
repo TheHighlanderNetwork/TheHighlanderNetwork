@@ -1,15 +1,13 @@
 "use client";
 import { useEffect, useState } from "preact/hooks";
 import UsernameHeader from "./UsernameHeader.tsx";
-import SearchBox from "./SearchBox.tsx";
+import SearchBox, { _SearchBoxProps } from "./SearchBox.tsx";
 import FiltersVertical from "./FiltersVertical.tsx";
-import SearchResults from "./SearchResults.tsx";
+import SearchResults, { SearchItem } from "./SearchResults.tsx";
 import {
   retrieveDocFromSearch,
   userSearch,
 } from "../utils/firebase/search/search.ts";
-
-// Import retrieveDocument from retrieve.ts
 import { retrieveDocument } from "../utils/firebase/docRetrieval/retrieve.ts";
 
 interface SearchWrapperProps {
@@ -19,37 +17,23 @@ interface SearchWrapperProps {
 export default function SearchWrapper(
   { initialQuery = "" }: SearchWrapperProps,
 ) {
-  const [results, setResults] = useState<unknown[]>([]);
+  const [results, setResults] = useState<SearchItem[]>([]);
   const [loaded, setLoaded] = useState(false);
-
   const [bitfield, setBitfield] = useState(0b1100);
   const [query, setQuery] = useState(initialQuery);
 
-  /**
-   * Actually perform the search using search.ts logic:
-   * 1) userSearch(bitfield, query) => fuse results
-   * 2) retrieveDocFromSearch(...) => fetch actual docs
-   * 3) retrieveDocument("all_entries", "courses") => map course IDs
-   */
   async function doSearch(q: string, b: number) {
     try {
-      console.log("Performing search with bitfield:", b, "and query:", q);
-
       const fuseResults = await userSearch(b, q);
-      console.log("userSearch returned:", fuseResults);
-
       const docData = await retrieveDocFromSearch(fuseResults);
-      console.log("retrieveDocFromSearch returned:", docData);
 
-      let finalData = Array.isArray(docData) ? docData : [docData];
+      const finalData = Array.isArray(docData) ? docData : [docData];
+      let typedData: SearchItem[] = finalData.map((item) => item as SearchItem);
 
       const allCourses = await retrieveDocument("all_entries", "courses");
-      console.log("all_courses doc:", allCourses);
-
-      // For each returned doc, replace classes[] with courseNames[]
-      finalData = finalData.map((item: typeof item) => {
+      typedData = typedData.map((item) => {
         if (item.classes && Array.isArray(item.classes)) {
-          const courseNames = item.classes.map((id: string) =>
+          const courseNames = item.classes.map((id) =>
             allCourses[id] || "Unknown Course"
           ).sort();
           return { ...item, courseNames };
@@ -57,7 +41,7 @@ export default function SearchWrapper(
         return item;
       });
 
-      setResults(finalData);
+      setResults(typedData);
       setLoaded(true);
     } catch (err) {
       console.error("Error fetching data in SearchWrapper:", err);
@@ -89,7 +73,16 @@ export default function SearchWrapper(
                 <h1 className="text-blue">Network</h1>
               </div>
             </a>
-            <div className="w-64">
+
+            {
+              /*
+              Use dynamic sizing for the SearchBox container:
+              - flex-1: let it grow to fill remaining horizontal space
+              - min-w-[300px]: ensure it doesn't shrink below 300px
+              - max-w-2xl: cap it at ~42rem
+            */
+            }
+            <div className="flex-1 min-w-[300px] max-w-2xl">
               <SearchBox onSearch={handleSearch} initialQuery={query} />
             </div>
           </div>
