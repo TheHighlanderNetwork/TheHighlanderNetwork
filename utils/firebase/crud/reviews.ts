@@ -1,4 +1,5 @@
-import { db } from "./firebase.ts";
+import type { Timestamp } from "npm:firebase-admin/firestore";
+import { db } from "../../../routes/api/firebaseAdmin.ts";
 
 export type Review = {
   class: string;
@@ -6,6 +7,8 @@ export type Review = {
   reviewee: string;
   reviewer: string;
   type: number;
+  rating: number;
+  timestamp: Timestamp;
 };
 
 const collection = "reviews";

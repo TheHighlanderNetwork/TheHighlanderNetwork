@@ -3,8 +3,9 @@ import {
   deleteReview,
   getReview,
   updateReview,
-} from "../reviews.ts";
-import { db } from "../firebase.ts";
+} from "../crud/reviews.ts";
+import { db } from "../../../routes/api/firebaseAdmin.ts";
+import { Timestamp } from "npm:firebase-admin/firestore";
 
 Deno.test("Review CRUD Operations", async (t) => {
   let reviewId: string;
@@ -16,6 +17,8 @@ Deno.test("Review CRUD Operations", async (t) => {
       reviewee: "Dr. Smith",
       reviewer: "John Doe",
       type: 5,
+      rating: 5,
+      timestamp: Timestamp.now(),
     });
     reviewId = review.id;
     console.assert(reviewId != null, "Review ID should exist");

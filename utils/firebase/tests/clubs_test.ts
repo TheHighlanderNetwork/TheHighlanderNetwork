@@ -1,5 +1,5 @@
-import { createClub, deleteClub, getClub, updateClub } from "../clubs.ts";
-import { db } from "../firebase.ts";
+import { createClub, deleteClub, getClub, updateClub } from "../crud/clubs.ts";
+import { db } from "../../../routes/api/firebaseAdmin.ts";
 
 Deno.test("Club CRUD Operations", async (t) => {
   let clubId: string;
