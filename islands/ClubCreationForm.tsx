@@ -16,9 +16,12 @@ export default function ClubCreationForm() {
   const [status, setStatus] = useState<string>("");
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      setUser(firebaseUser);
-    });
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (firebaseUser: firebase.User | null) => {
+        setUser(firebaseUser);
+      },
+    );
     return () => unsubscribe();
   }, []);
 
@@ -56,7 +59,7 @@ export default function ClubCreationForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          uid: user.uid,
+          uid: (user as firebase.User).uid,
           name: formData.organizationName,
           description: formData.description,
           images: images,
