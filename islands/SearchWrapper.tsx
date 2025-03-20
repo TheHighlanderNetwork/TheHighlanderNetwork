@@ -11,6 +11,7 @@ interface SearchIslandProps {
   initialPage: number;
   initialFilter: number;
 }
+
 export default function SearchWrapper(
   { initialQuery, initialPage, initialFilter }: SearchIslandProps,
 ) {
@@ -24,7 +25,6 @@ export default function SearchWrapper(
 
   const [numResults, setNumResults] = useState(0);
 
-  // Ensure URL has &page=1 if missing
   useEffect(() => {
     ensurePageParam();
     doSearch(query, bitfield);
@@ -32,42 +32,15 @@ export default function SearchWrapper(
 
   async function doSearch(q: string, b: number) {
     try {
-      // Needs bitfield to add filters
       const data = await userSearch(b, q);
       setMaxPage(Math.ceil(data.length / 10));
       setNumResults(data.length);
 
       if (page > Math.ceil(data.length / 10)) {
-        setPage(Math.ceil(data.length / 10)); // Adjust page if it exceeds maxPage
+        setPage(Math.ceil(data.length / 10));
       }
 
-      console.log("set results");
       setResults(data.slice(10 * (page - 1), 10 + 10 * (page - 1)));
-
-      // console.log("Performing search with bitfield:", b, "and query:", q);
-      // const fuseResults = await userSearch(b, q);
-      // console.log("Search results:", fuseResults);
-      // const docData = await retrieveDocFromSearch();
-
-      // console.log("Full results:", docData);
-      // const finalData = Array.isArray(docData) ? docData : [docData];
-      // console.log("Final results:", finalData);
-      // let typedData: SearchItem[] = finalData.map((item) => item as SearchItem);
-
-      // // Convert classes[] → courseNames[]
-      // const allCourses = await retrieveDocument("all_entries", "courses");
-      // typedData = typedData.map((item) => {
-      //   if (item.classes && Array.isArray(item.classes)) {
-      //     const courseNames = item.classes
-      //       .map((id) => allCourses[id] || "Unknown Course")
-      //       .sort();
-      //     return { ...item, courseNames };
-      //   }
-      //   return item;
-      // });
-
-      // setResults(typedData);
-      // setLoaded(true);
     } catch (err) {
       console.error("Error fetching data in SearchWrapper:", err);
     }
@@ -75,9 +48,7 @@ export default function SearchWrapper(
 
   function handleSearch(newQuery: string) {
     setQuery(newQuery);
-    // Reset to page=1 for a new query
     setPage(1);
-
     doSearch(newQuery, bitfield);
     updateUrl(newQuery, 1, bitfield);
   }
@@ -94,7 +65,6 @@ export default function SearchWrapper(
       setPage(newPage);
       updateUrl(query, newPage, bitfield);
     }
-    // If you want to do actual paging, call doSearch(query, bitfield, newPage)
   }
 
   function prevPage() {
@@ -102,11 +72,9 @@ export default function SearchWrapper(
       const newPage = page - 1;
       setPage(newPage);
       updateUrl(query, newPage, bitfield);
-      // doSearch(query, bitfield, newPage)
     }
   }
 
-  // Updates the browser URL with &page=...
   function updateUrl(q: string, p: number, filter: number) {
     const encodedQuery = encodeURIComponent(q);
     globalThis.history.pushState(
@@ -116,7 +84,6 @@ export default function SearchWrapper(
     );
   }
 
-  // Checks the current URL for a "page" param; if missing, append &page=1
   function ensurePageParam() {
     const url = new URL(globalThis.location.href);
     if (!url.searchParams.get("page")) {
@@ -127,7 +94,6 @@ export default function SearchWrapper(
 
   return (
     <div className="font-oswald w-screen h-screen bg-grey-light flex flex-col">
-      {/* Header */}
       <div className="bg-white px-8 py-4 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -142,15 +108,25 @@ export default function SearchWrapper(
             </div>
           </div>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-blue hover:underline text-sm">
-              Add Review
-            </a>
+            <div className="mt-4">
+              <a
+                href="/reviewCreation"
+                className="text-blue hover:underline text-sm"
+              >
+                <button
+                  type="button"
+                  className="bg-blue text-white rounded-md px-4 py-2 text-sm font-medium"
+                >
+                  Add Review
+                </button>
+              </a>
+            </div>
             <UsernameHeader />
           </div>
         </div>
         <div className="mt-4">
           <p className="text-sm text-gray-600">
-            {query ? `Results for "${query}"` : "Results for"}
+            {query ? `Results for \"${query}\"` : "Results for"}
           </p>
           <p className="text-xs text-gray-400">
             {numResults} result{numResults !== 1 && "s"}
@@ -158,7 +134,6 @@ export default function SearchWrapper(
         </div>
       </div>
 
-      {/* Main Layout */}
       <div className="flex flex-1">
         <aside className="hidden md:block w-64 bg-white p-6 shadow-sm">
           <h2 className="text-lg font-bold mb-4">Filters</h2>
@@ -173,16 +148,10 @@ export default function SearchWrapper(
               <option>Alphabetical</option>
             </select>
           </div>
-          <div className="text-sm mt-6">
-            {
-              /* <p className="text-gray-500">Can't find my class</p>
-            <p className="text-xs text-gray-400">ADS</p> */
-            }
-          </div>
         </aside>
 
         <main className="flex-1 px-4 py-6 overflow-auto">
-          {results
+          {results.length
             ? results.map((result) => (
               <SearchResults
                 key={result.item.id}
@@ -194,21 +163,12 @@ export default function SearchWrapper(
         </main>
       </div>
 
-      {/* Footer with pagination controls */}
       <footer className="bg-white px-8 py-2 shadow-sm flex items-center justify-center gap-6">
-        <button
-          type="button"
-          onClick={prevPage}
-          className="flex items-center gap-1"
-        >
+        <button type="button" onClick={prevPage}>
           <img src="/left.svg" alt="Prev" width="20" height="20" />
         </button>
         <span className="text-sm">Page {page} of {maxPage}</span>
-        <button
-          type="button"
-          onClick={nextPage}
-          className="flex items-center gap-1"
-        >
+        <button type="button" onClick={nextPage}>
           <img src="/right.svg" alt="Next" width="20" height="20" />
         </button>
       </footer>
