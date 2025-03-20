@@ -8,6 +8,7 @@ export type Business = {
   location: GeoPoint;
   name: string;
   type: number;
+  businessOwner: string;
 };
 
 const collection = "businesses";

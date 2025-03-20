@@ -11,6 +11,7 @@ import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_login_verifyIdToken from "./routes/api/login/verifyIdToken.ts";
 import * as $api_search_search from "./routes/api/search/search.ts";
 import * as $courses_course_id_index from "./routes/courses/[course_id]/index.tsx";
+import * as $deleteUserTest_index from "./routes/deleteUserTest/index.tsx";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login_index from "./routes/login/index.tsx";
@@ -37,6 +38,7 @@ import * as $ProfessorRequestForm from "./islands/ProfessorRequestForm.tsx";
 import * as $ProfessorReviews from "./islands/ProfessorReviews.tsx";
 import * as $RequestProfessorButton from "./islands/RequestProfessorButton.tsx";
 import * as $UsernameHeader from "./islands/UsernameHeader.tsx";
+import * as $deleteUserTest from "./islands/deleteUserTest.tsx";
 import * as $reviewDisplay_CourseInfo from "./islands/reviewDisplay/CourseInfo.tsx";
 import * as $reviewDisplay_ProfessorInfo from "./islands/reviewDisplay/ProfessorInfo.tsx";
 import * as $reviewDisplay_Review from "./islands/reviewDisplay/Review.tsx";
@@ -58,6 +60,7 @@ const manifest = {
     "./routes/api/login/verifyIdToken.ts": $api_login_verifyIdToken,
     "./routes/api/search/search.ts": $api_search_search,
     "./routes/courses/[course_id]/index.tsx": $courses_course_id_index,
+    "./routes/deleteUserTest/index.tsx": $deleteUserTest_index,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/login/index.tsx": $login_index,
@@ -86,6 +89,7 @@ const manifest = {
     "./islands/ProfessorReviews.tsx": $ProfessorReviews,
     "./islands/RequestProfessorButton.tsx": $RequestProfessorButton,
     "./islands/UsernameHeader.tsx": $UsernameHeader,
+    "./islands/deleteUserTest.tsx": $deleteUserTest,
     "./islands/reviewDisplay/CourseInfo.tsx": $reviewDisplay_CourseInfo,
     "./islands/reviewDisplay/ProfessorInfo.tsx": $reviewDisplay_ProfessorInfo,
     "./islands/reviewDisplay/Review.tsx": $reviewDisplay_Review,

@@ -6,6 +6,8 @@ export type Club = {
   images: string[];
   location: string;
   name: string;
+  clubOwner: string;
+  highlanderlink: string;
 };
 
 const collection = "clubs";
