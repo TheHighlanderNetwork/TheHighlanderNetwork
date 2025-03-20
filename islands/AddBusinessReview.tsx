@@ -4,6 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../utils/firebase.ts";
 import { userSearch } from "../utils/firebase/search/search.ts";
 import { createReview } from "../utils/firebase/createReview.ts";
+import { Status, useStatus } from "./Status.tsx";
 
 interface Entry {
   id: string;
@@ -25,6 +26,7 @@ export default function AddBusinessReview() {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
+  const { status, showStatus } = useStatus();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user: unknown) => {
@@ -36,7 +38,7 @@ export default function AddBusinessReview() {
   async function handleSubmit(e: Event) {
     e.preventDefault();
     if (!isSignedIn) {
-      alert("You must be signed in to add a review.");
+      showStatus("error", "You must be signed in to submit a review.");
       return;
     }
     await createReview(
@@ -45,9 +47,7 @@ export default function AddBusinessReview() {
       rating,
       selectedBusiness.type,
     );
-    alert(
-      `Review submitted!`, // \nBusiness: ${selectedBusiness.name}\nRating: ${rating}\nReview: ${reviewText}`,
-    );
+    showStatus("success", "Review Submitted!");
   }
 
   function renderStars() {
@@ -134,6 +134,7 @@ export default function AddBusinessReview() {
           />
         </div>
         <div className="flex justify-end gap-4">
+          {status && <Status type={status.type} message={status.message} />}
           <button
             type="button"
             onClick={handleSubmit}
