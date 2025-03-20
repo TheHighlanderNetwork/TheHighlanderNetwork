@@ -4,12 +4,15 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $api_createClub from "./routes/api/createClub.ts";
 import * as $api_customClaims_getUserClaims from "./routes/api/customClaims/getUserClaims.ts";
 import * as $api_customClaims_setUserClaims from "./routes/api/customClaims/setUserClaims.ts";
+import * as $api_customClaims_setflag from "./routes/api/customClaims/setflag.ts";
 import * as $api_firebaseAdmin from "./routes/api/firebaseAdmin.ts";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_login_verifyIdToken from "./routes/api/login/verifyIdToken.ts";
 import * as $courses_course_id_index from "./routes/courses/[course_id]/index.tsx";
+import * as $createclubs_index from "./routes/createclubs/index.tsx";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login_index from "./routes/login/index.tsx";
@@ -22,6 +25,7 @@ import * as $AddReviewButton from "./islands/AddReviewButton.tsx";
 import * as $BusinessDashboard from "./islands/BusinessDashboard.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
+import * as $ClubCreationForm from "./islands/ClubCreationForm.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import * as $CourseInfo from "./islands/CourseInfo.tsx";
 import * as $FirestoreQuery from "./islands/FirestoreQuery.tsx";
@@ -39,14 +43,17 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
+    "./routes/api/createClub.ts": $api_createClub,
     "./routes/api/customClaims/getUserClaims.ts":
       $api_customClaims_getUserClaims,
     "./routes/api/customClaims/setUserClaims.ts":
       $api_customClaims_setUserClaims,
+    "./routes/api/customClaims/setflag.ts": $api_customClaims_setflag,
     "./routes/api/firebaseAdmin.ts": $api_firebaseAdmin,
     "./routes/api/joke.ts": $api_joke,
     "./routes/api/login/verifyIdToken.ts": $api_login_verifyIdToken,
     "./routes/courses/[course_id]/index.tsx": $courses_course_id_index,
+    "./routes/createclubs/index.tsx": $createclubs_index,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/login/index.tsx": $login_index,
@@ -61,6 +68,7 @@ const manifest = {
     "./islands/BusinessDashboard.tsx": $BusinessDashboard,
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
+    "./islands/ClubCreationForm.tsx": $ClubCreationForm,
     "./islands/Counter.tsx": $Counter,
     "./islands/CourseInfo.tsx": $CourseInfo,
     "./islands/FirestoreQuery.tsx": $FirestoreQuery,

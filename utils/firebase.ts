@@ -43,8 +43,8 @@ const db = getFirestore(app);
 
 
 setPersistence(auth, browserLocalPersistence)
-  .then(() => console.log("✅ Auth persistence enabled"))
-  .catch((error) => console.error("❌ Error setting auth persistence:", error));
+  .then(() => console.log("Auth persistence is enabled"))
+  .catch((error) => console.error("Error setting auth persistence:", error));
 
 
 export { auth, db, provider };

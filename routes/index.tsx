@@ -76,6 +76,8 @@ export default function Home() {
               />
               <h2>Housing</h2>
             </div>
+
+            <a href="/createclubs">
             <div class="flex flex-col items-center">
               <img
                 class="my-6"
@@ -86,6 +88,7 @@ export default function Home() {
               />
               <h2>Organizations</h2>
             </div>
+            </a>
           </div>
         </main>
       </div>

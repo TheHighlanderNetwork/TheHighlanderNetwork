@@ -2,7 +2,7 @@ import { db } from "./firebase.ts";
 
 export type Club = {
   description: string;
-  email: string;
+  uid: string;
   images: string[];
   location: string;
   name: string;
