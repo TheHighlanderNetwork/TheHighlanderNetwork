@@ -1,8 +1,9 @@
+import { Timestamp } from "firestore";
 export default function ReviewIsland(
-  { review }: { review: Record<string, unknown> },
+  { review }: { review: Record<string, string | Timestamp> },
 ) {
   // Convert Firebase Timestamp to a readable date
-  const formatTimestamp = (time: unknown): string => {
+  const formatTimestamp = (time: Timestamp): string => {
     if (typeof time === "object" && time !== null && "seconds" in time) {
       // If it's a Firestore Timestamp object
       return new Date(time.seconds * 1000).toLocaleDateString();
@@ -27,7 +28,7 @@ export default function ReviewIsland(
         <em>Description: {review.review}</em>
       </p>
       <p>
-        <em>{formatTimestamp(review.time)}</em>
+        <em>{formatTimestamp(new Timestamp(review.time))}</em>
       </p>
     </div>
   );

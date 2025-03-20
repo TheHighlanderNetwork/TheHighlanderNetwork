@@ -7,6 +7,12 @@ export async function deleteUserData() {
     const user = auth.currentUser;
     console.log(user);
     console.log("retrieve reviews doc");
+    if (!user) {
+      throw new Error("No user found.");
+    }
+    if (!user.uid) {
+      throw new Error("No uid found.");
+    }
     const reviewsSnapshot = await fetchMatchedDataSnapshot("reviews", {
       reviewer: user.uid,
     });
