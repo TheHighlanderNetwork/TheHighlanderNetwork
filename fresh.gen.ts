@@ -8,9 +8,9 @@ import * as $api_createBusiness from "./routes/api/createBusiness.ts";
 import * as $api_createClub from "./routes/api/createClub.ts";
 import * as $api_customClaims_getUserClaims from "./routes/api/customClaims/getUserClaims.ts";
 import * as $api_customClaims_setUserClaims from "./routes/api/customClaims/setUserClaims.ts";
+import * as $api_customClaims_setflag from "./routes/api/customClaims/setflag.ts";
 import * as $api_db_professors_netid_ from "./routes/api/db/professors/[netid].ts";
 import * as $api_db_professors_index from "./routes/api/db/professors/index.ts";
-import * as $api_customClaims_setflag from "./routes/api/customClaims/setflag.ts";
 import * as $api_deletion_businessDeletion from "./routes/api/deletion/businessDeletion.ts";
 import * as $api_deletion_clubDeletion from "./routes/api/deletion/clubDeletion.ts";
 import * as $api_firebaseAdmin from "./routes/api/firebaseAdmin.ts";
@@ -62,8 +62,8 @@ import * as $Reviews from "./islands/Reviews.tsx";
 import * as $Search from "./islands/Search.tsx";
 import * as $SearchBox from "./islands/SearchBox.tsx";
 import * as $SearchResults from "./islands/SearchResults.tsx";
-import * as $Status from "./islands/Status.tsx";
 import * as $SearchWrapper from "./islands/SearchWrapper.tsx";
+import * as $Status from "./islands/Status.tsx";
 import * as $UsernameHeader from "./islands/UsernameHeader.tsx";
 import * as $deleteUserTest from "./islands/deleteUserTest.tsx";
 import * as $reviewDisplay_BusinessInfo from "./islands/reviewDisplay/BusinessInfo.tsx";
@@ -86,9 +86,9 @@ const manifest = {
       $api_customClaims_getUserClaims,
     "./routes/api/customClaims/setUserClaims.ts":
       $api_customClaims_setUserClaims,
+    "./routes/api/customClaims/setflag.ts": $api_customClaims_setflag,
     "./routes/api/db/professors/[netid].ts": $api_db_professors_netid_,
     "./routes/api/db/professors/index.ts": $api_db_professors_index,
-    "./routes/api/customClaims/setflag.ts": $api_customClaims_setflag,
     "./routes/api/deletion/businessDeletion.ts": $api_deletion_businessDeletion,
     "./routes/api/deletion/clubDeletion.ts": $api_deletion_clubDeletion,
     "./routes/api/firebaseAdmin.ts": $api_firebaseAdmin,
@@ -143,8 +143,8 @@ const manifest = {
     "./islands/Search.tsx": $Search,
     "./islands/SearchBox.tsx": $SearchBox,
     "./islands/SearchResults.tsx": $SearchResults,
-    "./islands/Status.tsx": $Status,
     "./islands/SearchWrapper.tsx": $SearchWrapper,
+    "./islands/Status.tsx": $Status,
     "./islands/UsernameHeader.tsx": $UsernameHeader,
     "./islands/deleteUserTest.tsx": $deleteUserTest,
     "./islands/reviewDisplay/BusinessInfo.tsx": $reviewDisplay_BusinessInfo,
