@@ -1,4 +1,4 @@
-import { createBusiness } from "../../utils/firebase/businesses.ts";
+import { createBusiness } from "../../utils/firebase/crud/businesses.ts";
 import { auth } from "./firebaseAdmin.ts";
 import { Handlers } from "$fresh/server.ts";
 import { GeoPoint } from "npm:firebase-admin/firestore";
