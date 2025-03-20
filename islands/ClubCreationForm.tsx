@@ -16,9 +16,12 @@ export default function ClubCreationForm() {
   const [status, setStatus] = useState<string>("");
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser: User | null) => {
-      setUser(firebaseUser);
-    });
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (firebaseUser: User | null) => {
+        setUser(firebaseUser);
+      },
+    );
     return () => unsubscribe();
   }, []);
 

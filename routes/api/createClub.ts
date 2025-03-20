@@ -1,7 +1,6 @@
 import { createClub } from "../../utils/firebase/clubs.ts";
-import { auth } from "./firebaseAdmin.ts";
+import { auth, db } from "./firebaseAdmin.ts";
 import { Handlers } from "$fresh/server.ts";
-import { fetchMatchedData } from "../../utils/firebase/docRetrieval/retrieve.ts";
 
 export const handler: Handlers = {
   async POST(req) {
@@ -10,24 +9,35 @@ export const handler: Handlers = {
 
       if (!uid) {
         return new Response(
-          JSON.stringify({ success: false, error: "User ID is required" }),
+          JSON.stringify({
+            success: false,
+            error: "User ID is required",
+          }),
           { status: 400 },
         );
       }
 
       const user = await auth.getUser(uid);
-      const customClaims = user.customClaims ?? {};
 
-      console.log(`Checking club limit for UID: ${uid}`);
+      if (user.customClaims?.clubLimitReached) {
+        return new Response(
+          JSON.stringify({
+            success: false,
+            error: "Club limit reached (5 max)",
+          }),
+          { status: 403 },
+        );
+      }
 
-      const userClubs = await fetchMatchedData("clubs", { uid });
+      const clubsRef = db.collection("clubs");
+      const snapshot = await clubsRef.where("uid", "==", uid).get();
+      const clubCount = snapshot.size;
 
-      if (userClubs.length >= 5) {
+      if (clubCount >= 5) {
         await auth.setCustomUserClaims(uid, {
-          ...customClaims, //Preserves existing claims
+          ...user.customClaims,
           clubLimitReached: true,
         });
-
         return new Response(
           JSON.stringify({
             success: false,
@@ -45,17 +55,12 @@ export const handler: Handlers = {
         uid,
       });
 
-      return new Response(
-        JSON.stringify({ success: true, id: newClub.id }),
-        { status: 201 },
-      );
+      return new Response(JSON.stringify({ success: true, id: newClub.id }), {
+        status: 201,
+      });
     } catch (error) {
-      console.error("Error in club creation:", error);
       return new Response(
-        JSON.stringify({
-          success: false,
-          error: error instanceof Error ? error.message : "Unexpected error",
-        }),
+        JSON.stringify({ success: false, error: error.message }),
         { status: 500 },
       );
     }
