@@ -1,4 +1,5 @@
 import { db } from "../../../routes/api/firebaseAdmin.ts";
+import { FieldValue } from "npm:firebase-admin/firestore";
 
 export type Club = {
   description: string;
@@ -31,6 +32,11 @@ export async function updateClub(id: string, data: Partial<Club>) {
 }
 
 export async function deleteClub(id: string) {
+  const all_entries = db.collection("all_entries").doc(collection);
   await db.collection(collection).doc(id).delete();
+  await all_entries.update({
+    [id]: FieldValue.delete(),
+  });
+
   return { message: `Club ${id} deleted` };
 }

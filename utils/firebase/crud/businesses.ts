@@ -1,5 +1,6 @@
 import { db } from "../../../routes/api/firebaseAdmin.ts";
 import { GeoPoint } from "npm:firebase-admin/firestore";
+import { FieldValue } from "npm:firebase-admin/firestore";
 
 export type Business = {
   description: string;
@@ -42,6 +43,11 @@ export async function updateBusiness(id: string, data: Partial<Business>) {
 }
 
 export async function deleteBusiness(id: string) {
+  const all_entries = db.collection("all_entries").doc(collection);
   await db.collection(collection).doc(id).delete();
+  await all_entries.update({
+    [id]: FieldValue.delete(),
+  });
+
   return { message: `Business ${id} deleted` };
 }
