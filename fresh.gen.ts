@@ -43,6 +43,7 @@ import * as $FiltersVertical from "./islands/FiltersVertical.tsx";
 import * as $FirestoreQuery from "./islands/FirestoreQuery.tsx";
 import * as $GoogleSignIn from "./islands/GoogleSignIn.tsx";
 import * as $GoogleSignUp from "./islands/GoogleSignUp.tsx";
+import * as $Header from "./islands/Header.tsx";
 import * as $HeaderSignUpButton from "./islands/HeaderSignUpButton.tsx";
 import * as $HighlanderHome from "./islands/HighlanderHome.tsx";
 import * as $ProfessorRequestForm from "./islands/ProfessorRequestForm.tsx";
@@ -114,6 +115,7 @@ const manifest = {
     "./islands/FirestoreQuery.tsx": $FirestoreQuery,
     "./islands/GoogleSignIn.tsx": $GoogleSignIn,
     "./islands/GoogleSignUp.tsx": $GoogleSignUp,
+    "./islands/Header.tsx": $Header,
     "./islands/HeaderSignUpButton.tsx": $HeaderSignUpButton,
     "./islands/HighlanderHome.tsx": $HighlanderHome,
     "./islands/ProfessorRequestForm.tsx": $ProfessorRequestForm,
