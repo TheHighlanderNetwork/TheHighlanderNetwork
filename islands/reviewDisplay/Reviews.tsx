@@ -37,13 +37,15 @@ export default function ReviewsIsland(
         ? (
           <>
             <p class="text-sm text-gray-600">
-              Rating: {(totalScore.value / reviews.value.length).toFixed(2)}
+              Rating: {(totalScore.value / reviews.value.length).toFixed(2)} / 5
               {" "}
               {/* Display the average score with 2 decimal places */}
             </p>
             {/* Map over the reviews and render each one as a separate island */}
             {reviews.value.map((review) => (
-              <ReviewIsland key={review.id} review={review} />
+            <div key={review.id} className="review-island-wrapper">
+            <ReviewIsland review={review} />
+          </div>
             ))}
           </>
         )

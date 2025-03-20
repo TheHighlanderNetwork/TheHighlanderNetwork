@@ -90,7 +90,7 @@ export default function AddBusinessReview() {
         <h2 className="text-xl font-bold mb-4">Add Review</h2>
         <div className="mb-4 relative">
           <label className="block mb-2 font-medium">
-            Search / Select Business
+            Search Entry 
           </label>
           <input
             type="text"
