@@ -67,7 +67,7 @@ export default function HighlanderHome() {
                 <h2>Professors</h2>
               </div>
             </a>
-            <a href="/reviewbusinesses">
+            <a href="/createbusiness">
               <div className="flex flex-col items-center">
                 <img
                   className="my-6"
@@ -92,16 +92,18 @@ export default function HighlanderHome() {
               />
               <h2>Housing</h2>
             </div>
-            <div className="flex flex-col items-center">
-              <img
-                className="my-6"
-                src="/organizations.svg"
-                width="128"
-                height="128"
-                alt="Organizations logo"
-              />
-              <h2>Organizations</h2>
-            </div>
+            <a href="/createclubs">
+              <div className="flex flex-col items-center">
+                <img
+                  className="my-6"
+                  src="/organizations.svg"
+                  width="128"
+                  height="128"
+                  alt="Organizations logo"
+                />
+                <h2>Organizations</h2>
+              </div>
+            </a>
           </div>
         </div>
       </main>

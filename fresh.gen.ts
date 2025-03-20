@@ -4,6 +4,7 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $api_createBusiness from "./routes/api/createBusiness.ts";
 import * as $api_createClub from "./routes/api/createClub.ts";
 import * as $api_customClaims_getUserClaims from "./routes/api/customClaims/getUserClaims.ts";
 import * as $api_customClaims_setUserClaims from "./routes/api/customClaims/setUserClaims.ts";
@@ -13,6 +14,7 @@ import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_login_verifyIdToken from "./routes/api/login/verifyIdToken.ts";
 import * as $api_search_search from "./routes/api/search/search.ts";
 import * as $courses_course_id_index from "./routes/courses/[course_id]/index.tsx";
+import * as $createbusiness_index from "./routes/createbusiness/index.tsx";
 import * as $createclubs_index from "./routes/createclubs/index.tsx";
 import * as $deleteUserTest_index from "./routes/deleteUserTest/index.tsx";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
@@ -30,6 +32,7 @@ import * as $AddBusinessReview from "./islands/AddBusinessReview.tsx";
 import * as $AddBusinessReviewButton from "./islands/AddBusinessReviewButton.tsx";
 import * as $AddProfessorReview from "./islands/AddProfessorReview.tsx";
 import * as $AddProfessorReviewButton from "./islands/AddProfessorReviewButton.tsx";
+import * as $BusinessCreate from "./islands/BusinessCreate.tsx";
 import * as $BusinessReview from "./islands/BusinessReview.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
@@ -66,6 +69,7 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
+    "./routes/api/createBusiness.ts": $api_createBusiness,
     "./routes/api/createClub.ts": $api_createClub,
     "./routes/api/customClaims/getUserClaims.ts":
       $api_customClaims_getUserClaims,
@@ -77,6 +81,7 @@ const manifest = {
     "./routes/api/login/verifyIdToken.ts": $api_login_verifyIdToken,
     "./routes/api/search/search.ts": $api_search_search,
     "./routes/courses/[course_id]/index.tsx": $courses_course_id_index,
+    "./routes/createbusiness/index.tsx": $createbusiness_index,
     "./routes/createclubs/index.tsx": $createclubs_index,
     "./routes/deleteUserTest/index.tsx": $deleteUserTest_index,
     "./routes/greet/[name].tsx": $greet_name_,
@@ -96,6 +101,7 @@ const manifest = {
     "./islands/AddBusinessReviewButton.tsx": $AddBusinessReviewButton,
     "./islands/AddProfessorReview.tsx": $AddProfessorReview,
     "./islands/AddProfessorReviewButton.tsx": $AddProfessorReviewButton,
+    "./islands/BusinessCreate.tsx": $BusinessCreate,
     "./islands/BusinessReview.tsx": $BusinessReview,
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
