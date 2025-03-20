@@ -8,6 +8,8 @@ import * as $api_createClub from "./routes/api/createClub.ts";
 import * as $api_customClaims_getUserClaims from "./routes/api/customClaims/getUserClaims.ts";
 import * as $api_customClaims_setUserClaims from "./routes/api/customClaims/setUserClaims.ts";
 import * as $api_customClaims_setflag from "./routes/api/customClaims/setflag.ts";
+import * as $api_deletion_businessDeletion from "./routes/api/deletion/businessDeletion.ts";
+import * as $api_deletion_clubDeletion from "./routes/api/deletion/clubDeletion.ts";
 import * as $api_firebaseAdmin from "./routes/api/firebaseAdmin.ts";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_login_verifyIdToken from "./routes/api/login/verifyIdToken.ts";
@@ -76,6 +78,8 @@ const manifest = {
     "./routes/api/customClaims/setUserClaims.ts":
       $api_customClaims_setUserClaims,
     "./routes/api/customClaims/setflag.ts": $api_customClaims_setflag,
+    "./routes/api/deletion/businessDeletion.ts": $api_deletion_businessDeletion,
+    "./routes/api/deletion/clubDeletion.ts": $api_deletion_clubDeletion,
     "./routes/api/firebaseAdmin.ts": $api_firebaseAdmin,
     "./routes/api/joke.ts": $api_joke,
     "./routes/api/login/verifyIdToken.ts": $api_login_verifyIdToken,
