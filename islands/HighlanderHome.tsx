@@ -2,12 +2,11 @@
 import { useState } from "preact/hooks";
 import UsernameHeader from "./UsernameHeader.tsx";
 import SearchBox from "./SearchBox.tsx";
-import Filters from "./Filters.tsx";
 
 export default function HighlanderHome() {
-  const [bitfield, setBitfield] = useState(0b1100);
+  const [_bitfield, setBitfield] = useState(0b1100);
 
-  function handleFilterChange(newBitfield: number) {
+  function _handleFilterChange(newBitfield: number) {
     setBitfield(newBitfield);
     console.log("Filters changed. New bitfield:", newBitfield);
   }
@@ -38,10 +37,6 @@ export default function HighlanderHome() {
 
           <div className="mt-8 w-full max-w-xl flex flex-col gap-4">
             <SearchBox onResults={(q) => handleSearch(q)} />
-            <Filters
-              onFilterChange={handleFilterChange}
-              initialBitfield={bitfield}
-            />
           </div>
           {/* SINGLE ROW of icons */}
           <div className="flex flex-row gap-8 text-4xl font-bold text-black justify-center items-center mt-8">
