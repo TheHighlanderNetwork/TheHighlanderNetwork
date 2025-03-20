@@ -8,10 +8,10 @@ export async function deleteBusiness(uid: string, businessRef: string) {
   const businessSnapshot = await db.collection("clubs").doc(businessRef).get();
   const businessData = businessSnapshot.data();
   if (!businessData) {
-    throw new Error("Club does not exist.");
+    throw new Error("Business does not exist.");
   }
   if (businessData.uid != uid) {
-    throw new Error("User is not the owner of this club");
+    throw new Error("User is not the owner of this business");
   }
   // Fetch reviews for the club
   const reviewsSnapshot = await db.collection("reviews").where(
