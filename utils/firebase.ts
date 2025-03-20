@@ -26,7 +26,6 @@ const firebaseConfig = {
     : "1:236202663343:web:43c2500c8e488af4d7235a",
 };
 
-
 console.log("Initializing Client Side Firebase App...");
 let app;
 if (!getApps().length) {

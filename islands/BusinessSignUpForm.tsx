@@ -4,7 +4,9 @@ import { auth } from "../utils/firebase.ts";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function BusinessSignUpForm() {
-  const handleBusinessFormSubmit = async (e: JSX.TargetedEvent<HTMLFormElement, Event>) => {
+  const handleBusinessFormSubmit = async (
+    e: JSX.TargetedEvent<HTMLFormElement, Event>,
+  ) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -19,19 +21,28 @@ export default function BusinessSignUpForm() {
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
       const user = userCredential.user;
       console.log("Creation success:", user.email);
-      
+
       const messageEl = document.getElementById("message");
       if (messageEl) messageEl.innerText = `User Created: ${user.email}`;
       await assignUserRole(user.uid);
-      setTimeout(() => {window.location.reload();}, 100); 
-
+      setTimeout(() => {
+        globalThis.location.reload();
+      }, 100);
     } catch (error) {
       console.error("Account Creation failed:", error);
       const messageEl = document.getElementById("message");
-      if (messageEl) messageEl.innerText = `Failed to create new user (${(error as Error).message})`;
+      if (messageEl) {
+        messageEl.innerText = `Failed to create new user (${
+          (error as Error).message
+        })`;
+      }
     }
   };
 

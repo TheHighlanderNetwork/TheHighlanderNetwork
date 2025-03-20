@@ -3,7 +3,6 @@ import { useState } from "preact/hooks";
 import { auth, provider } from "../utils/firebase.ts";
 import { signInWithPopup } from "firebase/auth";
 
-
 export default function GoogleSignUp() {
   const [message, setMessage] = useState("");
 
@@ -26,7 +25,6 @@ export default function GoogleSignUp() {
       setMessage(`Google sign-up failed: ${(error as Error).message}`);
     }
   };
-
 
   async function assignUserRole(uid: string) {
     console.log("Assigning role to UID:", uid);
@@ -185,6 +183,8 @@ export default function GoogleSignUp() {
         }
       `}
       </style>
+
+      {message && <p className="text-red-500 text-sm">{message}</p>}
     </>
   );
 }
