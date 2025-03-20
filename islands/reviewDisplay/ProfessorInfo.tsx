@@ -9,13 +9,15 @@ export default function ProfessorInfo({ netid }: { netid: string }) {
     async function fetchProfessor() {
       console.log("Retrieving professor's info");
       const data = await retrieveDocument("professors", netid);
-      
+
       console.log(data);
-      
+
       setProfessor(data);
       const all_courses = await retrieveDocument("all_entries", "courses");
-      
-      const courseNames: string[] = data.classes.map((id: string) => all_courses[id] || "Unknown Course");
+
+      const courseNames: string[] = data.classes.map((id: string) =>
+        all_courses[id] || "Unknown Course"
+      ).sort();
       setClasses(courseNames);
     }
     fetchProfessor();
@@ -29,11 +31,11 @@ export default function ProfessorInfo({ netid }: { netid: string }) {
       <p className="text-gray-600">{professor.department}</p>
       <h3 className="mt-2 font-semibold">Recent Classes:</h3>
       <ul className="list-disc pl-5">
-        {classes.length > 0 ? (
-          classes.map((course, index) => <li key={index}>{course}</li>)
-        ) : (
-          <li>No classes found.</li>
-        )}
+        {classes.length > 0
+          ? (
+            classes.map((course, index) => <li key={index}>{course}</li>)
+          )
+          : <li>No classes found.</li>}
       </ul>
     </div>
   );
