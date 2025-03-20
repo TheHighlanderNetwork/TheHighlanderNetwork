@@ -2,6 +2,7 @@ import { db } from "../firebaseAdmin.ts";
 import { Handlers } from "$fresh/server.ts";
 import { autoSetRole } from "../customClaims/setUserClaims.ts";
 import { verifyIdToken } from "../login/verifyIdToken.ts";
+import { setUserClaims } from "../customClaims/setUserClaims.ts";
 
 export async function deleteClub(uid: string, clubRef: string) {
   console.log("retrieve club doc");
@@ -61,7 +62,14 @@ export const handler: Handlers = {
       console.log("Verified token: ", decodedToken);
 
       await deleteClub(decodedToken.uid, clubRef);
+      const clubsRef = db.collection("clubs");
+      const snapshot = await clubsRef.where("uid", "==", decodedToken.uid)
+        .get();
+      const clubCount = snapshot.size;
 
+      if (clubCount < 5) {
+        await setUserClaims(decodedToken.uid, { clubLimitReached: false });
+      }
       return new Response(
         JSON.stringify({
           success: true,
