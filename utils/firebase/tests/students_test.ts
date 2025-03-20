@@ -3,8 +3,8 @@ import {
   deleteStudent,
   getStudent,
   updateStudent,
-} from "../students.ts";
-import { db } from "../firebase.ts";
+} from "../crud/students.ts";
+import { db } from "../../../routes/api/firebaseAdmin.ts";
 
 Deno.test("Student CRUD Operations", async (t) => {
   let studentId: string;

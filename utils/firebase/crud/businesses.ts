@@ -1,4 +1,4 @@
-import { db } from "./firebase.ts";
+import { db } from "../../../routes/api/firebaseAdmin.ts";
 import { GeoPoint } from "npm:firebase-admin/firestore";
 
 export type Business = {
