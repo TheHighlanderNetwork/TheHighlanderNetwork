@@ -11,21 +11,14 @@ export default function SearchBox({
   initialQuery = "",
 }: SearchBoxProps) {
   const [query, setQuery] = useState(initialQuery);
-  // Keep your bitfield for filters
   const [_bitfield, setBitfield] = useState(0b1100);
 
-  // Update local text input whenever the parent changes initialQuery
   useEffect(() => {
     setQuery(initialQuery);
   }, [initialQuery]);
 
-  // Called when user clicks the icon or the button
   function handleSearch() {
-    try {
-      onResults(query);
-    } catch (err) {
-      console.error("Error performing search:", err);
-    }
+    onResults(query);
   }
 
   function _toggleBit(position: number) {
@@ -34,7 +27,6 @@ export default function SearchBox({
 
   return (
     <div style={{ width: "100%" }}>
-      {/* Text Input + Magnifying Glass Icon */}
       <div style={{ position: "relative", marginBottom: "1rem" }}>
         <input
           type="text"
@@ -66,6 +58,12 @@ export default function SearchBox({
           <img src="/search.svg" width="25" height="25" alt="Search icon" />
         </span>
       </div>
+
+      {
+        /*
+        Example: If you want a "Search" button or bitfield checkboxes, do so here
+      */
+      }
     </div>
   );
 }
