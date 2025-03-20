@@ -1,7 +1,7 @@
 import { Head } from "$fresh/runtime.ts";
-import UsernameHeader from "../islands/UsernameHeader.tsx"; // Adjust the path as needed
+import HighlanderHome from "../islands/HighlanderHome.tsx";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <>
       <Head>
@@ -93,6 +93,7 @@ export default function Home() {
           </div>
         </main>
       </div>
+      <HighlanderHome />
     </>
   );
 }
