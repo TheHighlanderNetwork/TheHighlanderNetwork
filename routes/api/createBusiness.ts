@@ -11,14 +11,17 @@ export const handler: Handlers = {
       if (!uid || !name || !description || !images || !location) {
         return new Response(
           JSON.stringify({ success: false, error: "Missing required fields" }),
-          { status: 400 }
+          { status: 400 },
         );
       }
 
       await auth.getUser(uid); //User exits
 
       //Converts the location to GeoPoint before storing
-      const locationGeoPoint = new GeoPoint(location.latitude, location.longitude);
+      const locationGeoPoint = new GeoPoint(
+        location.latitude,
+        location.longitude,
+      );
 
       const newBusiness = await createBusiness({
         name,
@@ -28,14 +31,19 @@ export const handler: Handlers = {
         uid,
       });
 
-      return new Response(JSON.stringify({ success: true, id: newBusiness.id }), {
-        status: 201,
-      });
-
+      return new Response(
+        JSON.stringify({ success: true, id: newBusiness.id }),
+        {
+          status: 201,
+        },
+      );
     } catch (error: unknown) {
       return new Response(
-        JSON.stringify({ success: false, error: error instanceof Error ? error.message : "Unexpected error" }),
-        { status: 500 }
+        JSON.stringify({
+          success: false,
+          error: error instanceof Error ? error.message : "Unexpected error",
+        }),
+        { status: 500 },
       );
     }
   },

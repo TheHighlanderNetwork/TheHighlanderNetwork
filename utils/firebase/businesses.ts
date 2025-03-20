@@ -16,7 +16,10 @@ export async function createBusiness(data: Business) {
   const all_entries = db.collection("all_entries").doc(collection);
 
   //Convert `location` to Firestore GeoPoint
-  const locationGeoPoint = new GeoPoint(data.location.latitude, data.location.longitude);
+  const locationGeoPoint = new GeoPoint(
+    data.location.latitude,
+    data.location.longitude,
+  );
 
   await docRef.set({
     ...data,
@@ -26,7 +29,6 @@ export async function createBusiness(data: Business) {
   await all_entries.update({ [docRef.id]: data.name });
   return { id: docRef.id, ...data };
 }
-
 
 export async function getBusiness(id: string) {
   const doc = await db.collection(collection).doc(id).get();

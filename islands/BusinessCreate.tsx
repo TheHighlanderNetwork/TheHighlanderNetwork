@@ -10,15 +10,20 @@ export default function BusinessCreateForm() {
     businessName: "",
     description: "",
   });
-  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
+    null,
+  );
   const [logo, setLogo] = useState<string | null>(null);
   const [images, setImages] = useState<string[]>([]);
   const [status, setStatus] = useState<string>("");
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser: User | null) => {
-      setUser(firebaseUser);
-    });
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (firebaseUser: User | null) => {
+        setUser(firebaseUser);
+      },
+    );
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -29,7 +34,7 @@ export default function BusinessCreateForm() {
           });
         },
         (error) => console.error("Error fetching location:", error),
-        { enableHighAccuracy: true }
+        { enableHighAccuracy: true },
       );
     }
 
@@ -57,22 +62,18 @@ export default function BusinessCreateForm() {
     }
   };
 
-
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
-  
+
     if (!user) {
       setStatus("User not authenticated");
       return;
     }
-  
+
     //Convert location to Firestore GeoPoint format
     const finalLocation = location
       ? { latitude: location.lat, longitude: location.lng }
-      : { latitude: 0, longitude: 0 }; 
-  
-    
-
+      : { latitude: 0, longitude: 0 };
 
     try {
       const response = await fetch("/api/createBusiness", {
@@ -81,14 +82,14 @@ export default function BusinessCreateForm() {
         body: JSON.stringify({
           uid: user.uid,
           name: formData.businessName,
-          location: finalLocation, 
+          location: finalLocation,
           description: formData.description,
           images,
         }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok && data.success) {
         setStatus("Business created successfully!");
         setFormData({ businessName: "", description: "" });
@@ -98,12 +99,12 @@ export default function BusinessCreateForm() {
         throw new Error(data.error || "Unknown error occurred.");
       }
     } catch (error) {
-      setStatus(`Error: ${error instanceof Error ? error.message : "Unexpected error"}`);
+      setStatus(
+        `Error: ${error instanceof Error ? error.message : "Unexpected error"}`,
+      );
     }
   };
-  
-  
-  
+
   if (!user) {
     return (
       <div className="flex items-center justify-center min-h-screen text-center">
@@ -124,9 +125,22 @@ export default function BusinessCreateForm() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex items-center gap-4">
             <label className="cursor-pointer">
-              <input type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleLogoUpload}
+                className="hidden"
+              />
               <div className="w-24 h-24 border-2 border-gray-300 flex items-center justify-center rounded-full">
-                {logo ? <img src={logo} alt="Business Logo" className="rounded-full w-full h-full" /> : <span className="text-gray-500">Insert Logo</span>}
+                {logo
+                  ? (
+                    <img
+                      src={logo}
+                      alt="Business Logo"
+                      className="rounded-full w-full h-full"
+                    />
+                  )
+                  : <span className="text-gray-500">Insert Logo</span>}
               </div>
             </label>
           </div>
@@ -159,7 +173,13 @@ export default function BusinessCreateForm() {
           <div>
             <label className="block text-gray-700">Images</label>
             <div className="border-dashed border-2 border-gray-300 rounded-md p-6 text-center">
-              <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleImageUpload}
+                className="hidden"
+              />
               <p className="text-gray-500">Drag or Upload here</p>
             </div>
           </div>
@@ -167,15 +187,23 @@ export default function BusinessCreateForm() {
           <div className="mt-4 flex gap-4">
             {images.length > 0
               ? images.map((src, index) => (
-                  <img key={index} src={src} className="w-24 h-24 bg-gray-300 rounded-md" />
-                ))
+                <img
+                  key={index}
+                  src={src}
+                  className="w-24 h-24 bg-gray-300 rounded-md"
+                />
+              ))
               : [1, 2, 3].map((_, index) => (
-                  <div key={index} className="w-24 h-24 bg-gray-300 rounded-md"></div>
-                ))}
+                <div key={index} className="w-24 h-24 bg-gray-300 rounded-md">
+                </div>
+              ))}
           </div>
 
           <div className="flex justify-center mt-4">
-            <button type="submit" className="bg-[#FFC107] text-black font-bold px-6 py-2 rounded-md hover:bg-[#FFD54F] transition duration-200">
+            <button
+              type="submit"
+              className="bg-[#FFC107] text-black font-bold px-6 py-2 rounded-md hover:bg-[#FFD54F] transition duration-200"
+            >
               Submit
             </button>
           </div>
