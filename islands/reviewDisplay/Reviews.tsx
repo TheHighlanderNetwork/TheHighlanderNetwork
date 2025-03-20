@@ -43,9 +43,9 @@ export default function ReviewsIsland(
             </p>
             {/* Map over the reviews and render each one as a separate island */}
             {reviews.value.map((review) => (
-            <div key={review.id} className="review-island-wrapper">
-            <ReviewIsland review={review} />
-          </div>
+              <div key={review.id} className="review-island-wrapper">
+                <ReviewIsland review={review} />
+              </div>
             ))}
           </>
         )
