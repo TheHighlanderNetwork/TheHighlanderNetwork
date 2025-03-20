@@ -20,6 +20,7 @@ import * as $requestprofessor_index from "./routes/requestprofessor/index.tsx";
 import * as $reviewbusinesses_index from "./routes/reviewbusinesses/index.tsx";
 import * as $reviewprofessors_index from "./routes/reviewprofessors/index.tsx";
 import * as $search_index from "./routes/search/index.tsx";
+import * as $searchwrapper_index from "./routes/searchwrapper/index.tsx";
 import * as $signup_index from "./routes/signup/index.tsx";
 import * as $test_index from "./routes/test/index.tsx";
 import * as $AddBusinessReview from "./islands/AddBusinessReview.tsx";
@@ -30,13 +31,20 @@ import * as $BusinessReview from "./islands/BusinessReview.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
 import * as $Counter from "./islands/Counter.tsx";
+import * as $Filters from "./islands/Filters.tsx";
+import * as $FiltersVertical from "./islands/FiltersVertical.tsx";
 import * as $FirestoreQuery from "./islands/FirestoreQuery.tsx";
 import * as $GoogleSignIn from "./islands/GoogleSignIn.tsx";
 import * as $GoogleSignUp from "./islands/GoogleSignUp.tsx";
 import * as $HeaderSignUpButton from "./islands/HeaderSignUpButton.tsx";
+import * as $HighlanderHome from "./islands/HighlanderHome.tsx";
 import * as $ProfessorRequestForm from "./islands/ProfessorRequestForm.tsx";
 import * as $ProfessorReviews from "./islands/ProfessorReviews.tsx";
 import * as $RequestProfessorButton from "./islands/RequestProfessorButton.tsx";
+import * as $Search from "./islands/Search.tsx";
+import * as $SearchBox from "./islands/SearchBox.tsx";
+import * as $SearchResults from "./islands/SearchResults.tsx";
+import * as $SearchWrapper from "./islands/SearchWrapper.tsx";
 import * as $UsernameHeader from "./islands/UsernameHeader.tsx";
 import * as $deleteUserTest from "./islands/deleteUserTest.tsx";
 import * as $reviewDisplay_CourseInfo from "./islands/reviewDisplay/CourseInfo.tsx";
@@ -69,6 +77,7 @@ const manifest = {
     "./routes/reviewbusinesses/index.tsx": $reviewbusinesses_index,
     "./routes/reviewprofessors/index.tsx": $reviewprofessors_index,
     "./routes/search/index.tsx": $search_index,
+    "./routes/searchwrapper/index.tsx": $searchwrapper_index,
     "./routes/signup/index.tsx": $signup_index,
     "./routes/test/index.tsx": $test_index,
   },
@@ -81,13 +90,20 @@ const manifest = {
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
     "./islands/Counter.tsx": $Counter,
+    "./islands/Filters.tsx": $Filters,
+    "./islands/FiltersVertical.tsx": $FiltersVertical,
     "./islands/FirestoreQuery.tsx": $FirestoreQuery,
     "./islands/GoogleSignIn.tsx": $GoogleSignIn,
     "./islands/GoogleSignUp.tsx": $GoogleSignUp,
     "./islands/HeaderSignUpButton.tsx": $HeaderSignUpButton,
+    "./islands/HighlanderHome.tsx": $HighlanderHome,
     "./islands/ProfessorRequestForm.tsx": $ProfessorRequestForm,
     "./islands/ProfessorReviews.tsx": $ProfessorReviews,
     "./islands/RequestProfessorButton.tsx": $RequestProfessorButton,
+    "./islands/Search.tsx": $Search,
+    "./islands/SearchBox.tsx": $SearchBox,
+    "./islands/SearchResults.tsx": $SearchResults,
+    "./islands/SearchWrapper.tsx": $SearchWrapper,
     "./islands/UsernameHeader.tsx": $UsernameHeader,
     "./islands/deleteUserTest.tsx": $deleteUserTest,
     "./islands/reviewDisplay/CourseInfo.tsx": $reviewDisplay_CourseInfo,
