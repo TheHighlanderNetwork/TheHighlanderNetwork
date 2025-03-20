@@ -2,11 +2,19 @@
 "use client";
 import { useEffect, useState } from "preact/hooks";
 import { onAuthStateChanged } from "firebase/auth";
-import type { User } from "firebase/auth";
 import { auth } from "../utils/firebase.ts";
 
+export interface FirebaseUser {
+  uid: string;
+  email: string | null;
+  displayName: string | null;
+  photoURL: string | null;
+  emailVerified: boolean;
+  // Add other properties/methods as needed
+}
+
 export default function ClubCreationForm() {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<FirebaseUser | null>(null);
   const [formData, setFormData] = useState({
     organizationName: "",
     highlanderLink: "",
@@ -19,7 +27,7 @@ export default function ClubCreationForm() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
-      (firebaseUser: User | null) => {
+      (firebaseUser: FirebaseUser | null) => {
         setUser(firebaseUser);
       },
     );
