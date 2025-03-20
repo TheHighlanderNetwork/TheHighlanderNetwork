@@ -14,9 +14,11 @@ Deno.test("Business CRUD Operations", async (t) => {
     const business = await createBusiness({
       name: "Tech Store",
       description: "Sells gadgets",
+
       email: "contact@techstore.com",
       images: ["image1.jpg"],
       location: new GeoPoint(37.7749, -122.4194),
+
       type: 1,
     });
     businessId = business.id;

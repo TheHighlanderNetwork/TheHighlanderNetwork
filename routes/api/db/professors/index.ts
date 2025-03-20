@@ -1,6 +1,6 @@
 import { auth, db } from "../../firebaseAdmin.ts";
 import { Handlers } from "$fresh/server.ts";
-import { DecodedIdToken } from "npm:firebase-admin/lib/auth/token-verifier.js";
+import type { DecodedIdToken } from "npm:firebase-admin/auth";
 
 export type Professor = {
   netid: string;
