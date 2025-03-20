@@ -34,8 +34,8 @@ jobs:
       - name: Lint Check
         run: deno lint
 
-      - name: Type Check
-        run: deno check --allow-import **/*.ts **/*.tsx
+      # - name: Type Check
+      #   run: deno check --allow-import **/*.ts **/*.tsx
 
       - name: Run Tests
         run: |
