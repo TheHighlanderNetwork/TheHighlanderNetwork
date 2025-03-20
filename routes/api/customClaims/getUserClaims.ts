@@ -6,7 +6,9 @@ export async function getUserClaims(
 ): Promise<Record<string, unknown> | undefined> {
   try {
     // Retrieve custom claims from Firebase
+    console.time("Retrieving user from UID");
     const user = await auth.getUser(uid);
+    console.timeEnd("Retrieving user from UID");
     console.log("Custom Claims:", user.customClaims);
     return user.customClaims;
   } catch (error: unknown) {
@@ -65,3 +67,4 @@ export const handler: Handlers = {
     }
   },
 };
+

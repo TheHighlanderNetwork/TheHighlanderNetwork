@@ -52,17 +52,18 @@ export default function Home() {
                   <h2>Professors</h2>
                 </div>
               </a>
-
-              <div class="flex flex-col items-center">
-                <img
-                  class="my-6"
-                  src="/businesses.svg"
-                  width="128"
-                  height="128"
-                  alt="Businesses logo"
-                />
-                <h2>Businesses</h2>
-              </div>
+              <a href="/reviewbusinesses">
+                <div class="flex flex-col items-center">
+                  <img
+                    class="my-6"
+                    src="/businesses.svg"
+                    width="128"
+                    height="128"
+                    alt="Businesses logo"
+                  />
+                  <h2>Businesses</h2>
+                </div>
+              </a>
             </div>
           </div>
           <div class="flex flex-wrap sm:flex-row flex-col gap-8 text-4xl font-bold text-black justify-center items-center mt-8">
