@@ -14,7 +14,10 @@ const collection = "businesses";
 
 export async function createBusiness(data: Business) {
   const docRef = db.collection(collection).doc();
-  await docRef.set(data);
+    const all_entries = db.collection("all_entries").doc(collection);
+    await docRef.set(data);
+  
+    await all_entries.update({[docRef.id] : data.name});
   return { id: docRef.id, ...data };
 }
 
