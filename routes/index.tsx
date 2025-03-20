@@ -1,5 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
-import _HighlanderHome from "../islands/HighlanderHome.tsx";
+import HighlanderHome from "../islands/HighlanderHome.tsx";
 import UsernameHeader from "../islands/UsernameHeader.tsx";
 
 export default function HomePage() {
@@ -94,6 +94,7 @@ export default function HomePage() {
           </div>
         </main>
       </div>
+      <HighlanderHome />
     </>
   );
 }
