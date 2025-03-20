@@ -18,11 +18,11 @@ export async function deleteUserData() {
     });
     console.log("retrieve clubs doc");
     const clubsSnapshot = await fetchMatchedDataSnapshot("clubs", {
-      clubOwner: user.uid,
+      uid: user.uid,
     });
     console.log("retrieve businesses doc");
     const businessSnapshot = await fetchMatchedDataSnapshot("businesses", {
-      businessOwner: user.uid,
+      uid: user.uid,
     });
 
     console.log("Deleting user reviews, clubs, and businesses.");

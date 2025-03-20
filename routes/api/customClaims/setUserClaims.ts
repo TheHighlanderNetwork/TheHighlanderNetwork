@@ -1,7 +1,10 @@
 import { auth, db } from "../firebaseAdmin.ts";
 import { Handlers } from "$fresh/server.ts";
 
-async function setUserClaims(uid: string, claims: Record<string, unknown>) {
+export async function setUserClaims(
+  uid: string,
+  claims: Record<string, unknown>,
+) {
   try {
     // Set claim in Firebase
     await auth.setCustomUserClaims(uid, claims);

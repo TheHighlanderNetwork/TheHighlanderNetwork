@@ -4,12 +4,15 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $api_createBusiness from "./routes/api/createBusiness.ts";
 import * as $api_createClub from "./routes/api/createClub.ts";
 import * as $api_customClaims_getUserClaims from "./routes/api/customClaims/getUserClaims.ts";
 import * as $api_customClaims_setUserClaims from "./routes/api/customClaims/setUserClaims.ts";
 import * as $api_db_professors_netid_ from "./routes/api/db/professors/[netid].ts";
 import * as $api_db_professors_index from "./routes/api/db/professors/index.ts";
 import * as $api_customClaims_setflag from "./routes/api/customClaims/setflag.ts";
+import * as $api_deletion_businessDeletion from "./routes/api/deletion/businessDeletion.ts";
+import * as $api_deletion_clubDeletion from "./routes/api/deletion/clubDeletion.ts";
 import * as $api_firebaseAdmin from "./routes/api/firebaseAdmin.ts";
 import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_login_verifyIdToken from "./routes/api/login/verifyIdToken.ts";
@@ -17,6 +20,7 @@ import * as $api_search_search from "./routes/api/search/search.ts";
 import * as $businesses_business_id_index from "./routes/businesses/[business_id]/index.tsx";
 import * as $clubs_club_id_index from "./routes/clubs/[club_id]/index.tsx";
 import * as $courses_course_id_index from "./routes/courses/[course_id]/index.tsx";
+import * as $createbusiness_index from "./routes/createbusiness/index.tsx";
 import * as $createclubs_index from "./routes/createclubs/index.tsx";
 import * as $deleteUserTest_index from "./routes/deleteUserTest/index.tsx";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
@@ -34,6 +38,7 @@ import * as $AddBusinessReview from "./islands/AddBusinessReview.tsx";
 import * as $AddBusinessReviewButton from "./islands/AddBusinessReviewButton.tsx";
 import * as $AddProfessorReview from "./islands/AddProfessorReview.tsx";
 import * as $AddProfessorReviewButton from "./islands/AddProfessorReviewButton.tsx";
+import * as $BusinessCreate from "./islands/BusinessCreate.tsx";
 import * as $BusinessReview from "./islands/BusinessReview.tsx";
 import * as $BusinessSignInForm from "./islands/BusinessSignInForm.tsx";
 import * as $BusinessSignUpForm from "./islands/BusinessSignUpForm.tsx";
@@ -45,6 +50,7 @@ import * as $FiltersVertical from "./islands/FiltersVertical.tsx";
 import * as $FirestoreQuery from "./islands/FirestoreQuery.tsx";
 import * as $GoogleSignIn from "./islands/GoogleSignIn.tsx";
 import * as $GoogleSignUp from "./islands/GoogleSignUp.tsx";
+import * as $Header from "./islands/Header.tsx";
 import * as $HeaderSignUpButton from "./islands/HeaderSignUpButton.tsx";
 import * as $HighlanderHome from "./islands/HighlanderHome.tsx";
 import * as $ProfessorRequestForm from "./islands/ProfessorRequestForm.tsx";
@@ -73,6 +79,7 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
+    "./routes/api/createBusiness.ts": $api_createBusiness,
     "./routes/api/createClub.ts": $api_createClub,
     "./routes/api/customClaims/getUserClaims.ts":
       $api_customClaims_getUserClaims,
@@ -81,6 +88,8 @@ const manifest = {
     "./routes/api/db/professors/[netid].ts": $api_db_professors_netid_,
     "./routes/api/db/professors/index.ts": $api_db_professors_index,
     "./routes/api/customClaims/setflag.ts": $api_customClaims_setflag,
+    "./routes/api/deletion/businessDeletion.ts": $api_deletion_businessDeletion,
+    "./routes/api/deletion/clubDeletion.ts": $api_deletion_clubDeletion,
     "./routes/api/firebaseAdmin.ts": $api_firebaseAdmin,
     "./routes/api/joke.ts": $api_joke,
     "./routes/api/login/verifyIdToken.ts": $api_login_verifyIdToken,
@@ -89,6 +98,7 @@ const manifest = {
       $businesses_business_id_index,
     "./routes/clubs/[club_id]/index.tsx": $clubs_club_id_index,
     "./routes/courses/[course_id]/index.tsx": $courses_course_id_index,
+    "./routes/createbusiness/index.tsx": $createbusiness_index,
     "./routes/createclubs/index.tsx": $createclubs_index,
     "./routes/deleteUserTest/index.tsx": $deleteUserTest_index,
     "./routes/greet/[name].tsx": $greet_name_,
@@ -108,6 +118,7 @@ const manifest = {
     "./islands/AddBusinessReviewButton.tsx": $AddBusinessReviewButton,
     "./islands/AddProfessorReview.tsx": $AddProfessorReview,
     "./islands/AddProfessorReviewButton.tsx": $AddProfessorReviewButton,
+    "./islands/BusinessCreate.tsx": $BusinessCreate,
     "./islands/BusinessReview.tsx": $BusinessReview,
     "./islands/BusinessSignInForm.tsx": $BusinessSignInForm,
     "./islands/BusinessSignUpForm.tsx": $BusinessSignUpForm,
@@ -119,6 +130,7 @@ const manifest = {
     "./islands/FirestoreQuery.tsx": $FirestoreQuery,
     "./islands/GoogleSignIn.tsx": $GoogleSignIn,
     "./islands/GoogleSignUp.tsx": $GoogleSignUp,
+    "./islands/Header.tsx": $Header,
     "./islands/HeaderSignUpButton.tsx": $HeaderSignUpButton,
     "./islands/HighlanderHome.tsx": $HighlanderHome,
     "./islands/ProfessorRequestForm.tsx": $ProfessorRequestForm,

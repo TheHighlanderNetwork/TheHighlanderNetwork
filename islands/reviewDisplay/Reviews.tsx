@@ -1,47 +1,42 @@
 import { useSignal } from "@preact/signals";
 import { useEffect } from "preact/hooks";
-import ReviewIsland from "../reviewDisplay/Review.tsx"; // Your individual review island component
+import ReviewIsland from "../reviewDisplay/Review.tsx";
 import { fetchMatchedData } from "../../utils/firebase/docRetrieval/retrieve.ts";
-export default function ReviewsIsland(
-  { query }: { query: Record<string, unknown> },
-) {
-  // Signal to store reviews
-  const reviews = useSignal<Record<string, string>[]>([]);
+
+interface ReviewsIslandProps {
+  query: Record<string, unknown>;
+}
+
+export default function ReviewsIsland({ query }: ReviewsIslandProps) {
+  const reviews = useSignal<Record<string, typeof useSignal>[]>([]);
   const totalScore = useSignal<number>(0);
-  // Fetch reviews when the course_id changes
+
   useEffect(() => {
     async function fetchReviews() {
-      console.log("Fetching reviews with query: ", query);
-
-      // Fetch reviews from Firestore
       const reviewData = await fetchMatchedData("reviews", query);
-      console.log("Fetched reviews:", reviewData);
-
-      console.log("calculating totalscore: ", totalScore.value);
-      totalScore.value = reviewData.reduce((acc, review) => {
-        return acc + (review.rating || 0); // Add the rating to the accumulator
-      }, 0);
-
-      console.log("totalscore: ", totalScore.value);
-      // Set the fetched reviews into the signal
+      totalScore.value = reviewData.reduce(
+        (acc, review) => acc + (review.rating || 0),
+        0,
+      );
       reviews.value = reviewData;
     }
 
     fetchReviews();
-  }, [query]); // Run effect when course_id changes
+  }, [query]);
+
+  const numReviews = reviews.value.length;
+  const averageRating = numReviews > 0 ? totalScore.value / numReviews : 0;
 
   return (
     <div>
       <h2 class="text-2xl font-bold mt-6">Reviews</h2>
-      {reviews.value.length > 0
+      {numReviews > 0
         ? (
           <>
-            <p class="text-sm text-gray-600">
-              Rating: {(totalScore.value / reviews.value.length).toFixed(2)}
-              {" "}
-              {/* Display the average score with 2 decimal places */}
-            </p>
-            {/* Map over the reviews and render each one as a separate island */}
+            <div class="flex items-center gap-2 text-sm text-gray-600 mb-2">
+              <StarRating rating={averageRating} maxStars={5} />
+              <span>({averageRating.toFixed(2)})</span>
+            </div>
             {reviews.value.map((review) => (
               <ReviewIsland key={review.id} review={review} />
             ))}
@@ -50,4 +45,40 @@ export default function ReviewsIsland(
         : <p>No reviews yet.</p>}
     </div>
   );
+}
+
+interface StarRatingProps {
+  rating: number;
+  maxStars: number;
+}
+
+function StarRating({ rating, maxStars }: StarRatingProps) {
+  const stars = [];
+  for (let i = 1; i <= maxStars; i++) {
+    const fill = clamp(rating - (i - 1), 0, 1);
+    stars.push(<Star key={i} fill={fill} />);
+  }
+  return <div class="flex items-center">{stars}</div>;
+}
+
+interface StarProps {
+  fill: number;
+}
+
+function Star({ fill }: StarProps) {
+  return (
+    <span class="relative inline-block w-5 h-5 text-xl overflow-hidden">
+      <span
+        class="absolute left-0 top-0 text-yellow-500 overflow-hidden whitespace-nowrap"
+        style={{ width: `${fill * 100}%` }}
+      >
+        ★
+      </span>
+      <span class="text-gray-300">★</span>
+    </span>
+  );
+}
+
+function clamp(val: number, min: number, max: number) {
+  return val < min ? min : val > max ? max : val;
 }
