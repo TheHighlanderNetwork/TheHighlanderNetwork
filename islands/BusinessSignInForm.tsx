@@ -24,12 +24,12 @@ export default function BusinessSignInForm() {
         password,
       );
       const token = await userCredential.user.getIdToken();
-
       if (!await verifyUserToken(token)) {
         await auth.signOut();
         throw new Error("Invalid token.");
       }
 
+      // Success message
       setMessage(`Successfully signed in: ${userCredential.user.email}`);
 
       globalThis.location.href = "../";
@@ -37,6 +37,10 @@ export default function BusinessSignInForm() {
       setMessage(`Login failed: ${(error as Error).message}`);
     }
   }
+
+  // If the message starts with "Successfully", we consider it success
+  const isSuccess = message.startsWith("Successfully");
+  const colorClass = isSuccess ? "text-green-500" : "text-red-500";
 
   return (
     <div className="flex flex-col gap-4">
@@ -63,7 +67,11 @@ export default function BusinessSignInForm() {
         </button>
       </form>
 
-      {message && <p className="text-red-500 text-sm">{message}</p>}
+      {message && (
+        <p className={`text-sm text-center mt-2 ${colorClass}`}>
+          {message}
+        </p>
+      )}
     </div>
   );
 }
