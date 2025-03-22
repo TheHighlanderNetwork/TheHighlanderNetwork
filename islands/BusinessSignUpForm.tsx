@@ -1,12 +1,15 @@
 "use client";
+import { useState } from "preact/hooks";
 import type { JSX } from "preact";
 import { auth } from "../utils/firebase.ts";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function BusinessSignUpForm() {
-  const handleBusinessFormSubmit = async (
+  const [message, setMessage] = useState("");
+
+  async function handleBusinessFormSubmit(
     e: JSX.TargetedEvent<HTMLFormElement, Event>,
-  ) => {
+  ) {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -15,8 +18,7 @@ export default function BusinessSignUpForm() {
     const password = formData.get("password") as string;
 
     if (!email || !password) {
-      const messageEl = document.getElementById("message");
-      if (messageEl) messageEl.innerText = "Please fill out all fields.";
+      setMessage("Please fill out all fields.");
       return;
     }
 
@@ -29,22 +31,17 @@ export default function BusinessSignUpForm() {
       const user = userCredential.user;
       console.log("Creation success:", user.email);
 
-      const messageEl = document.getElementById("message");
-      if (messageEl) messageEl.innerText = `User Created: ${user.email}`;
+      setMessage(`User Created: ${user.email}`);
+
       await assignUserRole(user.uid);
-      setTimeout(() => {
-        globalThis.location.reload();
-      }, 100);
+
+      // Redirect to ../ on success
+      globalThis.location.href = "../";
     } catch (error) {
       console.error("Account Creation failed:", error);
-      const messageEl = document.getElementById("message");
-      if (messageEl) {
-        messageEl.innerText = `Failed to create new user (${
-          (error as Error).message
-        })`;
-      }
+      setMessage(`Failed to create new user (${(error as Error).message})`);
     }
-  };
+  }
 
   async function assignUserRole(uid: string) {
     console.log("Assigning role to UID:", uid);
@@ -69,6 +66,11 @@ export default function BusinessSignUpForm() {
     }
   }
 
+  // Check if it's a success or failure message
+  const isSuccess = message.startsWith("User Created") ||
+    message.startsWith("Successfully");
+  const colorClass = isSuccess ? "text-green-500" : "text-red-500";
+
   return (
     <form onSubmit={handleBusinessFormSubmit} className="flex flex-col gap-4">
       <input
@@ -91,7 +93,12 @@ export default function BusinessSignUpForm() {
       >
         Sign Up with Email & Password
       </button>
-      <p id="message" className="text-sm text-red-500"></p>
+
+      {message && (
+        <p id="message" className={`text-sm text-center mt-2 ${colorClass}`}>
+          {message}
+        </p>
+      )}
     </form>
   );
 }

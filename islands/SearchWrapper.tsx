@@ -93,7 +93,7 @@ export default function SearchWrapper(
   }
 
   return (
-    <div className="font-oswald w-screen h-screen bg-grey-light flex flex-col">
+    <div className="font-oswald w-screen bg-grey-light flex flex-col">
       <div className="bg-white px-8 py-4 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">

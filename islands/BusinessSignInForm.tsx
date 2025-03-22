@@ -8,10 +8,9 @@ import { verifyUserToken } from "../utils/firebase/verify/verifyToken.ts";
 export default function BusinessSignInForm() {
   const [message, setMessage] = useState("");
 
-  // Handle Email/Password Login
-  const handleBusinessFormSubmit = async (
+  async function handleBusinessFormSubmit(
     e: JSX.TargetedEvent<HTMLFormElement, Event>,
-  ) => {
+  ) {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -29,11 +28,19 @@ export default function BusinessSignInForm() {
         await auth.signOut();
         throw new Error("Invalid token.");
       }
+
+      // Success message
       setMessage(`Successfully signed in: ${userCredential.user.email}`);
+
+      globalThis.location.href = "../";
     } catch (error) {
       setMessage(`Login failed: ${(error as Error).message}`);
     }
-  };
+  }
+
+  // If the message starts with "Successfully", we consider it success
+  const isSuccess = message.startsWith("Successfully");
+  const colorClass = isSuccess ? "text-green-500" : "text-red-500";
 
   return (
     <div className="flex flex-col gap-4">
@@ -60,7 +67,11 @@ export default function BusinessSignInForm() {
         </button>
       </form>
 
-      {message && <p className="text-red-500 text-sm">{message}</p>}
+      {message && (
+        <p className={`text-sm text-center mt-2 ${colorClass}`}>
+          {message}
+        </p>
+      )}
     </div>
   );
 }
