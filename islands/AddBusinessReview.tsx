@@ -12,10 +12,9 @@ interface Entry {
   type: number;
 }
 
-const mockBusinesses: { id: string; name: string; type: number }[] =
-  (await userSearch(15, "")).map((result) => result.item);
-
-export default function AddBusinessReview() {
+export default async function AddBusinessReview() {
+  const mockBusinesses: { id: string; name: string; type: number }[] =
+    (await userSearch(15, "")).map((result) => result.item);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const initialBusiness = mockBusinesses[0];
   const [selectedBusiness, setSelectedBusiness] = useState<Entry>(
