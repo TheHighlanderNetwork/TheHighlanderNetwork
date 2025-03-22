@@ -139,13 +139,21 @@ export default function ProfessorReviews() {
 
           {/* Pagination controls */}
           <div className="mt-4 flex items-center justify-center gap-4">
-            <button onClick={prevPage} disabled={page <= 1}>
+            <button
+              type="button"
+              onClick={prevPage}
+              disabled={page <= 1}
+            >
               <img src="/left.svg" alt="Prev" width="20" height="20" />
             </button>
             <span className="text-sm">
               Page {page} of {maxPage}
             </span>
-            <button onClick={nextPage} disabled={page >= maxPage}>
+            <button
+              type="button"
+              onClick={nextPage}
+              disabled={page >= maxPage}
+            >
               <img src="/right.svg" alt="Next" width="20" height="20" />
             </button>
           </div>
