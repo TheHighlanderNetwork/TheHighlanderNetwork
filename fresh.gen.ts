@@ -55,7 +55,9 @@ import * as $Header from "./islands/Header.tsx";
 import * as $HeaderSignUpButton from "./islands/HeaderSignUpButton.tsx";
 import * as $HighlanderHome from "./islands/HighlanderHome.tsx";
 import * as $ProfessorRequestForm from "./islands/ProfessorRequestForm.tsx";
+import * as $ProfessorResults from "./islands/ProfessorResults.tsx";
 import * as $ProfessorReviews from "./islands/ProfessorReviews.tsx";
+import * as $ProfessorSearchBox from "./islands/ProfessorSearchBox.tsx";
 import * as $RequestProfessorButton from "./islands/RequestProfessorButton.tsx";
 import * as $Review from "./islands/Review.tsx";
 import * as $Reviews from "./islands/Reviews.tsx";
@@ -136,7 +138,9 @@ const manifest = {
     "./islands/HeaderSignUpButton.tsx": $HeaderSignUpButton,
     "./islands/HighlanderHome.tsx": $HighlanderHome,
     "./islands/ProfessorRequestForm.tsx": $ProfessorRequestForm,
+    "./islands/ProfessorResults.tsx": $ProfessorResults,
     "./islands/ProfessorReviews.tsx": $ProfessorReviews,
+    "./islands/ProfessorSearchBox.tsx": $ProfessorSearchBox,
     "./islands/RequestProfessorButton.tsx": $RequestProfessorButton,
     "./islands/Review.tsx": $Review,
     "./islands/Reviews.tsx": $Reviews,
