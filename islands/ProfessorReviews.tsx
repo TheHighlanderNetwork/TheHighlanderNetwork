@@ -1,205 +1,151 @@
+// professorreviews.tsx
 "use client";
-import { useState } from "preact/hooks";
-import AddProfessorReview from "../islands/AddProfessorReview.tsx";
-
-type Review = {
-  user: string;
-  rating: number;
-  text: string;
-};
-
-type Professor = {
-  id: number;
-  name: string;
-  description: string;
-  rating: number;
-  reviews: Review[];
-};
+import { useEffect, useState } from "preact/hooks";
+import { userSearch, getCollectionFromType } from "../utils/firebase/search/search.ts";
+import { retrieveDocument } from "../utils/firebase/docRetrieval/retrieve.ts";
+import ProfessorSearchBox from "./ProfessorSearchBox.tsx";
+import ProfessorResults, { ProfessorDoc } from "./ProfessorResults.tsx";
 
 export default function ProfessorReviews() {
-  const mockProfessors: Professor[] = [
-    {
-      id: 1,
-      name: "Professor Alice",
-      description: "Teaches Intro to Biology",
-      rating: 4,
-      reviews: [
-        { user: "StudentA", rating: 5, text: "Great explanations!" },
-        { user: "StudentB", rating: 3, text: "Decent, but moves quickly." },
-      ],
-    },
-    {
-      id: 2,
-      name: "Professor Bob",
-      description: "Teaches Advanced Mathematics",
-      rating: 5,
-      reviews: [
-        { user: "StudentC", rating: 5, text: "Best professor I've had." },
-      ],
-    },
-    {
-      id: 3,
-      name: "Professor Carol",
-      description: "Teaches English Literature",
-      rating: 2,
-      reviews: [
-        { user: "StudentD", rating: 2, text: "Lectures could be clearer." },
-        { user: "StudentE", rating: 3, text: "Interesting reading list." },
-      ],
-    },
-    {
-      id: 4,
-      name: "Professor Dave",
-      description: "Teaches Computer Science",
-      rating: 3,
-      reviews: [
-        { user: "StudentF", rating: 4, text: "Learned a lot, tough exams." },
-      ],
-    },
-  ];
+  // State for query, page, filter
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [bitfield, setBitfield] = useState(0b1000); // default to “professors only”
+  // The entire fuse results
+  const [fuseArray, setFuseArray] = useState<{ id: string; score: number }[]>([]);
+  const [totalResults, setTotalResults] = useState(0);
+  const [maxPage, setMaxPage] = useState(1);
 
-  const [selectedProfessor, setSelectedProfessor] = useState<Professor | null>(
-    null,
-  );
-  const [modalOpen, setModalOpen] = useState(false);
-  const [showAddReview, setShowAddReview] = useState(false);
+  // The doc data for the current page
+  const [professors, setProfessors] = useState<ProfessorDoc[]>([]);
 
-  function openModal(prof: Professor) {
-    setSelectedProfessor(prof);
-    setModalOpen(true);
-  }
+  // On mount, parse the URL
+  useEffect(() => {
+    const url = new URL(globalThis.location.href);
+    const qParam = url.searchParams.get("query") || "";
+    const pParam = Number(url.searchParams.get("page") || 1);
+    const fParam = Number(url.searchParams.get("filter") || 0b1000);
 
-  function closeModal() {
-    setSelectedProfessor(null);
-    setModalOpen(false);
-    setShowAddReview(false);
-  }
+    setQuery(qParam);
+    setPage(pParam);
+    setBitfield(fParam);
 
-  function renderStars(rating: number) {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      stars.push(
-        <span key={i} className={i <= rating ? "text-yellow" : "text-gray-300"}>
-          ★
-        </span>,
-      );
+    doSearch(qParam, pParam, fParam);
+  }, []);
+
+  // The main search function
+  async function doSearch(q: string, p: number, bf: number) {
+    try {
+      // 1) userSearch => fuse results
+      const fuseData = await userSearch(bf, q);
+      const results = fuseData.map((r) => ({ id: r.item.id, score: r.score }));
+      setFuseArray(results);
+      setTotalResults(results.length);
+
+      // 2) pagination
+      const pageSize = 10;
+      const totalPages = Math.max(1, Math.ceil(results.length / pageSize));
+      const clampedPage = Math.min(Math.max(p, 1), totalPages);
+      setMaxPage(totalPages);
+      setPage(clampedPage);
+
+      // slice for the current page
+      const startIndex = (clampedPage - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
+      const pageSlice = results.slice(startIndex, endIndex);
+
+      // 3) retrieve docs from Firestore
+      const docs: ProfessorDoc[] = [];
+      for (const r of pageSlice) {
+        // if your fuse results store item.type, you can do getCollectionFromType(r.item.type)
+        // but if it’s only professors, we can do type=1 => “professors”
+        const data = await retrieveDocument(getCollectionFromType(1), r.id);
+        docs.push({ id: r.id, ...data });
+      }
+      setProfessors(docs);
+
+      // 4) update the URL
+      updateUrl(q, clampedPage, bf);
+    } catch (err) {
+      console.error("Error searching professors:", err);
     }
-    return <div className="text-2xl flex">{stars}</div>;
   }
 
-  function renderReviews(reviews: Review[]) {
-    if (reviews.length === 0) {
-      return <p className="text-sm text-gray-600">No reviews yet.</p>;
+  // Update the address bar to reflect query, page, filter
+  function updateUrl(q: string, p: number, bf: number) {
+    const encoded = encodeURIComponent(q);
+    const newUrl = `/reviewprofessors?query=${encoded}&page=${p}&filter=${bf}`;
+    globalThis.history.pushState({}, "", newUrl);
+  }
+
+  // Called when user changes the query from the search box
+  function handleSearchBox(newQuery: string) {
+    // reset page=1
+    doSearch(newQuery, 1, bitfield);
+  }
+
+  // Toggling bits for filter
+  function toggleBit(position: number) {
+    const newBF = bitfield ^ (1 << position);
+    doSearch(query, 1, newBF);
+  }
+
+  function nextPage() {
+    if (page < maxPage) {
+      doSearch(query, page + 1, bitfield);
     }
-    return (
-      <ul className="flex flex-col gap-2">
-        {reviews.map((r, i) => (
-          <li key={i} className="border-b pb-2">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="font-bold text-sm">{r.user}:</span>
-              {renderStars(r.rating)}
-            </div>
-            <p className="text-sm text-gray-700 ml-6">{r.text}</p>
-          </li>
-        ))}
-      </ul>
-    );
+  }
+
+  function prevPage() {
+    if (page > 1) {
+      doSearch(query, page - 1, bitfield);
+    }
   }
 
   return (
-    <div className="flex flex-1 px-8 pb-8 gap-8">
-      <div className="w-1/4 bg-white rounded-md shadow-md p-6">
-        <h2 className="text-xl font-bold mb-6">Name</h2>
-        <div className="mb-4">
-          <input
-            type="text"
-            placeholder="Search Professor"
-            className="w-full px-4 py-2 border rounded-md"
+    <div className="font-oswald w-screen bg-grey-light flex flex-col">
+      {/* Top bar (optional) */}
+      <div className="bg-white px-8 py-4 shadow-sm">
+        <h1 className="text-2xl font-bold">Professor Reviews</h1>
+      </div>
+
+      <div className="flex flex-1">
+        {/* LEFT SIDEBAR: Search + Filter */}
+        <aside className="w-64 bg-white p-6 shadow-sm flex flex-col gap-4">
+          <ProfessorSearchBox
+            onSearch={handleSearchBox}
+            initialQuery={query}
           />
-        </div>
-        <div className="mb-4">
-          <label className="block mb-2 font-medium">Categories</label>
-          <select className="w-full px-4 py-2 border rounded-md">
-            <option value="">All</option>
-            <option value="humanities">Humanities</option>
-            <option value="sciences">Sciences</option>
-            <option value="engineering">Engineering</option>
-          </select>
-        </div>
-        <div>
-          <label className="block mb-2 font-medium">Sorting</label>
-          <select className="w-full px-4 py-2 border rounded-md">
-            <option value="alphabetical">Alphabetical</option>
-            <option value="rating">Rating</option>
-          </select>
-        </div>
-      </div>
+        </aside>
 
-      <div className="flex-1 bg-white rounded-md shadow-md p-6">
-        <h2 className="text-xl font-bold mb-6">Name</h2>
-        <div className="flex flex-col gap-6">
-          {mockProfessors.map((prof) => (
-            <div
-              key={prof.id}
-              className="flex gap-4 items-start cursor-pointer"
-              onClick={() => openModal(prof)}
-            >
-              <div className="w-20 h-20 bg-gray-300 rounded-md" />
-              <div>
-                <h3 className="font-bold text-lg">{prof.name}</h3>
-                <p className="text-gray-600">{prof.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {modalOpen && selectedProfessor && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-md w-full max-w-md">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold">{selectedProfessor.name}</h2>
-              <button
-                type="button"
-                onClick={closeModal}
-                className="text-gray-600 hover:text-gray-800"
-              >
-                ✕
-              </button>
-            </div>
-            <p className="text-gray-600 mb-4">
-              {selectedProfessor.description}
+        {/* MAIN CONTENT: no internal scroll, we rely on pagination */}
+        <main className="flex-1 p-6">
+          <div className="mb-2 flex items-center justify-between">
+            <p className="text-sm text-gray-600">
+              {query ? `Results for "${query}"` : "All Professors"}
             </p>
-            <div className="flex items-center gap-2 mb-4">
-              {renderStars(selectedProfessor.rating)}
-              <span className="text-sm text-gray-600">
-                {selectedProfessor.rating} / 5
-              </span>
-            </div>
-            <h3 className="font-medium mb-2">Reviews:</h3>
-            {renderReviews(selectedProfessor.reviews)}
-
-            {/* Add Review button */}
-            <div className="mt-4">
-              <button
-                type="button"
-                onClick={() => setShowAddReview(true)}
-                className="bg-blue text-white rounded-md px-4 py-2 text-sm font-medium"
-              >
-                Add Review
-              </button>
-            </div>
-
-            {/* Show the AddProfessorReview if showAddReview is true */}
-            {showAddReview && (
-              <AddProfessorReview
-                professorId={selectedProfessor.id} // Pass the ID
-                onClose={() => setShowAddReview(false)}
-              />
-            )}
+            <p className="text-xs text-gray-400">
+              {totalResults} result{totalResults !== 1 && "s"}
+            </p>
           </div>
-        </div>
-      )}
+
+          {/* The docs for this page */}
+          <ProfessorResults profs={professors} />
+
+          {/* Pagination controls */}
+          <div className="mt-4 flex items-center justify-center gap-4">
+            <button onClick={prevPage} disabled={page <= 1}>
+              <img src="/left.svg" alt="Prev" width="20" height="20" />
+            </button>
+            <span className="text-sm">
+              Page {page} of {maxPage}
+            </span>
+            <button onClick={nextPage} disabled={page >= maxPage}>
+              <img src="/right.svg" alt="Next" width="20" height="20" />
+            </button>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
