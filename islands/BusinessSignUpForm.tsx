@@ -4,9 +4,9 @@ import { auth } from "../utils/firebase.ts";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function BusinessSignUpForm() {
-  const handleBusinessFormSubmit = async (
+  async function handleBusinessFormSubmit(
     e: JSX.TargetedEvent<HTMLFormElement, Event>,
-  ) => {
+  ) {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -14,8 +14,9 @@ export default function BusinessSignUpForm() {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
+    const messageEl = document.getElementById("message");
+
     if (!email || !password) {
-      const messageEl = document.getElementById("message");
       if (messageEl) messageEl.innerText = "Please fill out all fields.";
       return;
     }
@@ -29,22 +30,22 @@ export default function BusinessSignUpForm() {
       const user = userCredential.user;
       console.log("Creation success:", user.email);
 
-      const messageEl = document.getElementById("message");
-      if (messageEl) messageEl.innerText = `User Created: ${user.email}`;
+      if (messageEl) {
+        messageEl.innerText = `User Created: ${user.email}`;
+      }
+
       await assignUserRole(user.uid);
-      setTimeout(() => {
-        globalThis.location.reload();
-      }, 100);
+
+      globalThis.location.href = "../";
     } catch (error) {
       console.error("Account Creation failed:", error);
-      const messageEl = document.getElementById("message");
       if (messageEl) {
         messageEl.innerText = `Failed to create new user (${
           (error as Error).message
         })`;
       }
     }
-  };
+  }
 
   async function assignUserRole(uid: string) {
     console.log("Assigning role to UID:", uid);

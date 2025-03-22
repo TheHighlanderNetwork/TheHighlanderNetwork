@@ -8,10 +8,9 @@ import { verifyUserToken } from "../utils/firebase/verify/verifyToken.ts";
 export default function BusinessSignInForm() {
   const [message, setMessage] = useState("");
 
-  // Handle Email/Password Login
-  const handleBusinessFormSubmit = async (
+  async function handleBusinessFormSubmit(
     e: JSX.TargetedEvent<HTMLFormElement, Event>,
-  ) => {
+  ) {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -25,15 +24,19 @@ export default function BusinessSignInForm() {
         password,
       );
       const token = await userCredential.user.getIdToken();
+
       if (!await verifyUserToken(token)) {
         await auth.signOut();
         throw new Error("Invalid token.");
       }
+
       setMessage(`Successfully signed in: ${userCredential.user.email}`);
+
+      globalThis.location.href = "../";
     } catch (error) {
       setMessage(`Login failed: ${(error as Error).message}`);
     }
-  };
+  }
 
   return (
     <div className="flex flex-col gap-4">
