@@ -1,7 +1,10 @@
 // professorreviews.tsx
 "use client";
 import { useEffect, useState } from "preact/hooks";
-import { userSearch, getCollectionFromType } from "../utils/firebase/search/search.ts";
+import {
+  getCollectionFromType,
+  userSearch,
+} from "../utils/firebase/search/search.ts";
 import { retrieveDocument } from "../utils/firebase/docRetrieval/retrieve.ts";
 import ProfessorSearchBox from "./ProfessorSearchBox.tsx";
 import ProfessorResults, { ProfessorDoc } from "./ProfessorResults.tsx";
@@ -12,7 +15,9 @@ export default function ProfessorReviews() {
   const [page, setPage] = useState(1);
   const [bitfield, setBitfield] = useState(0b1000); // default to “professors only”
   // The entire fuse results
-  const [fuseArray, setFuseArray] = useState<{ id: string; score: number }[]>([]);
+  const [_fuseArray, setFuseArray] = useState<{ id: string; score: number }[]>(
+    [],
+  );
   const [totalResults, setTotalResults] = useState(0);
   const [maxPage, setMaxPage] = useState(1);
 
@@ -85,7 +90,7 @@ export default function ProfessorReviews() {
   }
 
   // Toggling bits for filter
-  function toggleBit(position: number) {
+  function _toggleBit(position: number) {
     const newBF = bitfield ^ (1 << position);
     doSearch(query, 1, newBF);
   }

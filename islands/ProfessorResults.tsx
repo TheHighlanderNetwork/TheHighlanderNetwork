@@ -1,7 +1,5 @@
 // islands/ProfessorResults.tsx
 "use client";
-import { useState } from "preact/hooks";
-
 /** The inline interface for each professor document. */
 export interface ProfessorDoc {
   id: string;
@@ -12,14 +10,16 @@ export interface ProfessorDoc {
 }
 
 interface ProfessorResultsProps {
-  profs: ProfessorDoc[];           // array of professor docs
+  profs: ProfessorDoc[]; // array of professor docs
   onSelect?: (prof: ProfessorDoc) => void; // optional callback if user clicks
 }
 
 /**
  * Renders a list of professors, each clickable to redirect to their page.
  */
-export default function ProfessorResults({ profs, onSelect }: ProfessorResultsProps) {
+export default function ProfessorResults(
+  { profs, onSelect }: ProfessorResultsProps,
+) {
   // Called when user clicks a professor card
   function handleClickProfessor(prof: ProfessorDoc) {
     // If you want a callback for other logic, call it here:
@@ -37,30 +37,30 @@ export default function ProfessorResults({ profs, onSelect }: ProfessorResultsPr
       {profs.length === 0
         ? <p>No professors found.</p>
         : profs.map((prof) => (
-            <div
-              key={prof.id}
-              className="bg-white p-4 rounded-md shadow-sm cursor-pointer"
-              onClick={() => handleClickProfessor(prof)}
-            >
-              <p className="font-bold text-lg">
-                {prof.name || `Professor ${prof.id}`}
+          <div
+            key={prof.id}
+            className="bg-white p-4 rounded-md shadow-sm cursor-pointer"
+            onClick={() => handleClickProfessor(prof)}
+          >
+            <p className="font-bold text-lg">
+              {prof.name || `Professor ${prof.id}`}
+            </p>
+            {prof.description && (
+              <p className="text-sm text-gray-600 mt-1">
+                {prof.description}
               </p>
-              {prof.description && (
-                <p className="text-sm text-gray-600 mt-1">
-                  {prof.description}
-                </p>
-              )}
+            )}
 
-              {typeof prof.rating === "number" && (
-                <div className="mt-2 flex items-center gap-2">
-                  {renderStars(prof.rating)}
-                  <span className="text-sm text-gray-600">
-                    {prof.rating}/5
-                  </span>
-                </div>
-              )}
-            </div>
-          ))}
+            {typeof prof.rating === "number" && (
+              <div className="mt-2 flex items-center gap-2">
+                {renderStars(prof.rating)}
+                <span className="text-sm text-gray-600">
+                  {prof.rating}/5
+                </span>
+              </div>
+            )}
+          </div>
+        ))}
     </div>
   );
 }
@@ -71,11 +71,11 @@ function renderStars(rating: number) {
   for (let i = 1; i <= 5; i++) {
     if (rating >= i) {
       stars.push(
-        <img key={i} src="/starcolor.svg" alt="★" className="w-4 h-4" />
+        <img key={i} src="/starcolor.svg" alt="★" className="w-4 h-4" />,
       );
     } else if (rating < i - 1) {
       stars.push(
-        <img key={i} src="/starnocolor.svg" alt="☆" className="w-4 h-4" />
+        <img key={i} src="/starnocolor.svg" alt="☆" className="w-4 h-4" />,
       );
     } else {
       const fraction = rating - (i - 1);
